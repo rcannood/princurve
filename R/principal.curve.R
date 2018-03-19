@@ -18,7 +18,32 @@
   get.lam(x, pcurve$s, pcurve$tag, stretch = 0)
 }
 
-
+#' Projection Index
+#'
+#' Finds the projection index for a matrix of points \code{x}, when
+#' projected onto a curve \code{s}.  The curve need not be of the same
+#' length as the number of points.  If the points on the curve are not in
+#' order, this order needs to be given as well, in \code{tag}.
+#'
+#' @usage get.lam(x, s, tag, stretch = 2)
+#'
+#' @param x a matrix of data points.
+#' @param s a parametrized curve, represented by a polygon.
+#' @param tag the order of the point in \code{s}. Default is the given order.
+#' @param stretch A stretch factor for the endpoints of the curve; a maximum of 2.
+#'  it allows the curve to grow, if required, and helps avoid bunching at the end.
+#'
+#' @return A structure is returned which represents a fitted curve.  It has components
+#'   \item{s}{The fitted points on the curve corresponding to each point \code{x}.}
+#'   \item{tag}{the order of the fitted points}
+#'   \item{lambda}{The projection index for each point}
+#'   \item{dist}{The total squared distance from the curve}
+#'
+#' @seealso \code{\link{principal.curve}}
+#'
+#' @keywords regression smooth nonparametric
+#'
+#' @export
 "get.lam" <- function(x, s, tag, stretch = 2)
 {
   storage.mode(x) <- "double"
@@ -50,37 +75,78 @@
   tt
 }
 
-
-"lines.principal.curve" <- function(x, ...)
-  lines(x$s[x$tag,  ], ...)
-
-
-"periodic.lowess"<- function(x, y, f = 0.59999999999999998, ...)
-{
-  n <- length(x)
-  o <- order(x)
-  r <- range(x)
-  d <- diff(r)/(length(unique(x)) - 1)
-  xr <- x[o[1:(n/2)]] - r[1] + d + r[2]
-  xl <- x[o[(n/2):n]] - r[2] - d + r[1]
-  yr <- y[o[1:(n/2)]]
-  yl <- y[o[(n/2):n]]
-  xnew <- c(xl, x, xr)
-  ynew <- c(yl, y, yr)
-  f <- f/2
-  fit <- lowess(xnew, ynew, f = f, ...)
-  approx(fit$x, fit$y, x[o], rule = 2)
-  # AW: changed fit to fit$x, fit$y
-}
-
-
-"plot.principal.curve" <- function(x, ...)
-  plot(x$s[x$tag,  ], ..., type = "l")
-
-
-"points.principal.curve" <- function(x, ...)
-  points(x$s, ...)
-
+#' Fit a Principal Curve
+#'
+#' Fits a principal curve which describes a smooth curve that passes through the \code{middle}
+#' of the data \code{x} in an orthogonal sense.  This curve is a nonparametric generalization
+#' of a linear principal component.  If a closed curve is fit (using \code{smoother = "periodic.lowess"})
+#' then the starting curve defaults to a circle, and each fit is followed by a bias correction
+#' suggested by J. Banfield.
+#'
+#' @usage
+#' principal.curve(x, start=NULL, thresh=0.001, plot.true=FALSE, maxit=10,
+#'   stretch=2, smoother="smooth.spline", trace=FALSE, \dots)
+#'
+#' @param x a matrix of points in arbitrary dimension.
+#' @param start either a previously fit principal curve, or else a matrix
+#'   of points that in row order define a starting curve. If missing or NULL,
+#'   then the first principal component is used.  If the smoother is
+#'   \code{"periodic.lowess"}, then a circle is used as the start.
+#' @param thresh convergence threshold on shortest distances to the curve.
+#' @param plot.true If \code{TRUE} the iterations are plotted.
+#' @param maxit maximum number of iterations.
+#' @param stretch a factor by which the curve can be extrapolated when
+#'   points are projected.  Default is 2 (times the last segment
+#'   length). The default is 0 for \code{smoother} equal to
+#'   \code{"periodic.lowess"}.
+#' @param smoother choice of smoother. The default is
+#'   \code{"smooth.spline"}, and other choices are \code{"lowess"} and
+#'   \code{"periodic.lowess"}. The latter allows one to fit closed curves.
+#'   Beware, you may want to use \code{iter = 0} with \code{lowess()}.
+#' @param trace If \code{TRUE}, the iteration information is printed
+#' @param ... additional arguments to the smoothers
+#'
+#' @return An object of class \code{"principal.curve"} is returned. For this object
+#'   the following generic methods a currently available: \code{plot, points, lines}.
+#'
+#'   It has components:
+#'     \item{s}{a matrix corresponding to \code{x}, giving their projections
+#'       onto the curve.}
+#'   \item{tag}{an index, such that \code{s[tag, ]} is smooth.}
+#'   \item{lambda}{for each point, its arc-length from the beginning of the
+#'     curve. The curve is parametrized approximately by arc-length, and
+#'     hence is \code{unit-speed}.}
+#'   \item{dist}{the sum-of-squared distances from the points to their
+#'     projections.}
+#'   \item{converged}{A logical indicating whether the algorithm converged
+#'     or not.}
+#'   \item{nbrOfIterations}{Number of iterations completed before returning.}
+#'   \item{call}{the call that created this object; allows it to be
+#'     \code{updated()}.}
+#'
+#' @seealso \code{\link{get.lam}}
+#'
+#' @keywords regression smooth nonparametric
+#'
+#' @references
+#'   \dQuote{Principal Curves} by Hastie, T. and Stuetzle, W. 1989, JASA.
+#'   See also Banfield and Raftery (JASA, 1992).
+#'
+#' @export
+#'
+#' @useDynLib princurve
+#'
+#' @examples
+#' x <- runif(100,-1,1)
+#' x <- cbind(x, x ^ 2 + rnorm(100, sd = 0.1))
+#' fit1 <- principal.curve(x, plot = TRUE)
+#' fit2 <- principal.curve(x, plot = TRUE, smoother = "lowess")
+#' lines(fit1)
+#' points(fit1)
+#' plot(fit1)
+#' whiskers <- function(from, to)
+#'   segments(from[, 1], from[, 2], to[, 1], to[, 2])
+#' whiskers(x, fit1$s)
 principal.curve <- function(x, start=NULL, thresh=0.001, plot.true=FALSE, maxit=10, stretch=2, smoother="smooth.spline", trace=FALSE, ...) {
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Validate arguments:
@@ -257,6 +323,41 @@ principal.curve <- function(x, start=NULL, thresh=0.001, plot.true=FALSE, maxit=
 #   starting the algorithm, and not once per dimension and iteration.
 ###########################################################################
 
+#' @rdname principal.curve
+#' @export
+"lines.principal.curve" <- function(x, ...)
+  lines(x$s[x$tag,  ], ...)
+
+
+"periodic.lowess"<- function(x, y, f = 0.59999999999999998, ...)
+{
+  n <- length(x)
+  o <- order(x)
+  r <- range(x)
+  d <- diff(r)/(length(unique(x)) - 1)
+  xr <- x[o[1:(n/2)]] - r[1] + d + r[2]
+  xl <- x[o[(n/2):n]] - r[2] - d + r[1]
+  yr <- y[o[1:(n/2)]]
+  yl <- y[o[(n/2):n]]
+  xnew <- c(xl, x, xr)
+  ynew <- c(yl, y, yr)
+  f <- f/2
+  fit <- lowess(xnew, ynew, f = f, ...)
+  approx(fit$x, fit$y, x[o], rule = 2)
+  # AW: changed fit to fit$x, fit$y
+}
+
+#' @rdname principal.curve
+#' @export
+"plot.principal.curve" <- function(x, ...)
+  plot(x$s[x$tag,  ], ..., type = "l")
+
+#' @rdname principal.curve
+#' @export
+"points.principal.curve" <- function(x, ...)
+  points(x$s, ...)
+
+
 adjust.range <- function (x, fact)
   {
 # AW: written by AW, replaces ylim.scale
@@ -264,7 +365,6 @@ adjust.range <- function (x, fact)
     d <- diff(r)*(fact-1)/2;
     c(r[1]-d, r[2]+d)
   }
-
 
 "startCircle" <- function(x)
 {

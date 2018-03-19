@@ -12,3 +12,4 @@ Packaged: 2018-03-19 12:56:00 UTC; rcannood
 NeedsCompilation: yes
 Repository: CRAN
 Date/Publication: 2018-03-19 12:56:00 UTC; rcannood
+RoxygenNote: 6.0.1

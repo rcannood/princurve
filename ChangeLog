@@ -1,3 +1,10 @@
+2018-03-19  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION (Version): New version is 1.1-13.
+
+	* principal.curve.R (startCircle): Fix startCircle when d<2.
+
+
 2013-04-25  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
 
 	* DESCRIPTION (Version): New version is 1.1-12.
@@ -75,10 +82,10 @@
 2000-12-27  Andreas Weingessel  <Andreas.Weingessel@ci.tuwien.ac.at>
 
 	* Version 1.1-0: Changes in the DESCRIPTION file to fit
-	R-1.2.0. 
+	R-1.2.0.
 	Various improvments in the documentation: Added alias
 	entries, a description entry for principal.curve, default values
 	and entries for the undocumented objects.
 	Changed F to FALSE in the R code.
-	
+
 

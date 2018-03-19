@@ -279,6 +279,6 @@ adjust.range <- function (x, fact)
   s <- cbind(radius * sin((pi * (1:101))/50),
 	     radius * cos((pi * (1:101))/50))
   if(p > 2)
-    s <- cbind(s, matrix(rep(0, n * (p-2)), nrow = n, ncol = p - 2))
+    s <- cbind(s, matrix(rep(0, n * (p - 2)), nrow = n, ncol = p - 2))
   get.lam(x, s)
 }

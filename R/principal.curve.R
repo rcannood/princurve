@@ -374,9 +374,9 @@ adjust.range <- function (x, fact)
   xbar <- apply(x, 2, "mean")
   ray <- sqrt((scale(x, xbar, FALSE)^2) %*% rep(1, p))
   radius <- mean(ray)
-  s <- cbind(radius * sin((pi * (1:101))/50),
-	     radius * cos((pi * (1:101))/50))
+  theta <- pi * seq_len(nrow(x)) * 2 / nrow(x)
+  s <- cbind(radius * sin(theta), radius * cos(theta))
   if(p > 2)
-    s <- cbind(s, matrix(rep(0, n * (p - 2)), nrow = n, ncol = p - 2))
+    s <- cbind(s, matrix(0, nrow = n, ncol = p - 2))
   get.lam(x, s)
 }

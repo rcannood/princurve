@@ -1,0 +1,84 @@
+2013-04-25  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION (Version): New version is 1.1-12.
+
+	* src/sortdi.f (sortdi): Fix Fortran array bounds problem.
+
+2011-09-18  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION (Version): New version is 1.1-11.
+
+	* R/principal.curve.R:
+	* man/principal.curve.Rd:
+	Move whiskers() from code to example.
+
+	* NAMESPACE: Added.
+
+2009-10-04  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION (Version): New version is 1.1-10.
+
+	* R/principal.curve.R (principal.curve):
+	* man/principal.curve.Rd:
+	Enhancements by Henrik Bengtsson <hb@stat.berkeley.edu>.
+
+2007-07-12  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* DESCRIPTION (Version): New version is 1.1-9.
+	(License): Clarify.
+
+2006-10-04  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* DESCRIPTION (Version): New version is 1.1-8.
+	(License): Standardize.
+
+2004-11-04  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* DESCRIPTION (Version): New version is 1.1-7.
+	(Depends): Depend on R >= 1.9.0.
+	(License): Changed to GPL 2 or better as granted by Trevor
+	Hastie.
+
+2004-11-03  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* R/principal.curve.R: Stop requiring the now defunct 'modreg'.
+
+2004-01-31  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* DESCRIPTION (Version): New version is 1.1-6.
+
+	* INDEX: Removed.
+
+2002-07-03  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* DESCRIPTION: New version is 1.1-5.
+
+	* R/principal.curve.R: Add 'PACKAGE' argument to FF calls.
+
+2002-07-02  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* DESCRIPTION: New version is 1.1-4.
+
+	* man/principal.curve.Rd: T/F fixes.
+
+2001-06-10  Andreas Weingessel  <Andreas.Weingessel@ci.tuwien.ac.at>
+
+	* Version 1.1-2: Changed keyword entries to fit R standard.
+
+2001-01-31  Andreas Weingessel  <Andreas.Weingessel@ci.tuwien.ac.at>
+
+	* Changed definition of v in line 58 of getlam.f from
+	double precision v(2,10)
+	to
+	double precision v(2,p)
+
+2000-12-27  Andreas Weingessel  <Andreas.Weingessel@ci.tuwien.ac.at>
+
+	* Version 1.1-0: Changes in the DESCRIPTION file to fit
+	R-1.2.0. 
+	Various improvments in the documentation: Added alias
+	entries, a description entry for principal.curve, default values
+	and entries for the undocumented objects.
+	Changed F to FALSE in the R code.
+	
+

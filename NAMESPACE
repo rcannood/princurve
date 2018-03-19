@@ -1,0 +1,7 @@
+useDynLib("princurve")
+
+export("principal.curve", "get.lam")
+
+S3method("lines", "principal.curve")
+S3method("plot", "principal.curve")
+S3method("points", "principal.curve")

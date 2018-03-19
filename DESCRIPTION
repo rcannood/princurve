@@ -1,0 +1,14 @@
+Package: princurve
+Version: 1.1-12
+Title: Fits a Principal Curve in Arbitrary Dimension
+Author: S original by Trevor Hastie <trevor@research.att.com> R port by
+        Andreas Weingessel <Andreas.Weingessel@ci.tuwien.ac.at>
+Maintainer: Andreas Weingessel <Andreas.Weingessel@ci.tuwien.ac.at>
+Description: fits a principal curve to a data matrix in arbitrary
+        dimensions
+License: GPL-2
+Imports: stats, graphics
+Packaged: 2013-04-25 07:31:26 UTC; hornik
+NeedsCompilation: yes
+Repository: CRAN
+Date/Publication: 2013-04-25 10:01:27

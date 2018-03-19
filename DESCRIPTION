@@ -4,8 +4,8 @@ Title: Fits a Principal Curve in Arbitrary Dimension
 Author: S original by Trevor Hastie <trevor@research.att.com> R port by
         Andreas Weingessel <Andreas.Weingessel@ci.tuwien.ac.at>
 Maintainer: Andreas Weingessel <Andreas.Weingessel@ci.tuwien.ac.at>
-Description: fits a principal curve to a data matrix in arbitrary
-        dimensions
+Description: Fitting a principal curve to a data matrix in arbitrary
+        dimensions.
 License: GPL-2
 Imports: stats, graphics
 Packaged: 2018-03-19 12:56:00 UTC; rcannood

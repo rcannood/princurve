@@ -134,8 +134,6 @@
 #'
 #' @export
 #'
-#' @useDynLib princurve
-#'
 #' @examples
 #' x <- runif(100,-1,1)
 #' x <- cbind(x, x ^ 2 + rnorm(100, sd = 0.1))

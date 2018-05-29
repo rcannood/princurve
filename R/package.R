@@ -15,7 +15,7 @@
 #' @importFrom graphics lines plot points
 #' @importFrom stats approx lowess predict smooth.spline var
 #'
-#' @useDynLib princurve
+#' @useDynLib princurve, .registration=TRUE
 NULL
 
 

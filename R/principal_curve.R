@@ -305,5 +305,5 @@ points.principal_curve <- function(x, ...) {
 #' @importFrom graphics segments
 #' @export
 whiskers <- function(x, s) {
-  segments(x[, 1], x[, 2], s[, 1], s[, 2])
+  graphics::segments(x[, 1], x[, 2], s[, 1], s[, 2])
 }

@@ -3,3 +3,8 @@ sudo: required
 dist: trusty
 cache: packages
 r_check_args: "--as-cran"
+r_packages:
+  - covr
+  - devtools
+after_success:
+ - R -e 'covr::codecov()'

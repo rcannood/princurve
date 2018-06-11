@@ -1,7 +1,6 @@
 #' @importFrom stats approx
 bias.correct.curve <- function(x, pcurve, ...) {
-# bias correction, as suggested by
-#Jeff Banfield
+  # bias correction, as suggested by Jeff Banfield
   p <- ncol(x)
   ones <- rep(1, p)
   sbar <- apply(pcurve$s, 2, "mean")
@@ -10,101 +9,42 @@ bias.correct.curve <- function(x, pcurve, ...) {
   dist2 <- (scale(pcurve$s, sbar, FALSE)^2) %*% ones
   sign <- 2 * as.double(dist1 > dist2) - 1
   ray <- sign * ray
-  ploess <- periodic.lowess(pcurve$lambda, ray, ...)
+  ploess <- periodic_lowess(pcurve$lambda, ray, ...)
   sray <- stats::approx(
     ploess$x,
     ploess$y,
 		pcurve$lambda
   )$y
-  ## AW: changed periodic.lowess() to periodic.lowess()$x and $y
+  ## AW: changed periodic_lowess() to periodic_lowess()$x and $y
   pcurve$s <- pcurve$s + (abs(sray)/ray) * ((x - pcurve$s))
   get.lam(x, pcurve$s, pcurve$tag, stretch = 0)
 }
 
-#' Projection Index
-#'
-#' Finds the projection index for a matrix of points \code{x}, when
-#' projected onto a curve \code{s}.  The curve need not be of the same
-#' length as the number of points.  If the points on the curve are not in
-#' order, this order needs to be given as well, in \code{tag}.
-#'
-#' @usage get.lam(x, s, tag, stretch = 2)
-#'
-#' @param x a matrix of data points.
-#' @param s a parametrized curve, represented by a polygon.
-#' @param tag the order of the point in \code{s}. Default is the given order.
-#' @param stretch A stretch factor for the endpoints of the curve; a maximum of 2.
-#'  it allows the curve to grow, if required, and helps avoid bunching at the end.
-#'
-#' @return A structure is returned which represents a fitted curve.  It has components
-#'   \item{s}{The fitted points on the curve corresponding to each point \code{x}.}
-#'   \item{tag}{the order of the fitted points}
-#'   \item{lambda}{The projection index for each point}
-#'   \item{dist}{The total squared distance from the curve}
-#'
-#' @seealso \code{\link{principal.curve}}
-#'
-#' @keywords regression smooth nonparametric
-#'
-#' @export
-get.lam <- function(x, s, tag, stretch = 2)
-{
-  storage.mode(x) <- "double"
-  storage.mode(s) <- "double"
-  storage.mode(stretch) <- "double"
-  if(!missing(tag))
-    s <- s[tag,  ]
-  np <- dim(x)
-  if(length(np) != 2)
-    stop("get.lam needs a matrix input")
-  n <- np[1]
-  p <- np[2]
-  tt <- .Fortran("getlam",
-		 n,
-		 p,
-		 x,
-		 s = x,
-		 lambda = double(n),
-		 tag = integer(n),
-		 dist = double(n),
-		 as.integer(nrow(s)),
-		 s,
-		 stretch,
-		 double(p),
-		 double(p),
-                 PACKAGE = "princurve")[c("s", "tag", "lambda", "dist")]
-  tt$dist <- sum(tt$dist)
-  class(tt) <- "principal.curve"
-  tt
-}
+
 
 #' Fit a Principal Curve
 #'
 #' Fits a principal curve which describes a smooth curve that passes through the \code{middle}
 #' of the data \code{x} in an orthogonal sense.  This curve is a nonparametric generalization
-#' of a linear principal component.  If a closed curve is fit (using \code{smoother = "periodic.lowess"})
+#' of a linear principal component.  If a closed curve is fit (using \code{smoother = "periodic_lowess"})
 #' then the starting curve defaults to a circle, and each fit is followed by a bias correction
-#' suggested by J. Banfield.
-#'
-#' @usage
-#' principal.curve(x, start=NULL, thresh=0.001, plot.true=FALSE, maxit=10,
-#'   stretch=2, smoother="smooth.spline", trace=FALSE, \dots)
+#' suggested by Jeff Banfield.
 #'
 #' @param x a matrix of points in arbitrary dimension.
 #' @param start either a previously fit principal curve, or else a matrix
 #'   of points that in row order define a starting curve. If missing or NULL,
 #'   then the first principal component is used.  If the smoother is
-#'   \code{"periodic.lowess"}, then a circle is used as the start.
+#'   \code{"periodic_lowess"}, then a circle is used as the start.
 #' @param thresh convergence threshold on shortest distances to the curve.
 #' @param plot.true If \code{TRUE} the iterations are plotted.
 #' @param maxit maximum number of iterations.
 #' @param stretch a factor by which the curve can be extrapolated when
 #'   points are projected.  Default is 2 (times the last segment
 #'   length). The default is 0 for \code{smoother} equal to
-#'   \code{"periodic.lowess"}.
+#'   \code{"periodic_lowess"}.
 #' @param smoother choice of smoother. The default is
 #'   \code{"smooth.spline"}, and other choices are \code{"lowess"} and
-#'   \code{"periodic.lowess"}. The latter allows one to fit closed curves.
+#'   \code{"periodic_lowess"}. The latter allows one to fit closed curves.
 #'   Beware, you may want to use \code{iter = 0} with \code{lowess()}.
 #' @param trace If \code{TRUE}, the iteration information is printed
 #' @param ... additional arguments to the smoothers
@@ -155,7 +95,7 @@ principal.curve <- function(
   plot.true = FALSE,
   maxit = 10,
   stretch = 2,
-  smoother = "smooth.spline",
+  smoother = c("smooth_spline", "lowess", "periodic_lowess"),
   trace = FALSE,
   ...
 ) {
@@ -164,21 +104,21 @@ principal.curve <- function(
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Argument 'smoother':
   if (is.function(smoother)) {
-    smootherFcn <- smoother;
+    smootherFcn <- smoother
   } else {
-    smooth.list <- c("smooth.spline", "lowess", "periodic.lowess");
-    smoother <- match.arg(smoother, smooth.list);
-    smootherFcn <- NULL;
+    # substitute .'s to _'s for backwards compatibility
+    smoother <- match.arg(gsub("\\.", "_", smoother))
+    smootherFcn <- NULL
   }
 
   # Argument 'stretch':
-  stretches <- c(2, 2, 0);
+  stretches <- c(smooth_spline = 2, lowess = 2, periodic_lowess = 0)
   if (is.function(smoother)) {
     if (is.null(stretch))
-      stop("Argument 'stretch' must be given if 'smoother' is a function.");
+      stop("Argument 'stretch' must be given if 'smoother' is a function.")
   } else {
-    if(missing(stretch) || is.null(stretch)) {
-      stretch <- stretches[match(smoother, smooth.list)];
+    if (missing(stretch) || is.null(stretch)) {
+      stretch <- stretches[smoother]
     }
   }
 
@@ -186,30 +126,27 @@ principal.curve <- function(
   # Setup
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   if (is.null(smootherFcn)) {
-    # Setup the smoother function smootherFcn(lambda, xj, ...) which must
-    # return fitted {y}:s.
     smootherFcn <- switch(smoother,
       lowess = function(lambda, xj, ...) {
-        lowess(lambda, xj, ...)$y;
+        lowess(lambda, xj, ...)$y
       },
 
-      smooth.spline = function(lambda, xj, ..., df=5) {
-        o <- order(lambda);
-        lambda <- lambda[o];
-        xj <- xj[o];
-        fit <- smooth.spline(lambda, xj, ..., df=df, keep.data=FALSE);
-        predict(fit, x=lambda)$y;
+      smooth_spline = function(lambda, xj, ..., df=5) {
+        o <- order(lambda)
+        lambda <- lambda[o]
+        xj <- xj[o]
+        fit <- smooth.spline(lambda, xj, ..., df = df, keep.data = FALSE)
+        predict(fit, x=lambda)$y
       },
 
-      periodic.lowess = function(lambda, xj, ...) {
-        periodic.lowess(lambda, xj, ...)$y;
+      periodic_lowess = function(lambda, xj, ...) {
+        periodic_lowess(lambda, xj, ...)$y
       }
-    ) # smootherFcn()
 
     # Should the fitted curve be bias corrected (in each iteration)?
-    biasCorrectCurve <- (smoother == "periodic.lowess");
+    bias_correct_curve <- (smoother == "periodic_lowess")
   } else {
-    biasCorrectCurve <- FALSE;
+    bias_correct_curve <- FALSE
   }
 
   this.call <- match.call()
@@ -221,8 +158,8 @@ principal.curve <- function(
   # You can give starting values for the curve
   if (missing(start) || is.null(start)) {
     # use largest principal component
-    if (is.character(smoother) && smoother == "periodic.lowess") {
-      start <- startCircle(x)
+    if (is.character(smoother) && smoother == "periodic_lowess") {
+      start <- start_circle(x)
     } else {
       xbar <- colMeans(x)
       xstar <- scale(x, center=xbar, scale=FALSE)
@@ -230,9 +167,9 @@ principal.curve <- function(
       dd <- svd.xstar$d
       lambda <- svd.xstar$u[,1] * dd[1]
       tag <- order(lambda)
-      s <- scale(outer(lambda, svd.xstar$v[,1]), center=-xbar, scale=FALSE)
-      dist <- sum((dd^2)[-1]) * n
-      start <- list(s=s, tag=tag, lambda=lambda, dist=dist)
+      s <- scale(outer(lambda, svd.xstar$v[,1]), center = -xbar, scale = FALSE)
+      dist <- sum((dd^2)[-1]) * nrow(x)
+      start <- list(s = s, tag = tag, lambda = lambda, dist = dist)
     }
   } else if (!inherits(start, "principal.curve")) {
     # use given starting curve
@@ -245,9 +182,12 @@ principal.curve <- function(
 
   pcurve <- start
   if (plot.true) {
-    plot(x[,1:2], xlim=adjust.range(x[,1], 1.3999999999999999),
-	 ylim=adjust.range(x[,2], 1.3999999999999999))
-    lines(pcurve$s[pcurve$tag, 1:2])
+    plot(
+      x[,1:2],
+      xlim = adjust.range(x[,1], 1.3999999999999999),
+	    ylim = adjust.range(x[,2], 1.3999999999999999))
+      lines(pcurve$s[pcurve$tag, 1:2]
+    )
   }
 
   it <- 0
@@ -259,8 +199,8 @@ principal.curve <- function(
   naValue <- as.double(NA);
   s <- matrix(naValue, nrow=n, ncol=p);
 
-  hasConverged <- (abs((dist.old - pcurve$dist)/dist.old) <= thresh);
-  while (!hasConverged && it < maxit) {
+  has_converged <- (abs((dist.old - pcurve$dist)/dist.old) <= thresh);
+  while (!has_converged && it < maxit) {
     it <- it + 1;
 
     for(jj in 1:p) {
@@ -269,23 +209,27 @@ principal.curve <- function(
 
     dist.old <- pcurve$dist;
 
-
     # Finds the "projection index" for a matrix of points 'x',
     # when projected onto a curve 's'.  The projection index,
     # \lambda_f(x) [Eqn (3) in Hastie & Stuetzle (1989), is
     # the value of \lambda for which f(\lambda) is closest
     # to x.
-    pcurve <- get.lam(x, s=s, stretch=stretch);
+    pcurve <- get.lam(x, s = s, stretch = stretch);
 
     # Bias correct?
-    if (biasCorrectCurve)
-      pcurve <- bias.correct.curve(x, pcurve=pcurve, ...)
+    if (bias_correct_curve) {
+      pcurve <- bias.correct.curve(x, pcurve = pcurve, ...)
+    }
 
     # Converged?
-    hasConverged <- (abs((dist.old - pcurve$dist)/dist.old) <= thresh);
+    has_converged <- (abs((dist.old - pcurve$dist)/dist.old) <= thresh);
 
     if (plot.true) {
-      plot(x[,1:2], xlim=adjust.range(x[,1], 1.3999999999999999), ylim=adjust.range(x[,2], 1.3999999999999999))
+      plot(
+        x[,1:2],
+        xlim = adjust.range(x[,1], 1.3999999999999999),
+        ylim = adjust.range(x[,2], 1.3999999999999999)
+      )
       lines(pcurve$s[pcurve$tag, 1:2])
     }
 
@@ -300,91 +244,51 @@ principal.curve <- function(
     tag = pcurve$tag,
     lambda = pcurve$lambda,
     dist = pcurve$dist,
-    converged = hasConverged,         # Added by HB
+    converged = has_converged,         # Added by HB
     nbrOfIterations = as.integer(it), # Added by HB
     call = this.call
-  ), class="principal.curve");
-} # principal.curve.hb()
+  ), class = "principal.curve")
+}
 
-###########################################################################
-# HISTORY:
-# 2009-07-15
-# o MEMORY OPTIMIZATION: Now the result matrix allocated as doubles, not
-#   logicals (as NA is), in order to prevent a coersion.
-# 2009-02-08
-# o BUG FIX: An error was thrown if 'smoother' was a function.
-# o Cleaned up source code (removed comments).
-# 2008-05-27
-# o Benchmarking: For larger data sets, most of the time is spent in
-#   get.lam().
-# o BUG FIX: smooth.spline(x,y) will only use *and* return values for
-#   "unique" {x}:s. This means that the fitted {y}:s maybe be fewer than
-#   the input vector. In order to control for this, we use predict().
-# o Now 'smoother' can also be a function taking arguments 'lambda', 'xj'
-#   and '...' and return 'y' of the same length as 'lambda' and 'xj'.
-# o Now arguments 'start' and 'stretch' can be NULL, which behaves the
-#   same as if they are "missing" [which is hard to emulate with for
-#   instance do.call()].
-# o Added 'converged' and 'nbrOfIterations' to return structure.
-# o SPEED UP/MEMORY OPTIMIZATION: Now the nxp matrix 's' is allocated only
-#   once. Before it was built up using cbind() once per iteration.
-# o SPEED UP: Now the smoother function is identified/created before
-#   starting the algorithm, and not once per dimension and iteration.
-###########################################################################
 
 #' @rdname principal.curve
 #' @export
 lines.principal.curve <- function(x, ...)
   lines(x$s[x$tag,  ], ...)
 
-
-periodic.lowess <- function(x, y, f = 0.59999999999999998, ...) {
-  n <- length(x)
-  o <- order(x)
-  r <- range(x)
-  d <- diff(r)/(length(unique(x)) - 1)
-  xr <- x[o[1:(n/2)]] - r[1] + d + r[2]
-  xl <- x[o[(n/2):n]] - r[2] - d + r[1]
-  yr <- y[o[1:(n/2)]]
-  yl <- y[o[(n/2):n]]
-  xnew <- c(xl, x, xr)
-  ynew <- c(yl, y, yr)
-  f <- f/2
-  fit <- lowess(xnew, ynew, f = f, ...)
-  approx(fit$x, fit$y, x[o], rule = 2)
-  # AW: changed fit to fit$x, fit$y
-}
-
 #' @rdname principal.curve
 #' @export
-"plot.principal.curve" <- function(x, ...)
+plot.principal.curve <- function(x, ...)
   plot(x$s[x$tag,  ], ..., type = "l")
 
 #' @rdname principal.curve
 #' @export
-"points.principal.curve" <- function(x, ...)
+points.principal.curve <- function(x, ...)
   points(x$s, ...)
 
 
 adjust.range <- function (x, fact) {
-# AW: written by AW, replaces ylim.scale
-    r <- range (x)
-    d <- diff(r)*(fact-1)/2;
-    c(r[1]-d, r[2]+d)
-  }
+  # AW: written by AW, replaces ylim.scale
+  r <- range(x)
+  d <- diff(r) * (fact - 1) / 2
+  c(r[1] - d, r[2] + d)
+}
 
-startCircle <- function(x) {
-# the starting circle uses the first two co-ordinates,
-# and assumes the others are zero
+start_circle <- function(x) {
+  # the starting circle uses the first two co-ordinates,
+  # and assumes the others are zero
   d <- dim(x)
-  n <- d[1]
-  p <- d[2]	# use best circle centered at xbar
-  xbar <- apply(x, 2, "mean")
-  ray <- sqrt((scale(x, xbar, FALSE)^2) %*% rep(1, p))
+
+  xbar <- apply(x, 2, mean)
+  ray <- sqrt((scale(x, xbar, FALSE)^2) %*% rep(1, ncol(p)))
   radius <- mean(ray)
   theta <- pi * seq_len(nrow(x)) * 2 / nrow(x)
+
   s <- cbind(radius * sin(theta), radius * cos(theta))
-  if(p > 2)
-    s <- cbind(s, matrix(0, nrow = n, ncol = p - 2))
+
+  if(ncol(x) > 2) {
+    s <- cbind(s, matrix(0, nrow = nrow(x), ncol = ncol(x) - 2))
+  }
+
   get.lam(x, s)
 }

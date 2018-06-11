@@ -2,10 +2,9 @@ context("Testing get_lam")
 
 
 test_that("Testing get_lam", {
-  s <- cbind(
-    seq(0, 1, length.out = 100),
-    seq(2, 1, length.out = 100)^2
-  )
+  z <- seq(-1, 1, length.out = 100)
+
+  s <- cbind(z, z^2)
 
   x <- s + rnorm(length(s), mean = 0, sd = .005)
 
@@ -21,10 +20,9 @@ test_that("Testing get_lam", {
 
 
 test_that("Testing get.lam for backwards compatibility", {
-  s <- cbind(
-    seq(0, 1, length.out = 100),
-    seq(2, 1, length.out = 100)
-  )
+  z <- seq(-1, 1, length.out = 100)
+
+  s <- cbind(z, z^2)
 
   x <- s + rnorm(length(s), mean = 0, sd = .005)
 

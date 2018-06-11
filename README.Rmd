@@ -7,7 +7,7 @@ editor_options:
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r setup1, include=FALSE}
-knitr::opts_chunk$set(fig.path=".readme_files/", warning = FALSE, message = FALSE, error = FALSE, echo = TRUE)
+knitr::opts_chunk$set(fig.path = "man/figures/README_", warning = FALSE, message = FALSE, error = FALSE, echo = TRUE)
 ```
 
 # princurve
@@ -19,7 +19,7 @@ knitr::opts_chunk$set(fig.path=".readme_files/", warning = FALSE, message = FALS
 This is an R port of Trevor Hastie's Principal Curve package.
 
 ## Example
-```{r}
+```{r example_plot}
 library(princurve)
 set.seed(1)
 x <- runif(100, -1, 1)

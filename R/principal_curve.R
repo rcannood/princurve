@@ -283,14 +283,14 @@ principal.curve <- function(
 #' @export
 #' @importFrom graphics lines
 lines.principal_curve <- function(x, ...) {
-  graphics::lines(x$s[x$tag,  ], ...)
+  graphics::lines(x$s[x$tag, ], ...)
 }
 
 #' @rdname principal_curve
 #' @export
 #' @importFrom graphics plot
 plot.principal_curve <- function(x, ...) {
-  graphics::plot(x$s[x$tag,  ], ..., type = "l")
+  graphics::plot(x$s[x$tag, ], ..., type = "l")
 }
 
 #' @rdname principal_curve
@@ -305,5 +305,5 @@ points.principal_curve <- function(x, ...) {
 #' @importFrom graphics segments
 #' @export
 whiskers <- function(x, s) {
-  segments(x[, 1], x[, 2], s[, 1], s[, 2])
+  graphics::segments(x[, 1], x[, 2], s[, 1], s[, 2])
 }

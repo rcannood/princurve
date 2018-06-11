@@ -1,38 +1,25 @@
-# princurve
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+princurve
+=========
 
-This is an R port of Trevor Hastie's principal.curve package which can
-be found in the statlib archive.
+[![Build
+Status](https://travis-ci.org/dynverse/princurve.svg?branch=master)](https://travis-ci.org/dynverse/princurve)
+[![AppVeyor Build
+Status](https://ci.appveyor.com/api/projects/status/github/dynverse/princurve?branch=master&svg=true)](https://ci.appveyor.com/project/dynverse/princurve)
+[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/dplyr)](https://cran.r-project.org/package=dplyr)
+[![Coverage
+Status](https://codecov.io/gh/dynverse/princurve/branch/master/graph/badge.svg)](https://codecov.io/gh/dynverse/princurve?branch=master)
 
-Changes from original:
-* replaced missing ylim.scale by own function
-* changes in `periodic.lowess` and changes in the call of `periodic.lowess` in the subroutine `bias.correct.curve`
+This is an R port of Trevor Hastie's Principal Curve package.
 
-All changes are marked by a comment starting with AW. 
+Example
+-------
 
-The latest version of this package can always be downloaded from any
-CRAN mirror. The CRAN master site can be found at
+    library(princurve)
+    x <- runif(100, -1, 1)
+    x <- cbind(x, x ^ 2 + rnorm(100, sd = 0.1))
 
-[http://www.ci.tuwien.ac.at/R](http://www.ci.tuwien.ac.at/R)
-[ftp://ftp.ci.tuwien.ac.at/pub/R](ftp://ftp.ci.tuwien.ac.at/pub/R)
+    fit1 <- principal_curve(x)
+    plot(fit1); points(fit1); whiskers(x, fit1$s)
 
-
-## Contact
-Andreas Weingessel
-
-* Institut für Statistik
-* Technische Universität Wien
-* Wiedner Hauptstr. 8-10/1071
-* A-1040 Wien, Austria
-* Tel: (+43 1) 58801 10716
-* Fax: (+43 1) 58801 10798
-* Andreas.Weingessel@ci.tuwien.ac.at
-* http://www.ci.tuwien.ac.at/~weingessel
-
-The address of Trevor Hastie is (according to the information provided
-in the statlib package):
-
-Trevor Hastie
-* 1-908-582-5647
-* (FAX) 1-908-582-3340
-* rm 2C-261 AT&T Bell Labs, Murray Hill, NJ 07974
-* trevor@research.att.com
+![](.readme_files/unnamed-chunk-1-1.png)

@@ -4,16 +4,13 @@
 #' @aliases princurve-package princurve
 #' @docType package
 #'
-#' @seealso \code{\link{principal.curve}}, \code{\link{get.lam}}
+#' @seealso \code{\link{principal_curve}}, \code{\link{get_lam}}
 #'
 #' @references
 #'   \dQuote{Principal Curves} by Hastie, T. and Stuetzle, W. 1989, JASA.
 #'   See also Banfield and Raftery (JASA, 1992).
 #'
 #' @keywords regression smooth nonparametric
-#'
-#' @importFrom graphics lines plot points
-#' @importFrom stats approx lowess predict smooth.spline var
 #'
 #' @useDynLib princurve, .registration=TRUE
 NULL

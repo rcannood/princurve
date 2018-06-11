@@ -61,6 +61,7 @@ get_lam <- function(
     PACKAGE = "princurve"
   )
   tt <- tt[c("s", "tag", "lambda", "dist")]
+  tt$ind_dist <- tt$dist
   tt$dist <- sum(tt$dist)
   class(tt) <- "principal_curve"
   tt

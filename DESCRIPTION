@@ -4,6 +4,7 @@ Title: Fits a Principal Curve in Arbitrary Dimension
 Authors@R: c(
   person("Trevor", "Hastie", email = "trevor@research.att.com", role = "aut"),
   person("Andreas", "Weingessel", email = "Andreas.Weingessel@ci.tuwien.ac.at", role = "aut"),
+  person("Kurt", "Hornik", email = "kurt.hornik@wu.ac.at", role = "aut"),
   person("Robrecht", "Cannoodt", email = "rcannood@gmail.com", role = c("aut", "cre")))
 Description: Fitting a principal curve to a data matrix in arbitrary dimensions.
 License: GPL-2

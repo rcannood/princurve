@@ -1,16 +1,18 @@
 context("Testing principal_curve")
 
-
 z <- seq(-1, 1, length.out = 100)
 s <- cbind(z, z^2, z^3, z^4)
 x <- s + rnorm(length(s), mean = 0, sd = .005)
 
+file <- tempfile(fileext = ".svg")
+on.exit(unlink(file))
+
 test_that("Testing principal_curve with smooth_spline", {
-  pdf("/dev/null", 5, 5)
+  svg(file, 5, 5)
   fit <- principal_curve(x, smoother = "smooth_spline", plot_iterations = TRUE)
   dev.off()
 
-  pdf("/dev/null", 5, 5)
+  svg(file, 5, 5)
   expect_error({
     plot(fit)
     points(fit)
@@ -28,7 +30,7 @@ test_that("Expect principal_curve to error", {
 test_that("Testing principal_curve with lowess", {
   fit <- principal_curve(x, smoother = "lowess")
 
-  pdf("/dev/null", 5, 5)
+  svg(file, 5, 5)
   expect_error({
     plot(fit)
     points(fit)
@@ -45,7 +47,7 @@ test_that("Testing principal.curve for backward compatibility", {
     fit <- principal.curve(x, smoother = "smooth.spline")
   }, "deprecated")
 
-  pdf("/dev/null", 5, 5)
+  svg(file, 5, 5)
   expect_error({
     plot(fit)
     points(fit)
@@ -64,7 +66,7 @@ x <- s + rnorm(length(s), mean = 0, sd = .005)
 test_that("Testing principal_curve with periodic_lowess", {
   fit <- principal_curve(x, smoother = "periodic_lowess")
 
-  pdf("/dev/null", 5, 5)
+  svg(file, 5, 5)
   expect_error({
     plot(fit)
     points(fit)

@@ -5,8 +5,6 @@
 #' length as the number of points.  If the points on the curve are not in
 #' order, this order needs to be given as well, in \code{tag}.
 #'
-#' @usage get.lam(x, s, tag, stretch = 2)
-#'
 #' @param x a matrix of data points.
 #' @param s a parametrized curve, represented by a polygon.
 #' @param tag the order of the point in \code{s}. Default is the given order.
@@ -19,12 +17,17 @@
 #'   \item{lambda}{The projection index for each point}
 #'   \item{dist}{The total squared distance from the curve}
 #'
-#' @seealso \code{\link{principal.curve}}
+#' @seealso \code{\link{principal_curve}}
 #'
 #' @keywords regression smooth nonparametric
 #'
 #' @export
-get_lam <- function(x, s, tag, stretch = 2) {
+get_lam <- function(
+  x,
+  s,
+  tag,
+  stretch = 2
+) {
   storage.mode(x) <- "double"
   storage.mode(s) <- "double"
   storage.mode(stretch) <- "double"
@@ -59,9 +62,10 @@ get_lam <- function(x, s, tag, stretch = 2) {
   )
   tt <- tt[c("s", "tag", "lambda", "dist")]
   tt$dist <- sum(tt$dist)
-  class(tt) <- "principal.curve"
+  class(tt) <- "principal_curve"
   tt
 }
 
 #' @rdname get_lam
+#' @export
 get.lam <- get_lam

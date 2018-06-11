@@ -1,27 +1,3 @@
-#' @importFrom stats approx
-bias.correct.curve <- function(x, pcurve, ...) {
-  # bias correction, as suggested by Jeff Banfield
-  p <- ncol(x)
-  ones <- rep(1, p)
-  sbar <- apply(pcurve$s, 2, "mean")
-  ray <- drop(sqrt(((x - pcurve$s)^2) %*% ones))
-  dist1 <- (scale(x, sbar, FALSE)^2) %*% ones
-  dist2 <- (scale(pcurve$s, sbar, FALSE)^2) %*% ones
-  sign <- 2 * as.double(dist1 > dist2) - 1
-  ray <- sign * ray
-  ploess <- periodic_lowess(pcurve$lambda, ray, ...)
-  sray <- stats::approx(
-    ploess$x,
-    ploess$y,
-		pcurve$lambda
-  )$y
-  ## AW: changed periodic_lowess() to periodic_lowess()$x and $y
-  pcurve$s <- pcurve$s + (abs(sray)/ray) * ((x - pcurve$s))
-  get.lam(x, pcurve$s, pcurve$tag, stretch = 0)
-}
-
-
-
 #' Fit a Principal Curve
 #'
 #' Fits a principal curve which describes a smooth curve that passes through the \code{middle}
@@ -36,20 +12,20 @@ bias.correct.curve <- function(x, pcurve, ...) {
 #'   then the first principal component is used.  If the smoother is
 #'   \code{"periodic_lowess"}, then a circle is used as the start.
 #' @param thresh convergence threshold on shortest distances to the curve.
-#' @param plot.true If \code{TRUE} the iterations are plotted.
+#' @param plot_iterations If \code{TRUE} the iterations are plotted.
 #' @param maxit maximum number of iterations.
 #' @param stretch a factor by which the curve can be extrapolated when
 #'   points are projected.  Default is 2 (times the last segment
 #'   length). The default is 0 for \code{smoother} equal to
 #'   \code{"periodic_lowess"}.
 #' @param smoother choice of smoother. The default is
-#'   \code{"smooth.spline"}, and other choices are \code{"lowess"} and
+#'   \code{"smooth_spline"}, and other choices are \code{"lowess"} and
 #'   \code{"periodic_lowess"}. The latter allows one to fit closed curves.
 #'   Beware, you may want to use \code{iter = 0} with \code{lowess()}.
 #' @param trace If \code{TRUE}, the iteration information is printed
 #' @param ... additional arguments to the smoothers
 #'
-#' @return An object of class \code{"principal.curve"} is returned. For this object
+#' @return An object of class \code{"principal_curve"} is returned. For this object
 #'   the following generic methods a currently available: \code{plot, points, lines}.
 #'
 #'   It has components:
@@ -67,7 +43,7 @@ bias.correct.curve <- function(x, pcurve, ...) {
 #'   \item{call}{the call that created this object; allows it to be
 #'     \code{updated()}.}
 #'
-#' @seealso \code{\link{get.lam}}
+#' @seealso \code{\link{get_lam}}
 #'
 #' @keywords regression smooth nonparametric
 #'
@@ -77,17 +53,210 @@ bias.correct.curve <- function(x, pcurve, ...) {
 #'
 #' @export
 #'
+#' @importFrom stats lowess smooth.spline predict
+#'
 #' @examples
 #' x <- runif(100,-1,1)
 #' x <- cbind(x, x ^ 2 + rnorm(100, sd = 0.1))
-#' fit1 <- principal.curve(x, plot = TRUE)
-#' fit2 <- principal.curve(x, plot = TRUE, smoother = "lowess")
+#' fit1 <- principal_curve(x, plot = TRUE)
+#' fit2 <- principal_curve(x, plot = TRUE, smoother = "lowess")
 #' lines(fit1)
 #' points(fit1)
 #' plot(fit1)
 #' whiskers <- function(from, to)
 #'   segments(from[, 1], from[, 2], to[, 1], to[, 2])
 #' whiskers(x, fit1$s)
+principal_curve <- function(
+  x,
+  start = NULL,
+  thresh = 0.001,
+  plot_iterations = FALSE,
+  maxit = 10,
+  stretch = 2,
+  smoother = c("smooth_spline", "lowess", "periodic_lowess"),
+  trace = FALSE,
+  ...
+) {
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # Validate arguments:
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  # Check 'x'
+  if (!is.matrix(x)) {
+    stop("Argument ", sQuote("x"), " must be a matrix.")
+  }
+
+  # Check 'smoother'
+  if (is.function(smoother)) {
+    smoother_function <- smoother
+  } else if (is.character(smoother)) {
+    # substitute .'s to _'s for backwards compatibility
+    smoother <- gsub("\\.", "_", smoother)
+    smoother <- match.arg(smoother)
+    smoother_function <- NULL
+  }
+
+  # Check 'stretch'
+  if (is.function(smoother)) {
+    if (is.null(stretch))
+      stop("Argument ", sQuote("stretch"), " must be given if ", sQuote("smoother"), " is a function.")
+  } else {
+    if (missing(stretch) || is.null(stretch)) {
+      default_stretches <- c(smooth_spline = 2, lowess = 2, periodic_lowess = 0)
+      stretch <- default_stretches[smoother]
+    }
+  }
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # Setup
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  if (is.null(smoother_function)) {
+    smoother_function <- switch(smoother,
+      lowess = function(lambda, xj, ...) {
+        stats::lowess(lambda, xj, ...)$y
+      },
+
+      smooth_spline = function(lambda, xj, ..., df = 5) {
+        ord <- order(lambda)
+        lambda <- lambda[ord]
+        xj <- xj[ord]
+        fit <- stats::smooth.spline(lambda, xj, ..., df = df, keep.data = FALSE)
+        stats::predict(fit, x = lambda)$y
+      },
+
+      periodic_lowess = function(lambda, xj, ...) {
+        periodic_lowess(lambda, xj, ...)$y
+      }
+    )
+
+    # Should the fitted curve be bias corrected (in each iteration)?
+    bias_correct_curve <- (smoother == "periodic_lowess")
+  } else {
+    bias_correct_curve <- FALSE
+  }
+
+  function_call <- match.call()
+  dist_old <- sum(diag(var(x)))
+
+  # You can give starting values for the curve
+  if (missing(start) || is.null(start)) {
+    # use largest principal component
+    if (is.character(smoother) && smoother == "periodic_lowess") {
+      start <- start_circle(x)
+    } else {
+      xbar <- colMeans(x)
+      xstar <- scale(x, center = xbar, scale=FALSE)
+      svd_xstar <- svd(xstar)
+      dd <- svd_xstar$d
+      lambda <- svd_xstar$u[,1] * dd[1]
+      tag <- order(lambda)
+      s <- scale(outer(lambda, svd_xstar$v[,1]), center = -xbar, scale = FALSE)
+      dist <- sum((dd^2)[-1]) * nrow(x)
+      start <- list(s = s, tag = tag, lambda = lambda, dist = dist)
+    }
+  } else if (!inherits(start, "principal_curve")) {
+    # use given starting curve
+    if (is.matrix(start)) {
+      start <- get_lam(x, s = start, stretch = stretch)
+    } else {
+      stop("Invalid starting curve: should be a matrix or principal_curve")
+    }
+  }
+
+  pcurve <- start
+  if (plot_iterations) {
+    plot(
+      x[,1:2],
+      xlim = adjust_range(x[,1], 1.3999999999999999),
+	    ylim = adjust_range(x[,2], 1.3999999999999999))
+      lines(pcurve$s[pcurve$tag, 1:2]
+    )
+  }
+
+  it <- 0
+  if (trace) {
+    cat("Starting curve---distance^2: ", pcurve$dist, "\n", sep="");
+  }
+
+  # Pre-allocate nxp matrix 's'
+  s <- matrix(as.double(NA), nrow = nrow(x), ncol = ncol(x))
+
+  has_converged <- (abs((dist_old - pcurve$dist) / dist_old) <= thresh);
+  while (!has_converged && it < maxit) {
+    it <- it + 1;
+
+    for(jj in seq_len(ncol(x))) {
+      s[,jj] <- smoother_function(pcurve$lambda, x[,jj], ...)
+    }
+
+    dist_old <- pcurve$dist
+
+    # Finds the "projection index" for a matrix of points 'x',
+    # when projected onto a curve 's'.  The projection index,
+    # \lambda_f(x) [Eqn (3) in Hastie & Stuetzle (1989), is
+    # the value of \lambda for which f(\lambda) is closest
+    # to x.
+    pcurve <- get_lam(x, s = s, stretch = stretch)
+
+    # Bias correct?
+    if (bias_correct_curve) {
+      pcurve <- bias_correct_curve(x, pcurve = pcurve, ...)
+    }
+
+    # Converged?
+    has_converged <- (abs((dist_old - pcurve$dist) / dist_old) <= thresh)
+
+    if (plot_iterations) {
+      plot(
+        x[,1:2],
+        xlim = adjust_range(x[,1], 1.3999999999999999),
+        ylim = adjust_range(x[,2], 1.3999999999999999)
+      )
+      lines(pcurve$s[pcurve$tag, 1:2])
+    }
+
+    if (trace) {
+      cat("Iteration ", it, "---distance^2: ", pcurve$dist, "\n", sep="");
+    }
+  }
+
+  # Return fit
+  structure(list(
+    s = pcurve$s,
+    tag = pcurve$tag,
+    lambda = pcurve$lambda,
+    dist = pcurve$dist,
+    converged = has_converged,         # Added by HB
+    num_iterations = as.integer(it),   # Added by HB
+    call = function_call
+  ), class = "principal_curve")
+}
+
+#' [DEPRECATED] Fit a Principal Curve
+#'
+#' Use \code{\link{principal_curve}} instead.
+#'
+#' @param x a matrix of points in arbitrary dimension.
+#' @param start either a previously fit principal curve, or else a matrix
+#'   of points that in row order define a starting curve. If missing or NULL,
+#'   then the first principal component is used.  If the smoother is
+#'   \code{"periodic_lowess"}, then a circle is used as the start.
+#' @param thresh convergence threshold on shortest distances to the curve.
+#' @param plot.true If \code{TRUE} the iterations are plotted.
+#' @param maxit maximum number of iterations.
+#' @param stretch a factor by which the curve can be extrapolated when
+#'   points are projected.  Default is 2 (times the last segment
+#'   length). The default is 0 for \code{smoother} equal to
+#'   \code{"periodic_lowess"}.
+#' @param smoother choice of smoother. The default is
+#'   \code{"smooth_spline"}, and other choices are \code{"lowess"} and
+#'   \code{"periodic_lowess"}. The latter allows one to fit closed curves.
+#'   Beware, you may want to use \code{iter = 0} with \code{lowess()}.
+#' @param trace If \code{TRUE}, the iteration information is printed
+#' @param ... additional arguments to the smoothers
+#'
+#' @rdname principal_curve
+#' @export
 principal.curve <- function(
   x,
   start = NULL,
@@ -99,196 +268,31 @@ principal.curve <- function(
   trace = FALSE,
   ...
 ) {
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # Validate arguments:
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # Argument 'smoother':
-  if (is.function(smoother)) {
-    smootherFcn <- smoother
-  } else {
-    # substitute .'s to _'s for backwards compatibility
-    smoother <- match.arg(gsub("\\.", "_", smoother))
-    smootherFcn <- NULL
-  }
-
-  # Argument 'stretch':
-  stretches <- c(smooth_spline = 2, lowess = 2, periodic_lowess = 0)
-  if (is.function(smoother)) {
-    if (is.null(stretch))
-      stop("Argument 'stretch' must be given if 'smoother' is a function.")
-  } else {
-    if (missing(stretch) || is.null(stretch)) {
-      stretch <- stretches[smoother]
-    }
-  }
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # Setup
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  if (is.null(smootherFcn)) {
-    smootherFcn <- switch(smoother,
-      lowess = function(lambda, xj, ...) {
-        lowess(lambda, xj, ...)$y
-      },
-
-      smooth_spline = function(lambda, xj, ..., df=5) {
-        o <- order(lambda)
-        lambda <- lambda[o]
-        xj <- xj[o]
-        fit <- smooth.spline(lambda, xj, ..., df = df, keep.data = FALSE)
-        predict(fit, x=lambda)$y
-      },
-
-      periodic_lowess = function(lambda, xj, ...) {
-        periodic_lowess(lambda, xj, ...)$y
-      }
-
-    # Should the fitted curve be bias corrected (in each iteration)?
-    bias_correct_curve <- (smoother == "periodic_lowess")
-  } else {
-    bias_correct_curve <- FALSE
-  }
-
-  this.call <- match.call()
-  dist.old <- sum(diag(var(x)))
-  d <- dim(x)
-  n <- d[1]
-  p <- d[2]
-
-  # You can give starting values for the curve
-  if (missing(start) || is.null(start)) {
-    # use largest principal component
-    if (is.character(smoother) && smoother == "periodic_lowess") {
-      start <- start_circle(x)
-    } else {
-      xbar <- colMeans(x)
-      xstar <- scale(x, center=xbar, scale=FALSE)
-      svd.xstar <- svd(xstar)
-      dd <- svd.xstar$d
-      lambda <- svd.xstar$u[,1] * dd[1]
-      tag <- order(lambda)
-      s <- scale(outer(lambda, svd.xstar$v[,1]), center = -xbar, scale = FALSE)
-      dist <- sum((dd^2)[-1]) * nrow(x)
-      start <- list(s = s, tag = tag, lambda = lambda, dist = dist)
-    }
-  } else if (!inherits(start, "principal.curve")) {
-    # use given starting curve
-    if (is.matrix(start)) {
-      start <- get.lam(x, s=start, stretch=stretch)
-    } else {
-      stop("Invalid starting curve: should be a matrix or principal.curve")
-    }
-  }
-
-  pcurve <- start
-  if (plot.true) {
-    plot(
-      x[,1:2],
-      xlim = adjust.range(x[,1], 1.3999999999999999),
-	    ylim = adjust.range(x[,2], 1.3999999999999999))
-      lines(pcurve$s[pcurve$tag, 1:2]
-    )
-  }
-
-  it <- 0
-  if (trace) {
-    cat("Starting curve---distance^2: ", pcurve$dist, "\n", sep="");
-  }
-
-  # Pre-allocate nxp matrix 's'
-  naValue <- as.double(NA);
-  s <- matrix(naValue, nrow=n, ncol=p);
-
-  has_converged <- (abs((dist.old - pcurve$dist)/dist.old) <= thresh);
-  while (!has_converged && it < maxit) {
-    it <- it + 1;
-
-    for(jj in 1:p) {
-      s[,jj] <- smootherFcn(pcurve$lambda, x[,jj], ...);
-    }
-
-    dist.old <- pcurve$dist;
-
-    # Finds the "projection index" for a matrix of points 'x',
-    # when projected onto a curve 's'.  The projection index,
-    # \lambda_f(x) [Eqn (3) in Hastie & Stuetzle (1989), is
-    # the value of \lambda for which f(\lambda) is closest
-    # to x.
-    pcurve <- get.lam(x, s = s, stretch = stretch);
-
-    # Bias correct?
-    if (bias_correct_curve) {
-      pcurve <- bias.correct.curve(x, pcurve = pcurve, ...)
-    }
-
-    # Converged?
-    has_converged <- (abs((dist.old - pcurve$dist)/dist.old) <= thresh);
-
-    if (plot.true) {
-      plot(
-        x[,1:2],
-        xlim = adjust.range(x[,1], 1.3999999999999999),
-        ylim = adjust.range(x[,2], 1.3999999999999999)
-      )
-      lines(pcurve$s[pcurve$tag, 1:2])
-    }
-
-    if (trace) {
-      cat("Iteration ", it, "---distance^2: ", pcurve$dist, "\n", sep="");
-    }
-  } # while()
-
-  # Return fit
-  structure(list(
-    s = pcurve$s,
-    tag = pcurve$tag,
-    lambda = pcurve$lambda,
-    dist = pcurve$dist,
-    converged = has_converged,         # Added by HB
-    nbrOfIterations = as.integer(it), # Added by HB
-    call = this.call
-  ), class = "principal.curve")
+  .Deprecated("principal_curve", package = "princurve", old = "principal.curve")
+  principal_curve(
+    x = x,
+    start = start,
+    thresh = thresh,
+    plot_iterations = plot.true,
+    maxit = maxit,
+    stretch = stretch,
+    smoother = smoother,
+    trace = trace,
+    ...
+  )
 }
 
-
-#' @rdname principal.curve
+#' @rdname principal_curve
 #' @export
-lines.principal.curve <- function(x, ...)
+lines.principal_curve <- function(x, ...)
   lines(x$s[x$tag,  ], ...)
 
-#' @rdname principal.curve
+#' @rdname principal_curve
 #' @export
-plot.principal.curve <- function(x, ...)
+plot.principal_curve <- function(x, ...)
   plot(x$s[x$tag,  ], ..., type = "l")
 
-#' @rdname principal.curve
+#' @rdname principal_curve
 #' @export
-points.principal.curve <- function(x, ...)
+points.principal_curve <- function(x, ...)
   points(x$s, ...)
-
-
-adjust.range <- function (x, fact) {
-  # AW: written by AW, replaces ylim.scale
-  r <- range(x)
-  d <- diff(r) * (fact - 1) / 2
-  c(r[1] - d, r[2] + d)
-}
-
-start_circle <- function(x) {
-  # the starting circle uses the first two co-ordinates,
-  # and assumes the others are zero
-  d <- dim(x)
-
-  xbar <- apply(x, 2, mean)
-  ray <- sqrt((scale(x, xbar, FALSE)^2) %*% rep(1, ncol(p)))
-  radius <- mean(ray)
-  theta <- pi * seq_len(nrow(x)) * 2 / nrow(x)
-
-  s <- cbind(radius * sin(theta), radius * cos(theta))
-
-  if(ncol(x) > 2) {
-    s <- cbind(s, matrix(0, nrow = nrow(x), ncol = ncol(x) - 2))
-  }
-
-  get.lam(x, s)
-}

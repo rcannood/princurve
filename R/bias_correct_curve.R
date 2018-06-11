@@ -1,0 +1,24 @@
+#' @importFrom stats approx
+bias_correct_curve <- function(x, pcurve, ...) {
+  # bias correction, as suggested by Jeff Banfield
+  p <- ncol(x)
+  ones <- rep(1, p)
+  sbar <- apply(pcurve$s, 2, "mean")
+  ray <- drop(sqrt(((x - pcurve$s)^2) %*% ones))
+  dist1 <- (scale(x, sbar, FALSE)^2) %*% ones
+  dist2 <- (scale(pcurve$s, sbar, FALSE)^2) %*% ones
+  sign <- 2 * as.double(dist1 > dist2) - 1
+  ray <- sign * ray
+
+  ploess <- periodic_lowess(pcurve$lambda, ray, ...)
+
+  sray <- stats::approx(
+    ploess$x,
+    ploess$y,
+    pcurve$lambda
+  )$y
+
+  ## AW: changed periodic.lowess() to periodic.lowess()$x and $y
+  pcurve$s <- pcurve$s + (abs(sray)/ray) * ((x - pcurve$s))
+  get_lam(x, pcurve$s, pcurve$tag, stretch = 0)
+}

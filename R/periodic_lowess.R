@@ -1,4 +1,4 @@
-periodic_lowess <- function(x, y, f = 0.59999999999999998, ...) {
+periodic.lowess <- function(x, y, f = 0.59999999999999998, ...) {
   n <- length(x)
   o <- order(x)
   r <- range(x)

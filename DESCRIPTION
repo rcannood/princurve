@@ -8,6 +8,10 @@ Authors@R: c(
   person("Robrecht", "Cannoodt", email = "rcannood@gmail.com", role = c("aut", "cre")))
 Description: Fitting a principal curve to a data matrix in arbitrary dimensions.
 License: GPL-2
-Imports: stats, graphics
+Imports: 
+  stats,
+  graphics
+Suggests:
+  testthat
 NeedsCompilation: yes
 RoxygenNote: 6.0.1

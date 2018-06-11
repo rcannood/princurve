@@ -6,7 +6,9 @@ s <- cbind(z, z^2, z^3, z^4)
 x <- s + rnorm(length(s), mean = 0, sd = .005)
 
 test_that("Testing principal_curve with smooth_spline", {
-  fit <- principal_curve(x, smoother = "smooth_spline")
+  pdf("/dev/null", 5, 5)
+  fit <- principal_curve(x, smoother = "smooth_spline", plot_iterations = TRUE)
+  dev.off()
 
   pdf("/dev/null", 5, 5)
   expect_error({
@@ -17,6 +19,10 @@ test_that("Testing principal_curve with smooth_spline", {
 
   expect_gte(cor(as.vector(fit$s), as.vector(s)), .99)
   expect_gte(abs(cor(fit$tag, seq_len(100))), .99)
+})
+
+test_that("Expect principal_curve to error", {
+  expect_error(principal_curve(list(1)), "matrix")
 })
 
 test_that("Testing principal_curve with lowess", {

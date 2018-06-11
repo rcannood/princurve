@@ -15,6 +15,10 @@ test_that("Testing get_lam", {
   expect_gte(cor(lam$tag, seq_len(100)), .99)
 })
 
+test_that("Expect get_lam to error", {
+  expect_error(get_lam(list(1), list(1)), "matrix")
+})
+
 
 test_that("Testing get.lam for backwards compatibility", {
   expect_warning({

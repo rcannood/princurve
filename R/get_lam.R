@@ -66,6 +66,23 @@ get_lam <- function(
   tt
 }
 
-#' @rdname get_lam
+#' [DEPRECATED] Projection Index
+#'
+#' See \code{\link{get_lam}}
+#'
+#' @param x a matrix of data points.
+#' @param s a parametrized curve, represented by a polygon.
+#' @param tag the order of the point in \code{s}. Default is the given order.
+#' @param stretch A stretch factor for the endpoints of the curve; a maximum of 2.
+#'  it allows the curve to grow, if required, and helps avoid bunching at the end.
+#'
 #' @export
-get.lam <- get_lam
+get.lam <- function(
+  x,
+  s,
+  tag,
+  stretch = 2
+) {
+  .Deprecated("get_lam", package = "princurve", old = "get.lam")
+  get_lam(x = x, s = s, tag = tag, stretch = stretch)
+}

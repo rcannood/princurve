@@ -2,17 +2,12 @@
 % Please edit documentation in R/principal_curve.R
 \name{principal_curve}
 \alias{principal_curve}
-\alias{principal.curve}
 \alias{lines.principal_curve}
 \alias{plot.principal_curve}
 \alias{points.principal_curve}
 \title{Fit a Principal Curve}
 \usage{
 principal_curve(x, start = NULL, thresh = 0.001, plot_iterations = FALSE,
-  maxit = 10, stretch = 2, smoother = c("smooth_spline", "lowess",
-  "periodic_lowess"), trace = FALSE, ...)
-
-principal.curve(x, start = NULL, thresh = 0.001, plot.true = FALSE,
   maxit = 10, stretch = 2, smoother = c("smooth_spline", "lowess",
   "periodic_lowess"), trace = FALSE, ...)
 
@@ -33,33 +28,6 @@ then the first principal component is used.  If the smoother is
 \item{thresh}{convergence threshold on shortest distances to the curve.}
 
 \item{plot_iterations}{If \code{TRUE} the iterations are plotted.}
-
-\item{maxit}{maximum number of iterations.}
-
-\item{stretch}{a factor by which the curve can be extrapolated when
-points are projected.  Default is 2 (times the last segment
-length). The default is 0 for \code{smoother} equal to
-\code{"periodic_lowess"}.}
-
-\item{smoother}{choice of smoother. The default is
-\code{"smooth_spline"}, and other choices are \code{"lowess"} and
-\code{"periodic_lowess"}. The latter allows one to fit closed curves.
-Beware, you may want to use \code{iter = 0} with \code{lowess()}.}
-
-\item{trace}{If \code{TRUE}, the iteration information is printed}
-
-\item{...}{additional arguments to the smoothers}
-
-\item{plot.true}{If \code{TRUE} the iterations are plotted.}
-
-\item{x}{a matrix of points in arbitrary dimension.}
-
-\item{start}{either a previously fit principal curve, or else a matrix
-of points that in row order define a starting curve. If missing or NULL,
-then the first principal component is used.  If the smoother is
-\code{"periodic_lowess"}, then a circle is used as the start.}
-
-\item{thresh}{convergence threshold on shortest distances to the curve.}
 
 \item{maxit}{maximum number of iterations.}
 
@@ -102,8 +70,6 @@ of the data \code{x} in an orthogonal sense.  This curve is a nonparametric gene
 of a linear principal component.  If a closed curve is fit (using \code{smoother = "periodic_lowess"})
 then the starting curve defaults to a circle, and each fit is followed by a bias correction
 suggested by Jeff Banfield.
-
-Use \code{\link{principal_curve}} instead.
 }
 \examples{
 x <- runif(100,-1,1)

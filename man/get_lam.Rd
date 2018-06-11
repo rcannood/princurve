@@ -2,12 +2,9 @@
 % Please edit documentation in R/get_lam.R
 \name{get_lam}
 \alias{get_lam}
-\alias{get.lam}
 \title{Projection Index}
 \usage{
 get_lam(x, s, tag, stretch = 2)
-
-get.lam(x, s, tag, stretch = 2)
 }
 \arguments{
 \item{x}{a matrix of data points.}

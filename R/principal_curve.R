@@ -255,7 +255,6 @@ principal_curve <- function(
 #' @param trace If \code{TRUE}, the iteration information is printed
 #' @param ... additional arguments to the smoothers
 #'
-#' @rdname principal_curve
 #' @export
 principal.curve <- function(
   x,

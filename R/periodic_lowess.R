@@ -1,4 +1,4 @@
-#' @importFrom stats lowess
+#' @importFrom stats lowess approx
 periodic_lowess <- function(x, y, f = 0.59999999999999998, ...) {
   n <- length(x)
   o <- order(x)
@@ -15,5 +15,5 @@ periodic_lowess <- function(x, y, f = 0.59999999999999998, ...) {
 
   f <- f / 2
   fit <- stats::lowess(xnew, ynew, f = f, ...)
-  approx(fit$x, fit$y, x[o], rule = 2)
+  stats::approx(fit$x, fit$y, x[o], rule = 2)
 }

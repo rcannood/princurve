@@ -17,6 +17,6 @@ bias_correct_curve <- function(x, pcurve, ...) {
     pcurve$lambda
   )$y
 
-  pcurve$s <- pcurve$s + (abs(sray)/ray) * ((x - pcurve$s))
+  pcurve$s <- pcurve$s + (abs(sray) / ray) * (x - pcurve$s)
   get_lam(x, pcurve$s, pcurve$tag, stretch = 0)
 }

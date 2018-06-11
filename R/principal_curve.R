@@ -53,7 +53,7 @@
 #'
 #' @export
 #'
-#' @importFrom stats lowess smooth.spline predict
+#' @importFrom stats lowess smooth.spline predict var
 #'
 #' @examples
 #' x <- runif(100,-1,1)
@@ -136,7 +136,7 @@ principal_curve <- function(
   }
 
   function_call <- match.call()
-  dist_old <- sum(diag(var(x)))
+  dist_old <- sum(diag(stats::var(x)))
 
   # You can give starting values for the curve
   if (missing(start) || is.null(start)) {
@@ -283,15 +283,21 @@ principal.curve <- function(
 
 #' @rdname principal_curve
 #' @export
-lines.principal_curve <- function(x, ...)
-  lines(x$s[x$tag,  ], ...)
+#' @importFrom graphics lines
+lines.principal_curve <- function(x, ...) {
+  graphics::lines(x$s[x$tag,  ], ...)
+}
 
 #' @rdname principal_curve
 #' @export
-plot.principal_curve <- function(x, ...)
-  plot(x$s[x$tag,  ], ..., type = "l")
+#' @importFrom graphics plot
+plot.principal_curve <- function(x, ...) {
+  graphics::plot(x$s[x$tag,  ], ..., type = "l")
+}
 
 #' @rdname principal_curve
 #' @export
-points.principal_curve <- function(x, ...)
-  points(x$s, ...)
+#' @importFrom graphics points
+points.principal_curve <- function(x, ...) {
+  graphics::points(x$s, ...)
+}

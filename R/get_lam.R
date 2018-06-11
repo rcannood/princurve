@@ -12,10 +12,11 @@
 #'  it allows the curve to grow, if required, and helps avoid bunching at the end.
 #'
 #' @return A structure is returned which represents a fitted curve.  It has components
-#'   \item{s}{The fitted points on the curve corresponding to each point \code{x}.}
+#'   \item{s}{The fitted points on the curve corresponding to each point \code{x}}
 #'   \item{tag}{the order of the fitted points}
 #'   \item{lambda}{The projection index for each point}
 #'   \item{dist}{The total squared distance from the curve}
+#'   \item{dist_ind}{The squared distances from the curve to each of the respective points}
 #'
 #' @seealso \code{\link{principal_curve}}
 #'
@@ -36,32 +37,29 @@ get_lam <- function(
     s <- s[tag, ]
   }
 
-  np <- dim(x)
 
-  if (length(np) != 2) {
+  if (!is.matrix(x)) {
     stop("get_lam needs a matrix input")
   }
 
-  n <- np[1]
-  p <- np[2]
   tt <- .Fortran(
     "getlam",
-    n,
-    p,
+    nrow(x),
+    ncol(x),
     x,
     s = x,
-    lambda = double(n),
-    tag = integer(n),
-    dist = double(n),
+    lambda = double(nrow(x)),
+    tag = integer(nrow(x)),
+    dist = double(nrow(x)),
     as.integer(nrow(s)),
     s,
     stretch,
-    double(p),
-    double(p),
+    double(ncol(x)),
+    double(ncol(x)),
     PACKAGE = "princurve"
   )
   tt <- tt[c("s", "tag", "lambda", "dist")]
-  tt$ind_dist <- tt$dist
+  tt$dist_ind <- tt$dist
   tt$dist <- sum(tt$dist)
   class(tt) <- "principal_curve"
   tt

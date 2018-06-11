@@ -13,7 +13,7 @@ Fits a Principal Curve in Arbitrary Dimension
   See also Banfield and Raftery (JASA, 1992).
 }
 \seealso{
-\code{\link{principal.curve}}, \code{\link{get.lam}}
+\code{\link{principal_curve}}, \code{\link{get_lam}}
 }
 \keyword{nonparametric}
 \keyword{regression}

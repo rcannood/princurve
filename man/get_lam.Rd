@@ -18,10 +18,11 @@ it allows the curve to grow, if required, and helps avoid bunching at the end.}
 }
 \value{
 A structure is returned which represents a fitted curve.  It has components
-  \item{s}{The fitted points on the curve corresponding to each point \code{x}.}
+  \item{s}{The fitted points on the curve corresponding to each point \code{x}}
   \item{tag}{the order of the fitted points}
   \item{lambda}{The projection index for each point}
   \item{dist}{The total squared distance from the curve}
+  \item{dist_ind}{The squared distances from the curve to each of the respective points}
 }
 \description{
 Finds the projection index for a matrix of points \code{x}, when

@@ -23,4 +23,4 @@ Example
     fit1 <- principal_curve(x)
     plot(fit1); points(fit1); whiskers(x, fit1$s)
 
-![](tools/readme/example%20plot-1.png)
+![](man/figures/README_example_plot-1.png)

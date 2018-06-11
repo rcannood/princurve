@@ -2,3 +2,6 @@
 ^\.Rproj\.user$
 ^\.git$
 ^\.travis\.yml$
+^appveyor\.yml$
+^\.readme_files$
+^README\.Rmd$

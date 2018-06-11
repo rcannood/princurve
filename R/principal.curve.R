@@ -1,5 +1,5 @@
-"bias.correct.curve" <- function(x, pcurve, ...)
-{
+#' @importFrom stats approx
+bias.correct.curve <- function(x, pcurve, ...) {
 # bias correction, as suggested by
 #Jeff Banfield
   p <- ncol(x)
@@ -10,9 +10,12 @@
   dist2 <- (scale(pcurve$s, sbar, FALSE)^2) %*% ones
   sign <- 2 * as.double(dist1 > dist2) - 1
   ray <- sign * ray
-  sray <- approx(periodic.lowess(pcurve$lambda, ray, ...)$x,
-		 periodic.lowess(pcurve$lambda, ray, ...)$y,
-		 pcurve$lambda)$y
+  ploess <- periodic.lowess(pcurve$lambda, ray, ...)
+  sray <- stats::approx(
+    ploess$x,
+    ploess$y,
+		pcurve$lambda
+  )$y
   ## AW: changed periodic.lowess() to periodic.lowess()$x and $y
   pcurve$s <- pcurve$s + (abs(sray)/ray) * ((x - pcurve$s))
   get.lam(x, pcurve$s, pcurve$tag, stretch = 0)
@@ -44,7 +47,7 @@
 #' @keywords regression smooth nonparametric
 #'
 #' @export
-"get.lam" <- function(x, s, tag, stretch = 2)
+get.lam <- function(x, s, tag, stretch = 2)
 {
   storage.mode(x) <- "double"
   storage.mode(s) <- "double"
@@ -145,7 +148,17 @@
 #' whiskers <- function(from, to)
 #'   segments(from[, 1], from[, 2], to[, 1], to[, 2])
 #' whiskers(x, fit1$s)
-principal.curve <- function(x, start=NULL, thresh=0.001, plot.true=FALSE, maxit=10, stretch=2, smoother="smooth.spline", trace=FALSE, ...) {
+principal.curve <- function(
+  x,
+  start = NULL,
+  thresh = 0.001,
+  plot.true = FALSE,
+  maxit = 10,
+  stretch = 2,
+  smoother = "smooth.spline",
+  trace = FALSE,
+  ...
+) {
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Validate arguments:
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -168,8 +181,6 @@ principal.curve <- function(x, start=NULL, thresh=0.001, plot.true=FALSE, maxit=
       stretch <- stretches[match(smoother, smooth.list)];
     }
   }
-
-
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Setup
@@ -323,12 +334,11 @@ principal.curve <- function(x, start=NULL, thresh=0.001, plot.true=FALSE, maxit=
 
 #' @rdname principal.curve
 #' @export
-"lines.principal.curve" <- function(x, ...)
+lines.principal.curve <- function(x, ...)
   lines(x$s[x$tag,  ], ...)
 
 
-"periodic.lowess"<- function(x, y, f = 0.59999999999999998, ...)
-{
+periodic.lowess <- function(x, y, f = 0.59999999999999998, ...) {
   n <- length(x)
   o <- order(x)
   r <- range(x)
@@ -356,16 +366,14 @@ principal.curve <- function(x, start=NULL, thresh=0.001, plot.true=FALSE, maxit=
   points(x$s, ...)
 
 
-adjust.range <- function (x, fact)
-  {
+adjust.range <- function (x, fact) {
 # AW: written by AW, replaces ylim.scale
-    r <- range (x);
+    r <- range (x)
     d <- diff(r)*(fact-1)/2;
     c(r[1]-d, r[2]+d)
   }
 
-"startCircle" <- function(x)
-{
+startCircle <- function(x) {
 # the starting circle uses the first two co-ordinates,
 # and assumes the others are zero
   d <- dim(x)

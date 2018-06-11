@@ -1,13 +1,10 @@
 2018-06-11  Robrecht Cannoodt  <rcannood@gmail.com>
-
-	* DESCRIPTION (Version): New version is 2.0.0.
-	* renamed principal.curve to principal_curve
-	* renamed get.lam to get_lam
-	* Fix start_circle when d < 2.
-	* Use roxygen2 for the documentation
-	* Fix code formatting
-	* Added tests for get_lam and principal_curve
-
+  * Updated DESCRIPTION
+  * Fixed bug in start_circle when d < 2.
+  * Use roxygen2 for the documentation
+  * Fix code formatting
+  * Added tests for get_lam and principal_curve
+  * Added automated testing using travis-ci.org and ci.appveyor.com
 
 2013-04-25  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
 

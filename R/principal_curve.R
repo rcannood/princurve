@@ -63,8 +63,6 @@
 #' lines(fit1)
 #' points(fit1)
 #' plot(fit1)
-#' whiskers <- function(from, to)
-#'   segments(from[, 1], from[, 2], to[, 1], to[, 2])
 #' whiskers(x, fit1$s)
 principal_curve <- function(
   x,
@@ -300,4 +298,12 @@ plot.principal_curve <- function(x, ...) {
 #' @importFrom graphics points
 points.principal_curve <- function(x, ...) {
   graphics::points(x$s, ...)
+}
+
+#' @rdname principal_curve
+#' @param s a parametrized curve, represented by a polygon.
+#' @importFrom graphics segments
+#' @export
+whiskers <- function(x, s) {
+  segments(x[, 1], x[, 2], s[, 1], s[, 2])
 }

@@ -5,6 +5,7 @@
 \alias{lines.principal_curve}
 \alias{plot.principal_curve}
 \alias{points.principal_curve}
+\alias{whiskers}
 \title{Fit a Principal Curve}
 \usage{
 principal_curve(x, start = NULL, thresh = 0.001, plot_iterations = FALSE,
@@ -16,6 +17,8 @@ principal_curve(x, start = NULL, thresh = 0.001, plot_iterations = FALSE,
 \method{plot}{principal_curve}(x, ...)
 
 \method{points}{principal_curve}(x, ...)
+
+whiskers(x, s)
 }
 \arguments{
 \item{x}{a matrix of points in arbitrary dimension.}
@@ -44,6 +47,8 @@ Beware, you may want to use \code{iter = 0} with \code{lowess()}.}
 \item{trace}{If \code{TRUE}, the iteration information is printed}
 
 \item{...}{additional arguments to the smoothers}
+
+\item{s}{a parametrized curve, represented by a polygon.}
 }
 \value{
 An object of class \code{"principal_curve"} is returned. For this object
@@ -79,8 +84,6 @@ fit2 <- principal_curve(x, plot = TRUE, smoother = "lowess")
 lines(fit1)
 points(fit1)
 plot(fit1)
-whiskers <- function(from, to)
-  segments(from[, 1], from[, 2], to[, 1], to[, 2])
 whiskers(x, fit1$s)
 }
 \references{

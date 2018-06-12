@@ -2,7 +2,7 @@
 % Please edit documentation in R/principal_curve.R
 \name{principal.curve}
 \alias{principal.curve}
-\title{[DEPRECATED] Fit a Principal Curve}
+\title{Fit a Principal Curve}
 \usage{
 principal.curve(x, start = NULL, thresh = 0.001, plot.true = FALSE,
   maxit = 10, stretch = 2, smoother = c("smooth_spline", "lowess",
@@ -37,5 +37,6 @@ Beware, you may want to use \code{iter = 0} with \code{lowess()}.}
 \item{...}{additional arguments to the smoothers}
 }
 \description{
+This function will be deprecated on July 1st, 2018.
 Use \code{\link{principal_curve}} instead.
 }

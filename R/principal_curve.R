@@ -31,7 +31,7 @@
 #'   It has components:
 #'     \item{s}{a matrix corresponding to \code{x}, giving their projections
 #'       onto the curve.}
-#'   \item{tag}{an index, such that \code{s[tag, ]} is smooth.}
+#'   \item{ord}{an index, such that \code{s[order, ]} is smooth.}
 #'   \item{lambda}{for each point, its arc-length from the beginning of the
 #'     curve. The curve is parametrized approximately by arc-length, and
 #'     hence is \code{unit-speed}.}
@@ -43,7 +43,7 @@
 #'   \item{call}{the call that created this object; allows it to be
 #'     \code{updated()}.}
 #'
-#' @seealso \code{\link{get_lam}}
+#' @seealso \code{\link{project_to_curve}}
 #'
 #' @keywords regression smooth nonparametric
 #'
@@ -147,15 +147,15 @@ principal_curve <- function(
       svd_xstar <- svd(xstar)
       dd <- svd_xstar$d
       lambda <- svd_xstar$u[,1] * dd[1]
-      tag <- order(lambda)
+      ord <- order(lambda)
       s <- scale(outer(lambda, svd_xstar$v[,1]), center = -xbar, scale = FALSE)
       dist <- sum((dd^2)[-1]) * nrow(x)
-      start <- list(s = s, tag = tag, lambda = lambda, dist = dist)
+      start <- list(s = s, ord = ord, lambda = lambda, dist = dist)
     }
   } else if (!inherits(start, "principal_curve")) {
     # use given starting curve
     if (is.matrix(start)) {
-      start <- get_lam(x, s = start, stretch = stretch)
+      start <- project_to_curve(x, s = start, stretch = stretch)
     } else {
       stop("Invalid starting curve: should be a matrix or principal_curve")
     }
@@ -167,7 +167,7 @@ principal_curve <- function(
       x[,1:2],
       xlim = adjust_range(x[,1], 1.3999999999999999),
 	    ylim = adjust_range(x[,2], 1.3999999999999999))
-      lines(pcurve$s[pcurve$tag, 1:2]
+      lines(pcurve$s[pcurve$ord, 1:2]
     )
   }
 
@@ -194,7 +194,7 @@ principal_curve <- function(
     # \lambda_f(x) [Eqn (3) in Hastie & Stuetzle (1989), is
     # the value of \lambda for which f(\lambda) is closest
     # to x.
-    pcurve <- get_lam(x, s = s, stretch = stretch)
+    pcurve <- project_to_curve(x, s = s, stretch = stretch)
 
     # Bias correct?
     if (bias_correct_curve) {
@@ -210,7 +210,7 @@ principal_curve <- function(
         xlim = adjust_range(x[,1], 1.3999999999999999),
         ylim = adjust_range(x[,2], 1.3999999999999999)
       )
-      lines(pcurve$s[pcurve$tag, 1:2])
+      lines(pcurve$s[pcurve$ord, 1:2])
     }
 
     if (trace) {
@@ -219,19 +219,22 @@ principal_curve <- function(
   }
 
   # Return fit
-  structure(list(
+  out <- list(
     s = pcurve$s,
-    tag = pcurve$tag,
+    ord = pcurve$ord,
     lambda = pcurve$lambda,
     dist = pcurve$dist,
     converged = has_converged,         # Added by HB
     num_iterations = as.integer(it),   # Added by HB
     call = function_call
-  ), class = "principal_curve")
+  )
+  class(out) <- "principal_curve"
+  out
 }
 
-#' [DEPRECATED] Fit a Principal Curve
+#' Fit a Principal Curve
 #'
+#' This function will be deprecated on July 1st, 2018.
 #' Use \code{\link{principal_curve}} instead.
 #'
 #' @param x a matrix of points in arbitrary dimension.
@@ -265,8 +268,10 @@ principal.curve <- function(
   trace = FALSE,
   ...
 ) {
-  .Deprecated("principal_curve", package = "princurve", old = "principal.curve")
-  principal_curve(
+  # This function will be deprecated on July 1st, 2018
+  # .Deprecated("principal_curve", package = "princurve", old = "principal.curve")
+
+  out <- principal_curve(
     x = x,
     start = start,
     thresh = thresh,
@@ -277,20 +282,32 @@ principal.curve <- function(
     trace = trace,
     ...
   )
+  names(out)[[2]] <- "tag"
+  out
 }
 
 #' @rdname principal_curve
 #' @export
 #' @importFrom graphics lines
 lines.principal_curve <- function(x, ...) {
-  graphics::lines(x$s[x$tag, ], ...)
+  if ("ord" %in% names(x)) {
+    ord <- x[["ord"]]
+  } else {
+    ord <- x[["tag"]]
+  }
+  graphics::lines(x$s[ord, ], ...)
 }
 
 #' @rdname principal_curve
 #' @export
 #' @importFrom graphics plot
 plot.principal_curve <- function(x, ...) {
-  graphics::plot(x$s[x$tag, ], ..., type = "l")
+  if ("ord" %in% names(x)) {
+    ord <- x[["ord"]]
+  } else {
+    ord <- x[["tag"]]
+  }
+  graphics::plot(x$s[ord, ], ..., type = "l")
 }
 
 #' @rdname principal_curve

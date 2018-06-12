@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_lam.R
 \name{get.lam}
 \alias{get.lam}
-\title{[DEPRECATED] Projection Index}
+\title{Projection Index}
 \usage{
 get.lam(x, s, tag, stretch = 2)
 }
@@ -17,5 +17,6 @@ get.lam(x, s, tag, stretch = 2)
 it allows the curve to grow, if required, and helps avoid bunching at the end.}
 }
 \description{
-See \code{\link{get_lam}}
+This function will be deprecated on July 1st, 2018.
+See \code{\link{get_lam}} instead.
 }

@@ -230,8 +230,9 @@ principal_curve <- function(
   ), class = "principal_curve")
 }
 
-#' [DEPRECATED] Fit a Principal Curve
+#' Fit a Principal Curve
 #'
+#' This function will be deprecated on July 1st, 2018.
 #' Use \code{\link{principal_curve}} instead.
 #'
 #' @param x a matrix of points in arbitrary dimension.
@@ -265,7 +266,9 @@ principal.curve <- function(
   trace = FALSE,
   ...
 ) {
-  .Deprecated("principal_curve", package = "princurve", old = "principal.curve")
+  # This function will be deprecated on July 1st, 2018
+  # .Deprecated("principal_curve", package = "princurve", old = "principal.curve")
+
   principal_curve(
     x = x,
     start = start,

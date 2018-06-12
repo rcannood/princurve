@@ -65,9 +65,10 @@ get_lam <- function(
   tt
 }
 
-#' [DEPRECATED] Projection Index
+#' Projection Index
 #'
-#' See \code{\link{get_lam}}
+#' This function will be deprecated on July 1st, 2018.
+#' See \code{\link{get_lam}} instead.
 #'
 #' @param x a matrix of data points.
 #' @param s a parametrized curve, represented by a polygon.
@@ -82,6 +83,8 @@ get.lam <- function(
   tag,
   stretch = 2
 ) {
-  .Deprecated("get_lam", package = "princurve", old = "get.lam")
+  # This function will be deprecated on July 1st, 2018
+  # .Deprecated("get_lam", package = "princurve", old = "get.lam")
+
   get_lam(x = x, s = s, tag = tag, stretch = stretch)
 }

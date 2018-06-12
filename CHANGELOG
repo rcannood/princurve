@@ -1,5 +1,16 @@
+2018-06-12  Robrecht Cannoodt  <rcannood@gmail.com>
+  * Updated DESCRIPTION: New version is 2.0.2
+  * De-deprecate get.lam and principal.curve as not to break
+    depending packages on CRAN. Will contact the authors to update
+    their packages, as these functions will be redeprecated
+    on 2018-07-01.
+
 2018-06-11  Robrecht Cannoodt  <rcannood@gmail.com>
-  * Updated DESCRIPTION
+  * Updated DESCRIPTION: New version is 2.0.1
+  * Fix issues with the readme
+
+2018-06-11  Robrecht Cannoodt  <rcannood@gmail.com>
+  * Updated DESCRIPTION: New version is 2.0.0
   * Fixed bug in start_circle when d < 2.
   * Use roxygen2 for the documentation
   * Fix code formatting

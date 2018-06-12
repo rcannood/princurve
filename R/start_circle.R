@@ -12,5 +12,5 @@ start_circle <- function(x) {
     s <- cbind(s, matrix(0, nrow = nrow(x), ncol = ncol(x) - 2))
   }
 
-  get_lam(x, s)
+  project_to_curve(x, s)
 }

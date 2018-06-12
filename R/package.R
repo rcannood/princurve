@@ -4,7 +4,7 @@
 #' @aliases princurve-package princurve
 #' @docType package
 #'
-#' @seealso \code{\link{principal_curve}}, \code{\link{get_lam}}
+#' @seealso \code{\link{principal_curve}}, \code{\link{project_to_curve}}
 #'
 #' @references
 #'   \dQuote{Principal Curves} by Hastie, T. and Stuetzle, W. 1989, JASA.

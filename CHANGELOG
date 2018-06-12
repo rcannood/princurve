@@ -4,6 +4,7 @@
     depending packages on CRAN. Will contact the authors to update
     their packages, as these functions will be redeprecated
     on 2018-07-01.
+  * Rename get_lam to project_to_curve
 
 2018-06-11  Robrecht Cannoodt  <rcannood@gmail.com>
   * Updated DESCRIPTION: New version is 2.0.1

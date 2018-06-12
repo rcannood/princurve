@@ -20,7 +20,7 @@ test_that("Testing principal_curve with smooth_spline", {
   dev.off()
 
   expect_gte(cor(as.vector(fit$s), as.vector(s)), .99)
-  expect_gte(abs(cor(fit$tag, seq_len(100))), .99)
+  expect_gte(abs(cor(fit$ord, seq_len(100))), .99)
 })
 
 test_that("Expect principal_curve to error", {
@@ -38,7 +38,7 @@ test_that("Testing principal_curve with lowess", {
   dev.off()
 
   expect_gte(cor(as.vector(fit$s), as.vector(s)), .99)
-  expect_gte(abs(cor(fit$tag, seq_len(100))), .99)
+  expect_gte(abs(cor(fit$ord, seq_len(100))), .99)
 })
 
 

@@ -57,7 +57,7 @@ An object of class \code{"principal_curve"} is returned. For this object
   It has components:
     \item{s}{a matrix corresponding to \code{x}, giving their projections
       onto the curve.}
-  \item{tag}{an index, such that \code{s[tag, ]} is smooth.}
+  \item{ord}{an index, such that \code{s[order, ]} is smooth.}
   \item{lambda}{for each point, its arc-length from the beginning of the
     curve. The curve is parametrized approximately by arc-length, and
     hence is \code{unit-speed}.}
@@ -91,7 +91,7 @@ whiskers(x, fit1$s)
   See also Banfield and Raftery (JASA, 1992).
 }
 \seealso{
-\code{\link{get_lam}}
+\code{\link{project_to_curve}}
 }
 \keyword{nonparametric}
 \keyword{regression}

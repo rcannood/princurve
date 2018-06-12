@@ -58,8 +58,8 @@
 #' @examples
 #' x <- runif(100,-1,1)
 #' x <- cbind(x, x ^ 2 + rnorm(100, sd = 0.1))
-#' fit1 <- principal_curve(x, plot = TRUE)
-#' fit2 <- principal_curve(x, plot = TRUE, smoother = "lowess")
+#' fit1 <- principal_curve(x, plot_iterations = TRUE)
+#' fit2 <- principal_curve(x, plot_iterations = TRUE, smoother = "lowess")
 #' lines(fit1)
 #' points(fit1)
 #' plot(fit1)
@@ -68,10 +68,10 @@ principal_curve <- function(
   x,
   start = NULL,
   thresh = 0.001,
-  plot_iterations = FALSE,
   maxit = 10,
   stretch = 2,
   smoother = c("smooth_spline", "lowess", "periodic_lowess"),
+  plot_iterations = FALSE,
   trace = FALSE,
   ...
 ) {
@@ -162,6 +162,7 @@ principal_curve <- function(
   }
 
   pcurve <- start
+
   if (plot_iterations) {
     plot(
       x[,1:2],
@@ -173,15 +174,15 @@ principal_curve <- function(
 
   it <- 0
   if (trace) {
-    cat("Starting curve---distance^2: ", pcurve$dist, "\n", sep="");
+    cat("Starting curve---distance^2: ", pcurve$dist, "\n", sep="")
   }
 
   # Pre-allocate nxp matrix 's'
   s <- matrix(as.double(NA), nrow = nrow(x), ncol = ncol(x))
 
-  has_converged <- (abs((dist_old - pcurve$dist) / dist_old) <= thresh);
+  has_converged <- (abs((dist_old - pcurve$dist) / dist_old) <= thresh)
   while (!has_converged && it < maxit) {
-    it <- it + 1;
+    it <- it + 1
 
     for(jj in seq_len(ncol(x))) {
       s[,jj] <- smoother_function(pcurve$lambda, x[,jj], ...)
@@ -214,7 +215,7 @@ principal_curve <- function(
     }
 
     if (trace) {
-      cat("Iteration ", it, "---distance^2: ", pcurve$dist, "\n", sep="");
+      cat("Iteration ", it, "---distance^2: ", pcurve$dist, "\n", sep="")
     }
   }
 

@@ -8,9 +8,9 @@
 \alias{whiskers}
 \title{Fit a Principal Curve}
 \usage{
-principal_curve(x, start = NULL, thresh = 0.001, plot_iterations = FALSE,
-  maxit = 10, stretch = 2, smoother = c("smooth_spline", "lowess",
-  "periodic_lowess"), trace = FALSE, ...)
+principal_curve(x, start = NULL, thresh = 0.001, maxit = 10,
+  stretch = 2, smoother = c("smooth_spline", "lowess", "periodic_lowess"),
+  plot_iterations = FALSE, trace = FALSE, ...)
 
 \method{lines}{principal_curve}(x, ...)
 
@@ -30,8 +30,6 @@ then the first principal component is used.  If the smoother is
 
 \item{thresh}{convergence threshold on shortest distances to the curve.}
 
-\item{plot_iterations}{If \code{TRUE} the iterations are plotted.}
-
 \item{maxit}{maximum number of iterations.}
 
 \item{stretch}{a factor by which the curve can be extrapolated when
@@ -43,6 +41,8 @@ length). The default is 0 for \code{smoother} equal to
 \code{"smooth_spline"}, and other choices are \code{"lowess"} and
 \code{"periodic_lowess"}. The latter allows one to fit closed curves.
 Beware, you may want to use \code{iter = 0} with \code{lowess()}.}
+
+\item{plot_iterations}{If \code{TRUE} the iterations are plotted.}
 
 \item{trace}{If \code{TRUE}, the iteration information is printed}
 
@@ -79,8 +79,8 @@ suggested by Jeff Banfield.
 \examples{
 x <- runif(100,-1,1)
 x <- cbind(x, x ^ 2 + rnorm(100, sd = 0.1))
-fit1 <- principal_curve(x, plot = TRUE)
-fit2 <- principal_curve(x, plot = TRUE, smoother = "lowess")
+fit1 <- principal_curve(x, plot_iterations = TRUE)
+fit2 <- principal_curve(x, plot_iterations = TRUE, smoother = "lowess")
 lines(fit1)
 points(fit1)
 plot(fit1)

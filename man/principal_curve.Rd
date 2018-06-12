@@ -10,7 +10,7 @@
 \usage{
 principal_curve(x, start = NULL, thresh = 0.001, maxit = 10,
   stretch = 2, smoother = c("smooth_spline", "lowess", "periodic_lowess"),
-  plot_iterations = FALSE, trace = FALSE, ...)
+  trace = FALSE, plot_iterations = FALSE, ...)
 
 \method{lines}{principal_curve}(x, ...)
 
@@ -42,9 +42,9 @@ length). The default is 0 for \code{smoother} equal to
 \code{"periodic_lowess"}. The latter allows one to fit closed curves.
 Beware, you may want to use \code{iter = 0} with \code{lowess()}.}
 
-\item{plot_iterations}{If \code{TRUE} the iterations are plotted.}
-
 \item{trace}{If \code{TRUE}, the iteration information is printed}
+
+\item{plot_iterations}{If \code{TRUE} the iterations are plotted.}
 
 \item{...}{additional arguments to the smoothers}
 

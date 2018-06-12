@@ -71,8 +71,8 @@ principal_curve <- function(
   maxit = 10,
   stretch = 2,
   smoother = c("smooth_spline", "lowess", "periodic_lowess"),
-  plot_iterations = FALSE,
   trace = FALSE,
+  plot_iterations = FALSE,
   ...
 ) {
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -276,11 +276,11 @@ principal.curve <- function(
     x = x,
     start = start,
     thresh = thresh,
-    plot_iterations = plot.true,
     maxit = maxit,
     stretch = stretch,
     smoother = smoother,
     trace = trace,
+    plot_iterations = plot.true,
     ...
   )
   names(out)[[2]] <- "tag"

@@ -8,10 +8,13 @@ r:
  - release
  - devel
 os:
-  - linux
-  - osx
+ - linux
+ - osx
+osx_image:
+ - xcode9.4
+ - xcode8.3
 r_packages:
-  - covr
-  - devtools
+ - covr
+ - devtools
 after_success:
  - R -e 'covr::codecov()'

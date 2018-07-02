@@ -1,20 +1,22 @@
 language: r
-sudo: required
-dist: trusty
+matrix:
+  include:
+    - os: linux
+      dist: trusty
+      sudo: required
+    - os: osx
+      osx_image: 
+        - xcode8.3
+        - xcode9.4
 cache: packages
 r_check_args: "--as-cran"
 r:
  - oldrel
  - release
  - devel
-os:
- - linux
- - osx
-osx_image:
- - xcode9.4
- - xcode8.3
 r_packages:
  - covr
  - devtools
+ - testthat
 after_success:
  - R -e 'covr::codecov()'

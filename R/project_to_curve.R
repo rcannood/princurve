@@ -49,31 +49,10 @@ project_to_curve <- function(
     stop("Argument ", sQuote("stretch"), " should be smaller than 2.")
   }
 
-  storage.mode(x) <- "double"
-  storage.mode(s) <- "double"
-  storage.mode(stretch) <- "double"
-
   s <- s[ord, , drop = F]
 
-  out <- .Fortran(
-    "getlam",
-    nrow(x),
-    ncol(x),
-    x,
-    s = x,
-    lambda = double(nrow(x)),
-    ord = integer(nrow(x)),
-    dist_ind = double(nrow(x)),
-    as.integer(nrow(s)),
-    s,
-    stretch,
-    double(ncol(x)),
-    double(ncol(x)),
-    PACKAGE = "princurve"
-  )
+  out <- project_to_curve_cpp(x = x, s = s, stretch = stretch)
 
-  out <- out[c("s", "ord", "lambda", "dist_ind")]
-  out[["dist"]] <- sum(out$dist_ind)
   class(out) <- "principal_curve"
   out
 }

@@ -98,6 +98,7 @@ test_that("Testing principal.curve for backward compatibility", {
   expect_error({
     plot(fit)
     points(fit)
+    lines(fit)
   }, NA)
   dev.off()
 

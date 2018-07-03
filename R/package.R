@@ -4,6 +4,8 @@
 #' @aliases princurve-package princurve
 #' @docType package
 #'
+#' @import Rcpp
+#'
 #' @seealso \code{\link{principal_curve}}, \code{\link{project_to_curve}}
 #'
 #' @references

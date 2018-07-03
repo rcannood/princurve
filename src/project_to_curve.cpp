@@ -105,17 +105,27 @@ List project_to_curve_cpp(NumericMatrix x, NumericMatrix s, double stretch) {
     dist_ind[i] = bestdi;
   }
 
-  // subtract minimum lambda from lambda
-  lambda = lambda - min(lambda);
+  // get ordering from old lambda
+  IntegerVector ord = order(lambda);
 
-  // calculate helper output for backwards compatibility
-  IntegerVector ord = order(lambda) + 1;
+  // calculate total dist
   double dist = sum(dist_ind);
 
+  // calculate lambda for new_s
+  NumericVector new_lambda(ord.length());
+  for (int i = 1; i < ord.length(); ++i) {
+    int o1 = ord[i];
+    int o0 = ord[i - 1];
+    NumericVector p1 = new_s(o1, _);
+    NumericVector p0 = new_s(o0, _);
+    new_lambda[o1] = new_lambda[o0] + sqrt(sum(pow(p1 - p0, 2.0)));
+  }
+
+  // return output
   List ret;
   ret["s"] = new_s;
-  ret["ord"] = ord;
-  ret["lambda"] = lambda;
+  ret["ord"] = ord + 1;
+  ret["lambda"] = new_lambda;
   ret["dist_ind"] = dist_ind;
   ret["dist"] = dist;
   return ret;

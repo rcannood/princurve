@@ -17,6 +17,10 @@ test_that("Testing project_to_curve", {
   expect_true(all(abs(rowSums((x - lam$s)^2) - lam$dist_ind) < 1e-10))
 
   expect_equal(names(lam), c("s", "ord", "lambda", "dist_ind", "dist"))
+
+  sord <- lam$s[lam$ord,]
+  slam <- cumsum(c(0, sqrt(rowSums((sord[-nrow(sord),] - sord[-1,])^2))))
+  expect_gte(cor(slam, lam$lambda[lam$ord]), .99)
 })
 
 test_that("Expect project_to_curve to error", {
@@ -48,6 +52,10 @@ test_that("Testing project_to_curve with shuffled order", {
   expect_gte(cor(as.vector(lam$s[lam$ord,]), as.vector(s)), .99)
   expect_gte(cor(order(lam$ord), ord), .99)
   expect_true(all(abs(rowSums((x[ord,] - lam$s)^2) - lam$dist_ind) < 1e-10))
+
+  sord <- lam$s[lam$ord,]
+  slam <- cumsum(c(0, sqrt(rowSums((sord[-nrow(sord),] - sord[-1,])^2))))
+  expect_gte(cor(slam, lam$lambda[lam$ord]), .99)
 })
 
 test_that("Values are more or less correct", {
@@ -152,3 +160,22 @@ test_that("Expect principal_curve to error elegantly", {
   expect_error(project_to_curve(x, s, stretch = 10), "smaller than 2")
   expect_error(project_to_curve(x, s, stretch = "10"), "must be numeric")
 })
+
+
+
+test_that("Projecting to random data produces correct results", {
+  s <- matrix(runif(100), ncol = 2)
+  x <- matrix(runif(100), ncol = 2)
+
+  lam <- project_to_curve(
+    x = x,
+    s = s,
+    stretch = 0
+  )
+
+  sord <- lam$s[lam$ord,]
+  slam <- sqrt(rowSums((sord[-nrow(sord),] - sord[-1,])^2))
+
+  lam$lambda[lam$ord]
+})
+

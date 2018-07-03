@@ -8,8 +8,9 @@
 #' @param x a matrix of data points.
 #' @param s a parametrized curve, represented by a polygon.
 #' @param ord the order of the point in \code{s}. Default is the given order.
-#' @param stretch A stretch factor for the endpoints of the curve; a maximum of 2.
-#'  it allows the curve to grow, if required, and helps avoid bunching at the end.
+#' @param stretch A stretch factor for the endpoints of the curve,
+#'   allowing the curve to grow to avoid bunching at the end.
+#'   Must be a numeric value between 0 and 2.
 #'
 #' @return A structure is returned which represents a fitted curve.  It has components
 #'   \item{s}{The fitted points on the curve corresponding to each point \code{x}}

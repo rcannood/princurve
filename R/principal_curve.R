@@ -14,10 +14,9 @@
 #' @param thresh convergence threshold on shortest distances to the curve.
 #' @param plot_iterations If \code{TRUE} the iterations are plotted.
 #' @param maxit maximum number of iterations.
-#' @param stretch a factor by which the curve can be extrapolated when
-#'   points are projected.  Default is 2 (times the last segment
-#'   length). The default is 0 for \code{smoother} equal to
-#'   \code{"periodic_lowess"}.
+#' @param stretch A stretch factor for the endpoints of the curve,
+#'   allowing the curve to grow to avoid bunching at the end.
+#'   Must be a numeric value between 0 and 2.
 #' @param smoother choice of smoother. The default is
 #'   \code{"smooth_spline"}, and other choices are \code{"lowess"} and
 #'   \code{"periodic_lowess"}. The latter allows one to fit closed curves.

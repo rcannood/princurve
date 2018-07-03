@@ -13,8 +13,9 @@ project_to_curve(x, s, ord = seq_len(nrow(s)), stretch = 2)
 
 \item{ord}{the order of the point in \code{s}. Default is the given order.}
 
-\item{stretch}{A stretch factor for the endpoints of the curve; a maximum of 2.
-it allows the curve to grow, if required, and helps avoid bunching at the end.}
+\item{stretch}{A stretch factor for the endpoints of the curve,
+allowing the curve to grow to avoid bunching at the end.
+Must be a numeric value between 0 and 2.}
 }
 \value{
 A structure is returned which represents a fitted curve.  It has components

@@ -142,3 +142,13 @@ test_that("Values are more or less correct, without stretch", {
 
   expect_true(abs(sum(dist_ind) - lam$dist) < 1e-10)
 })
+
+
+
+test_that("Expect principal_curve to error elegantly", {
+  expect_error(project_to_curve(x = list(), s = s, stretch = 0), "matrix")
+  expect_error(project_to_curve(x = x, s = list(), stretch = 0), "matrix")
+  expect_error(project_to_curve(x, s, stretch = -1), "larger than 0")
+  expect_error(project_to_curve(x, s, stretch = 10), "smaller than 2")
+  expect_error(project_to_curve(x, s, stretch = "10"), "must be numeric")
+})

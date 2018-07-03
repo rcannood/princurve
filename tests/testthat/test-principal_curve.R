@@ -9,7 +9,31 @@ on.exit(unlink(file))
 
 test_that("Testing principal_curve with smooth_spline", {
   svg(file, 5, 5)
-  fit <- principal_curve(x, smoother = "smooth_spline", plot_iterations = TRUE)
+  sink(file)
+  fit <- principal_curve(x, smoother = "smooth_spline", plot_iterations = TRUE, trace = TRUE)
+  sink()
+  dev.off()
+
+  svg(file, 5, 5)
+  expect_error({
+    plot(fit)
+    points(fit)
+    lines(fit)
+    whiskers(x = x, s = fit$s)
+  }, NA)
+  dev.off()
+
+  expect_gte(cor(as.vector(fit$s), as.vector(s)), .99)
+  expect_gte(abs(cor(fit$ord, seq_len(100))), .99)
+})
+
+test_that("Testing principal_curve with custom function", {
+  fun <- function(lambda, xj, ...) {
+    stats::lowess(lambda, xj, ...)$y
+  }
+
+  svg(file, 5, 5)
+  fit <- principal_curve(x, smoother = fun, plot_iterations = TRUE)
   dev.off()
 
   svg(file, 5, 5)
@@ -23,8 +47,31 @@ test_that("Testing principal_curve with smooth_spline", {
   expect_gte(abs(cor(fit$ord, seq_len(100))), .99)
 })
 
-test_that("Expect principal_curve to error", {
+
+test_that("Testing principal_curve with a given start curve", {
+  start <- matrix(c(0, 0, 0, 0, 1, 1, 1, 1), ncol = 4, byrow = TRUE)
+
+  svg(file, 5, 5)
+  fit <- principal_curve(x, smoother = "smooth_spline", start = start, plot_iterations = TRUE)
+  dev.off()
+
+  svg(file, 5, 5)
+  expect_error({
+    plot(fit)
+    points(fit)
+  }, NA)
+  dev.off()
+
+  expect_gte(cor(as.vector(fit$s), as.vector(s)), .99)
+  expect_gte(abs(cor(fit$ord, seq_len(100))), .99)
+})
+
+test_that("Expect principal_curve to error elegantly", {
   expect_error(principal_curve(list(1)), "matrix")
+  expect_error(principal_curve(x, stretch = -1), "larger than 0")
+  expect_error(principal_curve(x, stretch = 10), "smaller than 2")
+  expect_error(principal_curve(x, stretch = "10"), "must be numeric")
+  expect_error(principal_curve(x, start = "10"), "should be a matrix or principal_curve")
 })
 
 test_that("Testing principal_curve with lowess", {

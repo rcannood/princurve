@@ -12,7 +12,7 @@
 #'
 #' @keywords regression smooth nonparametric
 #'
-#' @useDynLib princurve, .registration=TRUE
+#' @useDynLib princurve
 NULL
 
 

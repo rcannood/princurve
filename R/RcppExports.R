@@ -2,6 +2,6 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 project_to_curve_cpp <- function(x, s, stretch) {
-    .Call(`_princurve_project_to_curve_cpp`, x, s, stretch)
+    .Call('_princurve_project_to_curve_cpp', PACKAGE = 'princurve', x, s, stretch)
 }
 

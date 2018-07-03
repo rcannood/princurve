@@ -92,17 +92,15 @@ principal_curve <- function(
     smoother <- gsub("\\.", "_", smoother)
     smoother <- match.arg(smoother)
     smoother_function <- NULL
+
+    if (smoother == "periodic_lowess") {
+      stretch <- 0
+    }
   }
 
   # Check 'stretch'
-  if (is.function(smoother)) {
-    if (is.null(stretch))
-      stop("Argument ", sQuote("stretch"), " must be given if ", sQuote("smoother"), " is a function.")
-  } else {
-    if (missing(stretch) || is.null(stretch)) {
-      default_stretches <- c(smooth_spline = 2, lowess = 2, periodic_lowess = 0)
-      stretch <- default_stretches[smoother]
-    }
+  if (!is.numeric(stretch) || stretch < 0) {
+    stop("Argument ", sQuote("stretch"), " must be numeric larger than or equal to zero.")
   }
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

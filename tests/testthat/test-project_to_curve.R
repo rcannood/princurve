@@ -105,7 +105,8 @@ test_that("Values are more or less correct, with stretch = 2", {
 
 
 test_that("Values are more or less correct, without stretch", {
-  constant_s <- matrix(c(-.9, .9, .1, .1, .2, .2, .3, .3), nrow = 2, byrow = FALSE)
+  cut <- 0.89898990
+  constant_s <- matrix(c(-cut, cut, .1, .1, .2, .2, .3, .3), nrow = 2, byrow = FALSE)
   x[,1] <- z
 
   lam <- project_to_curve(
@@ -114,7 +115,7 @@ test_that("Values are more or less correct, without stretch", {
     stretch = 0
   )
 
-  f <- z <= -.9 | z >= .9
+  f <- z < -cut | z > cut
 
   expect_true(all(abs(lam$s[!f,1] - x[!f,1]) < 1e-6))
   expect_false(any(abs(lam$s[f,1] - x[f,1]) < 1e-6))
@@ -122,13 +123,13 @@ test_that("Values are more or less correct, without stretch", {
   expect_true(all(abs(lam$s[,2] - .1) < 1e-6))
   expect_true(all(abs(lam$s[,3] - .2) < 1e-6))
   expect_true(all(abs(lam$s[,4] - .3) < 1e-6))
-  expect_true(cor(lam$ord, seq_along(z)) > .9)
-  expect_true(all(abs(lam$lambda[!f] - seq(0, 1.8, length.out = sum(!f))) < 1e-3))
-  expect_true(all(lam$lambda[z <= -.9] < 1e-5))
-  expect_true(all(abs(lam$lambda[z >= .9] - 1.8) < 1e-5))
+  expect_true(cor(lam$ord, seq_along(z)) > cut)
+
+  lambda <- apply(lam$s, 1, function(x) sqrt(sum((x - constant_s[1,])^2)))
+  expect_true(all(abs(lam$lambda - lambda) < 1e-8))
 
   dist_ind <-
-    ifelse(f, (abs(z) - .9)^2, 0) +
+    ifelse(f, (abs(z) - cut)^2, 0) +
     (x[,2] - .1)^2 +
     (x[,3] - .2)^2 +
     (x[,4] - .3)^2

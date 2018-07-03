@@ -37,6 +37,17 @@ project_to_curve <- function(
     stop(sQuote("s"), " should be a matrix")
   }
 
+  # Check 'stretch'
+  if (!is.numeric(stretch)) {
+    stop("Argument ", sQuote("stretch"), " must be numeric.")
+  }
+  if (stretch < 0) {
+    stop("Argument ", sQuote("stretch"), " should be larger than 0.")
+  }
+  if (stretch > 2) {
+    stop("Argument ", sQuote("stretch"), " should be smaller than 2.")
+  }
+
   storage.mode(x) <- "double"
   storage.mode(s) <- "double"
   storage.mode(stretch) <- "double"

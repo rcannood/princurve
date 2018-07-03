@@ -4,24 +4,18 @@ C Output from Public domain Ratfor, version 1.0
       integer n,p,ns,order(n)
       double precision x(n,p),sx(n,p),s(ns,p),lambda(n),dist(n),tempsx(p
      *), vecx(p),strech
-      if(strech .lt. 0d0)then
-      strech=0d0
-      endif
-      if(strech .gt. 2d0)then
-      strech=2d0
-      endif
       do23004 j=1,p
       s(1,j)=s(1,j)+strech*(s(1,j)-s(2,j))
       s(ns,j)=s(ns,j)+strech*(s(ns,j)-s(ns-1,j))
 23004 continue
 23005 continue
       do23006 i=1,n
-      do23008 j=1,p 
+      do23008 j=1,p
       vecx(j)=x(i,j)
 23008 continue
 23009 continue
       call lamix(ns,p,vecx,s,lambda(i),dist(i),tempsx)
-      do23010 j=1,p 
+      do23010 j=1,p
       sx(i,j)=tempsx(j)
 23010 continue
 23011 continue

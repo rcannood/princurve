@@ -14,6 +14,7 @@ test_that("Testing project_to_curve", {
 
   expect_gte(cor(as.vector(lam$s), as.vector(s)), .99)
   expect_gte(cor(lam$ord, seq_len(100)), .99)
+  expect_true(all(abs(rowSums((x - lam$s)^2) - lam$dist_ind) < 1e-10))
 })
 
 test_that("Expect project_to_curve to error", {
@@ -44,6 +45,7 @@ test_that("Testing project_to_curve with shuffled order", {
 
   expect_gte(cor(as.vector(lam$s[lam$ord,]), as.vector(s)), .99)
   expect_gte(cor(order(lam$ord), ord), .99)
+  expect_true(all(abs(rowSums((x[ord,] - lam$s)^2) - lam$dist_ind) < 1e-10))
 })
 
 test_that("Values are more or less correct", {

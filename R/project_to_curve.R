@@ -13,7 +13,7 @@
 get.lam <- function(
   x,
   s,
-  tag = seq_len(nrow(s)),
+  tag = NULL,
   stretch = 2
 ) {
   # This function will be deprecated on July 1st, 2018

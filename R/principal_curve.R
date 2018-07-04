@@ -97,17 +97,6 @@ principal_curve <- function(
     }
   }
 
-  # Check 'stretch'
-  if (!is.numeric(stretch)) {
-    stop("Argument ", sQuote("stretch"), " must be numeric.")
-  }
-  if (stretch < 0) {
-    stop("Argument ", sQuote("stretch"), " should be larger than 0.")
-  }
-  if (stretch > 2) {
-    stop("Argument ", sQuote("stretch"), " should be smaller than 2.")
-  }
-
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Setup
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

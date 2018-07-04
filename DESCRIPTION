@@ -12,11 +12,14 @@ Depends: R (>= 3.0)
 Imports:
   stats,
   graphics,
-  Rcpp
+  Rcpp,
+  RcppArmadillo
 Suggests:
   testthat
 NeedsCompilation: yes
 RoxygenNote: 6.0.1
 URL: https://github.com/dynverse/princurve
 BugReports: https://github.com/dynverse/princurve/issues
-LinkingTo: Rcpp
+LinkingTo: 
+  Rcpp,
+  RcppArmadillo

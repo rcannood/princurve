@@ -1,4 +1,4 @@
-#include <Rcpp.h>
+#include <RcppArmadillo.h>
 using namespace Rcpp;
 
 typedef std::pair<int, double> paired;
@@ -23,14 +23,55 @@ Rcpp::IntegerVector order(const Rcpp::NumericVector & x) {
   return result;
 }
 
+NumericMatrix subset_rows(NumericMatrix X_, IntegerVector ind_) {
+  int n = X_.nrow(), k = X_.ncol();
+  arma::mat X(X_.begin(), n, k, false);
+  arma::uvec ind = as<arma::uvec>(ind_);
+  arma::mat submat = X.rows(ind - 1);
+  return wrap(submat);
+}
+
+//' Project a set of points to the closest point on a curve
+//'
+//' Finds the projection index for a matrix of points \code{x}, when
+//' projected onto a curve \code{s}. The curve need not be of the same
+//' length as the number of points. If the points on the curve are not in
+//' order, this order needs to be given as well, in \code{ord}.
+//'
+//' @param x a matrix of data points.
+//' @param s a parametrized curve, represented by a polygon.
+//' @param ord the order of the point in \code{s}. Default is the given order.
+//' @param stretch A stretch factor for the endpoints of the curve,
+//'   allowing the curve to grow to avoid bunching at the end.
+//'   Must be a numeric value between 0 and 2.
+//'
+//' @return A structure is returned which represents a fitted curve.  It has components
+//'   \item{s}{The fitted points on the curve corresponding to each point \code{x}}
+//'   \item{ord}{the order of the fitted points}
+//'   \item{lambda}{The projection index for each point}
+//'   \item{dist}{The total squared distance from the curve}
+//'   \item{dist_ind}{The squared distances from the curve to each of the respective points}
+//'
+//' @seealso \code{\link{principal_curve}}
+//'
+//' @keywords regression smooth nonparametric
+//'
+//' @export
 // [[Rcpp::export]]
-List project_to_curve_cpp(NumericMatrix x, NumericMatrix s, double stretch) {
+List project_to_curve(NumericMatrix x, NumericMatrix s, Nullable<IntegerVector> ord = R_NilValue, double stretch = 2) {
+  if (ord.isNotNull()) {
+    IntegerVector ord2(ord);
+    s = subset_rows(s, ord2);
+  }
+
   if (stretch > 0) {
     int n = s.nrow();
     NumericVector diff1 = s(0, _) - s(1, _);
     NumericVector diff2 = s(n - 1, _) - s(n - 2, _);
     s(0,_) = s(0,_) + stretch * diff1;
     s(n - 1,_) = s(n - 1,_) + stretch * diff2;
+  } else if (stretch < 0) {
+    stop("Argument 'stretch' should be larger than or equal to 0");
   }
 
   // calculate differences between subsequent points in s
@@ -52,12 +93,15 @@ List project_to_curve_cpp(NumericMatrix x, NumericMatrix s, double stretch) {
   // OUTPUT DATA STRUCTURES
   // projections of x onto s
   NumericMatrix new_s(x.nrow(), x.ncol());
+  rownames(new_s) = rownames(x);
+  colnames(new_s) = colnames(x);
 
   // distance from start of the curve
   NumericVector lambda(x.nrow());
 
   // distances between x and new_s
   NumericVector dist_ind(x.nrow());
+  dist_ind.attr("names") = rownames(x);
 
   // iterate over points in x
   for (int i = 0; i < x.nrow(); ++i) {
@@ -106,16 +150,18 @@ List project_to_curve_cpp(NumericMatrix x, NumericMatrix s, double stretch) {
   }
 
   // get ordering from old lambda
-  IntegerVector ord = order(lambda);
+  IntegerVector new_ord = order(lambda);
 
   // calculate total dist
   double dist = sum(dist_ind);
 
   // calculate lambda for new_s
-  NumericVector new_lambda(ord.length());
-  for (int i = 1; i < ord.length(); ++i) {
-    int o1 = ord[i];
-    int o0 = ord[i - 1];
+  NumericVector new_lambda(new_ord.length());
+  new_lambda.attr("names") = rownames(x);
+
+  for (int i = 1; i < new_ord.length(); ++i) {
+    int o1 = new_ord[i];
+    int o0 = new_ord[i - 1];
     NumericVector p1 = new_s(o1, _);
     NumericVector p0 = new_s(o0, _);
     new_lambda[o1] = new_lambda[o0] + sqrt(sum(pow(p1 - p0, 2.0)));
@@ -124,9 +170,12 @@ List project_to_curve_cpp(NumericMatrix x, NumericMatrix s, double stretch) {
   // return output
   List ret;
   ret["s"] = new_s;
-  ret["ord"] = ord + 1;
+  ret["ord"] = new_ord + 1;
   ret["lambda"] = new_lambda;
   ret["dist_ind"] = dist_ind;
   ret["dist"] = dist;
+
+  ret.attr("class") = "principal_curve";
+
   return ret;
 }

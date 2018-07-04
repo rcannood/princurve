@@ -1,4 +1,4 @@
-#include <RcppArmadillo.h>
+#include <Rcpp.h>
 using namespace Rcpp;
 
 typedef std::pair<int, double> paired;
@@ -21,14 +21,6 @@ Rcpp::IntegerVector order(const Rcpp::NumericVector & x) {
   for(size_t i = 0; i < n; i++)
     result(i) = pairs[i].first;
   return result;
-}
-
-NumericMatrix subset_rows(NumericMatrix X_, IntegerVector ind_) {
-  int n = X_.nrow(), k = X_.ncol();
-  arma::mat X(X_.begin(), n, k, false);
-  arma::uvec ind = as<arma::uvec>(ind_);
-  arma::mat submat = X.rows(ind - 1);
-  return wrap(submat);
 }
 
 //' Project a set of points to the closest point on a curve
@@ -60,8 +52,14 @@ NumericMatrix subset_rows(NumericMatrix X_, IntegerVector ind_) {
 // [[Rcpp::export]]
 List project_to_curve(NumericMatrix x, NumericMatrix s, Nullable<IntegerVector> ord = R_NilValue, double stretch = 2) {
   if (ord.isNotNull()) {
-    IntegerVector ord2(ord);
-    s = subset_rows(s, ord2);
+    IntegerVector ord_(ord);
+    NumericMatrix s_ord(ord_.length(), s.ncol());
+    for (int i = 0; i < ord_.length(); ++i) {
+      s_ord(i, _) = s(ord_(i) - 1, _);
+    }
+    rownames(s_ord) = rownames(s);
+    colnames(s_ord) = colnames(s);
+    s = s_ord;
   }
 
   if (stretch > 0) {

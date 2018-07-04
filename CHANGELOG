@@ -1,6 +1,5 @@
 2018-07-04  Robrecht Cannoodt  <rcannood@gmail.com>
   * Updated DESCRIPTION: New version is 2.0.3
-  * DESCRIPTION: Added Rcpp and RcppArmadillo
   * travis.yml: oldrel and release on osx and linux
   * Reimplemented project_to_curve completely in Rcpp, completely removing all fortran code from princurve.
   * Improved tests to ensure project_to_curve works exactly as legacy get.lam.

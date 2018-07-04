@@ -4,7 +4,7 @@
 \alias{get.lam}
 \title{Projection Index}
 \usage{
-get.lam(x, s, tag, stretch = 2)
+get.lam(x, s, tag = NULL, stretch = 2)
 }
 \arguments{
 \item{x}{a matrix of data points.}

@@ -3,8 +3,16 @@ sudo: required
 dist: trusty
 cache: packages
 r_check_args: "--as-cran"
+r:
+ - oldrel
+ - release
+os:
+ - linux
+ - osx
+osx_image:
+ - xcode9.4
 r_packages:
-  - covr
-  - devtools
+ - covr
+ - devtools
 after_success:
  - R -e 'covr::codecov()'

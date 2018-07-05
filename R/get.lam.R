@@ -22,5 +22,6 @@ get.lam <- function(
   out <- project_to_curve(x = x, s = s, ord = tag, stretch = stretch)
   out <- out[c("s", "ord", "lambda", "dist")]
   names(out) <- c("s", "tag", "lambda", "dist")
+  class(out) <- "principal.curve"
   out
 }

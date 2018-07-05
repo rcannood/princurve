@@ -17,6 +17,6 @@ get.lam(x, s, tag = NULL, stretch = 2)
 it allows the curve to grow, if required, and helps avoid bunching at the end.}
 }
 \description{
-This function will be deprecated on July 1st, 2018.
+This function will be deprecated on August 1st, 2018.
 See \code{\link{project_to_curve}} instead.
 }

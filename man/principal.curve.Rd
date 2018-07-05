@@ -2,11 +2,20 @@
 % Please edit documentation in R/principal.curve.R
 \name{principal.curve}
 \alias{principal.curve}
+\alias{lines.principal.curve}
+\alias{plot.principal.curve}
+\alias{points.principal.curve}
 \title{Fit a Principal Curve}
 \usage{
 principal.curve(x, start = NULL, thresh = 0.001, plot.true = FALSE,
   maxit = 10, stretch = 2, smoother = c("smooth_spline", "lowess",
   "periodic_lowess"), trace = FALSE, ...)
+
+\method{lines}{principal.curve}(x, ...)
+
+\method{plot}{principal.curve}(x, ...)
+
+\method{points}{principal.curve}(x, ...)
 }
 \arguments{
 \item{x}{a matrix of points in arbitrary dimension.}

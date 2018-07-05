@@ -44,7 +44,7 @@
 		 stretch,
 		 double(p),
 		 double(p),
-                 PACKAGE = "princurve")[c("s", "tag", "lambda", "dist")]
+                 PACKAGE = "princurvelegacy")[c("s", "tag", "lambda", "dist")]
   tt$dist <- sum(tt$dist)
   class(tt) <- "principal.curve"
   tt

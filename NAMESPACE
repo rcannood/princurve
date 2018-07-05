@@ -1,4 +1,4 @@
-useDynLib("princurve")
+useDynLib("princurvelegacy")
 
 export("principal.curve", "get.lam")
 

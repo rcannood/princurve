@@ -1,4 +1,4 @@
-Package: princurve
+Package: princurvelegacy
 Version: 1.1-12
 Title: Fits a Principal Curve in Arbitrary Dimension
 Author: S original by Trevor Hastie <trevor@research.att.com> R port by
@@ -12,3 +12,4 @@ Packaged: 2013-04-25 07:31:26 UTC; hornik
 NeedsCompilation: yes
 Repository: CRAN
 Date/Publication: 2013-04-25 10:01:27
+RoxygenNote: 6.0.1

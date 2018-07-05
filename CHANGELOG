@@ -1,3 +1,9 @@
+2018-07-05  Robrecht Cannoodt  <rcannood@gmail.com>
+  * Updated DESCRIPTION: New version is 2.0.4
+  * Fixed issues with legacy principal.curve and get.lam
+  * Added test for making sure that principal.curve and get.lam
+    almost exactly the same output as version 1.1-12.
+
 2018-07-04  Robrecht Cannoodt  <rcannood@gmail.com>
   * Updated DESCRIPTION: New version is 2.0.3
   * travis.yml: oldrel and release on osx and linux

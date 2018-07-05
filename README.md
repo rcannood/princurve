@@ -10,7 +10,7 @@ Status](https://ci.appveyor.com/api/projects/status/github/dynverse/princurve?br
 [![Coverage
 Status](https://codecov.io/gh/dynverse/princurve/branch/master/graph/badge.svg)](https://codecov.io/gh/dynverse/princurve?branch=master)
 
-This is an R port of Trevor Hastie's Principal Curve package.
+Fitting a principal curve to a data matrix in arbitrary dimensions.
 
 Example
 -------

@@ -124,7 +124,8 @@ test_that("Testing principal_curve with periodic_lowess", {
 })
 
 
-devtools::install_github("dynverse/princurve@legacy")
+if (!"princurvelegacy" %in% rownames(installed.packages()))
+  devtools::install_github("dynverse/princurve@legacy")
 for (i in seq_len(10)) {
   test_that(paste0("Directly compare against legagy princurve, run ", i), {
     x <- matrix(runif(1000), ncol = 10)

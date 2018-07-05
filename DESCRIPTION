@@ -20,7 +20,8 @@ Imports:
   graphics,
   Rcpp
 Suggests:
-  testthat
+  testthat,
+  devtools
 NeedsCompilation: yes
 RoxygenNote: 6.0.1
 URL: https://github.com/dynverse/princurve

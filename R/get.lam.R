@@ -1,6 +1,6 @@
 #' Projection Index
 #'
-#' This function will be deprecated on July 1st, 2018.
+#' This function will be deprecated on August 1st, 2018.
 #' See \code{\link{project_to_curve}} instead.
 #'
 #' @param x a matrix of data points.
@@ -16,7 +16,7 @@ get.lam <- function(
   tag = NULL,
   stretch = 2
 ) {
-  # This function will be deprecated on July 1st, 2018
+  # This function will be deprecated on August 1st, 2018
   # .Deprecated("project_to_curve", package = "princurve", old = "get.lam")
   if (!is.null(tag)) {
     s <- s[tag, , drop = FALSE]
@@ -25,5 +25,6 @@ get.lam <- function(
   out <- project_to_curve(x = x, s = s, stretch = stretch)
   out <- out[c("s", "ord", "lambda", "dist")]
   names(out) <- c("s", "tag", "lambda", "dist")
+  class(out) <- "principal.curve"
   out
 }

@@ -16,7 +16,7 @@ knitr::opts_chunk$set(fig.path = "man/figures/README_", warning = FALSE, message
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/princurve)](https://cran.r-project.org/package=princurve)
 [![Coverage Status](https://codecov.io/gh/dynverse/princurve/branch/master/graph/badge.svg)](https://codecov.io/gh/dynverse/princurve?branch=master)
 
-This is an R port of Trevor Hastie's Principal Curve package.
+Fitting a principal curve to a data matrix in arbitrary dimensions.
 
 ## Example
 ```{r example_plot}

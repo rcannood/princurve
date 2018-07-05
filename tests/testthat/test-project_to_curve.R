@@ -235,9 +235,9 @@ for (i in seq_len(10)) {
     expect_equal(class(fit1), class(fit2))
     expect_equal(attributes(fit1), attributes(fit2)) # just in case
 
-    expect_gte(abs(cor(as.vector(fit1$s), as.vector(fit2$s))), .999)
-    expect_gte(cor(order(fit1$tag), order(fit2$tag)), .999)
-    expect_gte(abs(cor(fit1$lambda, fit2$lambda)), .999)
-    expect_lte(abs(fit1$dist - fit2$dist), .001)
+    expect_gte(abs(cor(as.vector(fit1$s), as.vector(fit2$s))), .99)
+    expect_gte(cor(order(fit1$tag), order(fit2$tag)), .99)
+    expect_gte(abs(cor(fit1$lambda, fit2$lambda)), .99)
+    expect_lte(abs(fit1$dist - fit2$dist), .01)
   })
 }

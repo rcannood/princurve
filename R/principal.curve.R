@@ -49,5 +49,7 @@ principal.curve <- function(
     ...
   )
   names(out)[[2]] <- "tag"
+  names(out)[[6]] <- "nbrOfIterations"
+  class(out) <- "principal.curve"
   out
 }

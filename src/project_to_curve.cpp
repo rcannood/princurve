@@ -27,12 +27,10 @@ Rcpp::IntegerVector order(const Rcpp::NumericVector & x) {
 //'
 //' Finds the projection index for a matrix of points \code{x}, when
 //' projected onto a curve \code{s}. The curve need not be of the same
-//' length as the number of points. If the points on the curve are not in
-//' order, this order needs to be given as well, in \code{ord}.
+//' length as the number of points.
 //'
 //' @param x a matrix of data points.
 //' @param s a parametrized curve, represented by a polygon.
-//' @param ord the order of the point in \code{s}. Default is the given order.
 //' @param stretch A stretch factor for the endpoints of the curve,
 //'   allowing the curve to grow to avoid bunching at the end.
 //'   Must be a numeric value between 0 and 2.
@@ -50,18 +48,7 @@ Rcpp::IntegerVector order(const Rcpp::NumericVector & x) {
 //'
 //' @export
 // [[Rcpp::export]]
-List project_to_curve(NumericMatrix x, NumericMatrix s, Nullable<IntegerVector> ord = R_NilValue, double stretch = 2) {
-  if (ord.isNotNull()) {
-    IntegerVector ord_(ord);
-    NumericMatrix s_ord(ord_.length(), s.ncol());
-    for (int i = 0; i < ord_.length(); ++i) {
-      s_ord(i, _) = s(ord_(i) - 1, _);
-    }
-    rownames(s_ord) = rownames(s);
-    colnames(s_ord) = colnames(s);
-    s = s_ord;
-  }
-
+List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
   if (stretch > 0) {
     int n = s.nrow();
     NumericVector diff1 = s(0, _) - s(1, _);

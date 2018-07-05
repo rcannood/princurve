@@ -18,5 +18,5 @@ bias_correct_curve <- function(x, pcurve, ...) {
   )$y
 
   pcurve$s <- pcurve$s + (abs(sray) / ray) * (x - pcurve$s)
-  project_to_curve(x, pcurve$s, pcurve$ord, stretch = 0)
+  project_to_curve(x, pcurve$s[pcurve$ord, , drop = FALSE], stretch = 0)
 }

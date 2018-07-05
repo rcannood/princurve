@@ -18,8 +18,11 @@ get.lam <- function(
 ) {
   # This function will be deprecated on July 1st, 2018
   # .Deprecated("project_to_curve", package = "princurve", old = "get.lam")
+  if (!is.null(tag)) {
+    s <- s[tag, , drop = FALSE]
+  }
 
-  out <- project_to_curve(x = x, s = s, ord = tag, stretch = stretch)
+  out <- project_to_curve(x = x, s = s, stretch = stretch)
   out <- out[c("s", "ord", "lambda", "dist")]
   names(out) <- c("s", "tag", "lambda", "dist")
   out

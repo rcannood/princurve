@@ -53,3 +53,26 @@ principal.curve <- function(
   class(out) <- "principal.curve"
   out
 }
+
+
+#' @rdname principal.curve
+#' @export
+#' @importFrom graphics lines
+lines.principal.curve <- function(x, ...) {
+  lines.principal_curve(x, ...)
+}
+
+#' @rdname principal.curve
+#' @export
+#' @importFrom graphics plot
+plot.principal.curve <- function(x, ...) {
+  plot.principal_curve(x, ...)
+}
+
+#' @rdname principal.curve
+#' @export
+#' @importFrom graphics points
+points.principal.curve <- function(x, ...) {
+  points.principal_curve
+}
+

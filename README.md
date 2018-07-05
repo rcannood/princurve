@@ -24,3 +24,12 @@ Example
     plot(fit1); points(fit1); whiskers(x, fit1$s)
 
 ![](man/figures/README_example_plot-1.png)
+
+References
+----------
+
+-   Hastie, T. and Stuetzle, W., [Principal
+    Curves](https://www.jstor.org/stable/2289936), JASA, Vol. 84, No.
+    406 (Jun., 1989), pp. 502-516, DOI:
+    [10.2307/2289936](http://doi.org/10.2307/2289936)
+    ([PDF](https://web.stanford.edu/~hastie/Papers/principalcurves.pdf))

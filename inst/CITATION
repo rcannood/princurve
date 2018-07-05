@@ -1,0 +1,17 @@
+suppressWarnings(citation(auto = packageDescription("princurve")))
+
+citEntry(
+  entry    = "Article",
+  author   = "Trevor Hastie and Werner Stuetzle",
+  title    = "Principal Curves",
+  journal  = "Journal of the American Statistical Association",
+  year     = "1989",
+  month    = "June",
+  volume   = "84",
+  number   = "406",
+  pages    = "502-516",
+  doi      = "10.2307/2289936",
+  url      = "https://www.jstor.org/stable/2289936",
+  note     = "\\url{https://web.stanford.edu/~hastie/Papers/principalcurves.pdf}",
+  textVersion = "Hastie, T. and Stuetzle, W., [Principal Curves](https://www.jstor.org/stable/2289936), JASA, Vol. 84, No. 406 (Jun., 1989), pp. 502-516. DOI: 10.2307/2289936 [[PDF](https://www.jstor.org/stable/2289936})]"
+)

@@ -86,8 +86,11 @@ plot(fit1)
 whiskers(x, fit1$s)
 }
 \references{
-\dQuote{Principal Curves} by Hastie, T. and Stuetzle, W. 1989, JASA.
-  See also Banfield and Raftery (JASA, 1992).
+Hastie, T. and Stuetzle, W.,
+ \href{https://www.jstor.org/stable/2289936}{Principal Curves},
+ JASA, Vol. 84, No. 406 (Jun., 1989), pp. 502-516,
+ DOI: \href{https://doi.org/10.2307/2289936}{10.2307/2289936}
+ (\href{https://web.stanford.edu/~hastie/Papers/principalcurves.pdf}{PDF}).
 }
 \seealso{
 \code{\link{project_to_curve}}

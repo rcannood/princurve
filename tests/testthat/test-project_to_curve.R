@@ -204,24 +204,3 @@ test_that("Projecting to random data produces correct results", {
   }
 })
 
-
-if (!"princurvelegacy" %in% rownames(installed.packages()))
-  devtools::install_github("dynverse/princurve@legacy")
-for (i in seq_len(10)) {
-  test_that(paste0("Directly compare against legagy princurve, run ", i), {
-    x <- matrix(runif(1000), ncol = 10)
-    s <- matrix(runif(100), ncol = 10)
-
-    fit1 <- princurve::get.lam(x, s)
-    fit2 <- princurvelegacy::get.lam(x, s)
-
-    expect_equal(names(fit1), names(fit2))
-    expect_equal(class(fit1), class(fit2))
-    expect_equal(attributes(fit1), attributes(fit2)) # just in case
-
-    expect_gte(abs(cor(as.vector(fit1$s), as.vector(fit2$s))), .99)
-    expect_gte(cor(order(fit1$tag), order(fit2$tag)), .99)
-    expect_gte(abs(cor(fit1$lambda, fit2$lambda)), .99)
-    expect_lte(abs(fit1$dist - fit2$dist), .01)
-  })
-}

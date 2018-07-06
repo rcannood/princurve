@@ -16,6 +16,12 @@ princurve 2.0.4 (unreleased)
   * SPEED UP `project_to_curve`: Do not compute `lambda` accurately as it
     is only used to order the points in `x`.
 
+  * MINOR CHANGE: Added `...` argument to `whiskers()`.
+
+  * DOCUMENTATION: Minor fix in output documentation of `principal_curve()`.
+
+  * DOCUMENTATION: Added more information to the README.
+
 princurve 2.0.3 (2018-07-04)
 
   * SIGNIFICANT CHANGES: Reimplemented `project_to_curve()` completely in

@@ -37,5 +37,13 @@ for (i in seq_len(10)) {
     expect_gte(cor(order(fit1$tag), order(fit2$tag)), .99)
     expect_gte(abs(cor(fit1$lambda, fit2$lambda)), .99)
     expect_lte(abs(fit1$dist - fit2$dist), .01)
+
+    ord <- sample.int(10)
+    fit3 <- princurve::get.lam(x, s[ord, ], tag = order(ord))
+
+    expect_gte(abs(cor(as.vector(fit1$s), as.vector(fit3$s))), .99)
+    expect_gte(cor(order(fit1$tag), order(fit3$tag)), .99)
+    expect_gte(abs(cor(fit1$lambda, fit3$lambda)), .99)
+    expect_lte(abs(fit1$dist - fit3$dist), .01)
   })
 }

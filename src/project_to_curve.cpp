@@ -59,20 +59,15 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
     stop("Argument 'stretch' should be larger than or equal to 0");
   }
 
-  // calculate differences between subsequent points in s
+  // precompute distances between successive points in the curve
+  // and the length of each segment
   int num_segments = s.nrow() - 1;
   NumericMatrix diff(num_segments, s.ncol());
   NumericVector length(num_segments);
-  NumericVector lengthsq(num_segments);
-  NumericVector lengthcs(num_segments);
 
-  double cs = 0.0;
   for (int i = 0; i < num_segments; ++i) {
     diff(i, _) = s(i + 1, _) - s(i, _);
     length[i] = sum(pow(diff(i, _), 2.0));
-    lengthsq[i] = sqrt(length[i]);
-    lengthcs[i] = cs;
-    cs += lengthsq[i];
   }
 
   // OUTPUT DATA STRUCTURES
@@ -130,7 +125,7 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
 
     // save the best projection to the output data structures
     new_s(i, _) = n;
-    lambda[i] = lengthcs[bestj] + bestt * lengthsq[bestj];
+    lambda[i] = bestj + .1 + .9 * bestt;
     dist_ind[i] = bestdi;
   }
 

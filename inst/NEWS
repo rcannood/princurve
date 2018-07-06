@@ -13,6 +13,9 @@ princurve 2.0.4 (unreleased)
 
   * DOCUMENTATION: Improved news (#11).
 
+  * SPEED UP `project_to_curve`: Do not compute `lambda` accurately as it
+    is only used to order the points in `x`.
+
 princurve 2.0.3 (2018-07-04)
 
   * SIGNIFICANT CHANGES: Reimplemented `project_to_curve()` completely in

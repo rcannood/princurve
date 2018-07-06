@@ -18,7 +18,7 @@ principal_curve(x, start = NULL, thresh = 0.001, maxit = 10,
 
 \method{points}{principal_curve}(x, ...)
 
-whiskers(x, s)
+whiskers(x, s, ...)
 }
 \arguments{
 \item{x}{a matrix of points in arbitrary dimension.}

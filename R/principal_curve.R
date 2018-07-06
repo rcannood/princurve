@@ -263,6 +263,6 @@ points.principal_curve <- function(x, ...) {
 #' @param s a parametrized curve, represented by a polygon.
 #' @importFrom graphics segments
 #' @export
-whiskers <- function(x, s) {
-  graphics::segments(x[, 1], x[, 2], s[, 1], s[, 2])
+whiskers <- function(x, s, ...) {
+  graphics::segments(x[, 1], x[, 2], s[, 1], s[, 2], ...)
 }

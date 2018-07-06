@@ -64,7 +64,7 @@ An object of class \code{"principal_curve"} is returned. For this object
     projections.}
   \item{converged}{A logical indicating whether the algorithm converged
     or not.}
-  \item{nbrOfIterations}{Number of iterations completed before returning.}
+  \item{num_iterations}{Number of iterations completed before returning.}
   \item{call}{the call that created this object; allows it to be
     \code{updated()}.}
 }

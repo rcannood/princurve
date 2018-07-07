@@ -2,6 +2,8 @@
 output:
   github_document:
     html_preview: false
+editor_options: 
+  chunk_output_type: console
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -9,6 +11,7 @@ output:
 ```{r setup1, include=FALSE}
 knitr::opts_chunk$set(fig.path = "man/figures/README_", warning = FALSE, message = FALSE, error = FALSE, echo = TRUE)
 set.seed(1)
+library(tidyverse)
 ```
 
 # princurve
@@ -37,6 +40,28 @@ plot(fit); whiskers(x, fit$s, col = "gray")
 ```
 
 Check out `?principal_curve` for more information on the specific outputs of `principal_curve()`.
+
+<!-- ## Latest changes -->
+<!-- This section gets automatically generated from inst/NEWS.md, and also generates inst/NEWS -->
+
+```{r news, results='asis', echo=FALSE}
+news_md <- readr::read_lines("inst/NEWS.md")
+
+# creating NEWS for package
+news_normal <- news_md %>% 
+  str_replace_all("^# princurve", "princurve") %>% 
+  str_replace_all("\\[[^\\]]*\\]\\(([^\\)]*)\\)", "\\1")
+readr::write_lines(news_normal, "inst/NEWS")
+
+# creating text for readme
+ix <- which(str_detect(news_md, "^# princurve"))
+
+cat(str_replace(news_md[[ix[[1]]]], "^# ", "## Latest changes in "))
+
+cat(news_md[seq(ix[[1]]+1, ix[[2]]-1)], sep = "\n")
+```
+
+Check [NEWS.md](inst/NEWS.md) for full list of changes.
 
 ## References
 

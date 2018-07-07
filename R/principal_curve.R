@@ -91,7 +91,7 @@ principal_curve <- function(
     smoother_function <- smoother
   } else if (is.character(smoother)) {
     # substitute .'s to _'s for backwards compatibility
-    smoother <- gsub("\\.", "_", smoother)
+    smoother <- gsub(".", "_", smoother, fixed = TRUE)
     smoother <- match.arg(smoother)
     smoother_function <- NULL
 

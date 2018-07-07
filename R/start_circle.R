@@ -1,7 +1,7 @@
 # The starting circle uses the first two co-ordinates,
 # and assumes the others are zero
 start_circle <- function(x) {
-  xbar <- apply(x, 2, mean)
+  xbar <- colMeans(x)
   ray <- sqrt((scale(x, xbar, FALSE)^2) %*% rep(1, ncol(x)))
   radius <- mean(ray)
   theta <- pi * seq_len(nrow(x)) * 2 / nrow(x)

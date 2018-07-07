@@ -1,7 +1,7 @@
 context("Testing project_to_curve")
 
 # helper function for validating project_to_curve output
-test_projection <- function(x, s, ord, stretch, fit) {
+test_projection <- function(x, s, stretch, fit) {
   # check names
   expect_equal(names(fit), c("s", "ord", "lambda", "dist_ind", "dist"))
   expect_equal(rownames(fit$s), rownames(x))
@@ -41,11 +41,10 @@ test_that("Testing project_to_curve", {
   fit <- project_to_curve(
     x = x,
     s = s,
-    ord = NULL,
     stretch = 0
   )
 
-  test_projection(x, s, ord = NULL, stretch = 0, fit)
+  test_projection(x, s, stretch = 0, fit)
 
   expect_gte(cor(as.vector(fit$s), as.vector(s)), .99)
   expect_gte(cor(fit$ord, seq_len(100)), .99)
@@ -73,25 +72,10 @@ test_that("Testing project_to_curve with shuffled order", {
     stretch = 0
   )
 
-  test_projection(x[ord,], s, ord = NULL, stretch = 0, fit)
+  test_projection(x[ord,], s, stretch = 0, fit)
 
   expect_gte(cor(as.vector(fit$s[fit$ord,]), as.vector(s)), .99)
   expect_gte(cor(order(fit$ord), ord), .99)
-})
-
-test_that("Testing project_to_curve with shuffled order", {
-  ord_s <- sample.int(nrow(s))
-  fit <- project_to_curve(
-    x = x,
-    s = s[ord_s, ],
-    ord = order(ord_s),
-    stretch = 0
-  )
-
-  test_projection(x, s, ord = NULL, stretch = 0, fit)
-
-  expect_gte(cor(as.vector(fit$s[fit$ord,]), as.vector(s)), .99)
-  expect_gte(cor(fit$ord, seq_len(nrow(x))), .99)
 })
 
 test_that("Values are more or less correct", {
@@ -104,7 +88,7 @@ test_that("Values are more or less correct", {
     stretch = 0
   )
 
-  test_projection(x, constant_s, ord = NULL, stretch = 0, fit)
+  test_projection(x, constant_s, stretch = 0, fit)
 
   expect_true(all(abs(fit$s[,1] - x[,1]) < 1e-6))
   expect_true(all(abs(fit$s[,2] - .1) < 1e-6))
@@ -135,7 +119,7 @@ test_that("Values are more or less correct, with stretch = 2 and a given ord", {
     stretch = 2
   )
 
-  test_projection(x, constant_s[2:1, ], ord = 2:1, stretch = 0, fit)
+  test_projection(x, constant_s, stretch = 0, fit)
 
   expect_true(all(abs(fit$s[,1] - x[,1]) < 1e-6))
   expect_true(all(abs(fit$s[,2] - .1) < 1e-6))
@@ -167,7 +151,7 @@ test_that("Values are more or less correct, without stretch", {
     stretch = 0
   )
 
-  test_projection(x, constant_s, ord = NULL, stretch = 2, fit)
+  test_projection(x, constant_s, stretch = 2, fit)
 
   f <- z < -cut | z > cut
 
@@ -216,28 +200,7 @@ test_that("Projecting to random data produces correct results", {
       stretch = 0
     )
 
-    test_projection(x, s, ord = NULL, stretch = 0, fit)
+    test_projection(x, s, stretch = 0, fit)
   }
 })
 
-
-if (!"princurvelegacy" %in% rownames(installed.packages()))
-  devtools::install_github("dynverse/princurve@legacy")
-for (i in seq_len(10)) {
-  test_that(paste0("Directly compare against legagy princurve, run ", i), {
-    x <- matrix(runif(1000), ncol = 10)
-    s <- matrix(runif(100), ncol = 10)
-
-    fit1 <- princurve::get.lam(x, s)
-    fit2 <- princurvelegacy::get.lam(x, s)
-
-    expect_equal(names(fit1), names(fit2))
-    expect_equal(class(fit1), class(fit2))
-    expect_equal(attributes(fit1), attributes(fit2)) # just in case
-
-    expect_gte(abs(cor(as.vector(fit1$s), as.vector(fit2$s))), .99)
-    expect_gte(cor(order(fit1$tag), order(fit2$tag)), .99)
-    expect_gte(abs(cor(fit1$lambda, fit2$lambda)), .99)
-    expect_lte(abs(fit1$dist - fit2$dist), .01)
-  })
-}

@@ -7,19 +7,22 @@ bool cmp_second(const paired & left, const paired & right) {
   return left.second < right.second;
 }
 
-Rcpp::IntegerVector order(const Rcpp::NumericVector & x) {
+IntegerVector order(const NumericVector & x) {
   const size_t n = x.size();
+
   std::vector<paired> pairs;
   pairs.reserve(n);
-
-  for(size_t i = 0; i < n; i++)
+  for (size_t i = 0; i < n; ++i) {
     pairs.push_back(std::make_pair(i, x(i)));
+  }
 
   std::sort(pairs.begin(), pairs.end(), cmp_second);
 
-  Rcpp::IntegerVector result = Rcpp::no_init(n);
-  for(size_t i = 0; i < n; i++)
+  IntegerVector result = no_init(n);
+  for(size_t i = 0; i < n; ++i) {
     result(i) = pairs[i].first;
+  }
+
   return result;
 }
 
@@ -27,12 +30,10 @@ Rcpp::IntegerVector order(const Rcpp::NumericVector & x) {
 //'
 //' Finds the projection index for a matrix of points \code{x}, when
 //' projected onto a curve \code{s}. The curve need not be of the same
-//' length as the number of points. If the points on the curve are not in
-//' order, this order needs to be given as well, in \code{ord}.
+//' length as the number of points.
 //'
 //' @param x a matrix of data points.
 //' @param s a parametrized curve, represented by a polygon.
-//' @param ord the order of the point in \code{s}. Default is the given order.
 //' @param stretch A stretch factor for the endpoints of the curve,
 //'   allowing the curve to grow to avoid bunching at the end.
 //'   Must be a numeric value between 0 and 2.
@@ -50,18 +51,7 @@ Rcpp::IntegerVector order(const Rcpp::NumericVector & x) {
 //'
 //' @export
 // [[Rcpp::export]]
-List project_to_curve(NumericMatrix x, NumericMatrix s, Nullable<IntegerVector> ord = R_NilValue, double stretch = 2) {
-  if (ord.isNotNull()) {
-    IntegerVector ord_(ord);
-    NumericMatrix s_ord(ord_.length(), s.ncol());
-    for (int i = 0; i < ord_.length(); ++i) {
-      s_ord(i, _) = s(ord_(i) - 1, _);
-    }
-    rownames(s_ord) = rownames(s);
-    colnames(s_ord) = colnames(s);
-    s = s_ord;
-  }
-
+List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
   if (stretch > 0) {
     int n = s.nrow();
     NumericVector diff1 = s(0, _) - s(1, _);
@@ -72,20 +62,15 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, Nullable<IntegerVector> 
     stop("Argument 'stretch' should be larger than or equal to 0");
   }
 
-  // calculate differences between subsequent points in s
+  // precompute distances between successive points in the curve
+  // and the length of each segment
   int num_segments = s.nrow() - 1;
   NumericMatrix diff(num_segments, s.ncol());
   NumericVector length(num_segments);
-  NumericVector lengthsq(num_segments);
-  NumericVector lengthcs(num_segments);
 
-  double cs = 0.0;
   for (int i = 0; i < num_segments; ++i) {
     diff(i, _) = s(i + 1, _) - s(i, _);
     length[i] = sum(pow(diff(i, _), 2.0));
-    lengthsq[i] = sqrt(length[i]);
-    lengthcs[i] = cs;
-    cs += lengthsq[i];
   }
 
   // OUTPUT DATA STRUCTURES
@@ -143,7 +128,7 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, Nullable<IntegerVector> 
 
     // save the best projection to the output data structures
     new_s(i, _) = n;
-    lambda[i] = lengthcs[bestj] + bestt * lengthsq[bestj];
+    lambda[i] = bestj + .1 + .9 * bestt;
     dist_ind[i] = bestdi;
   }
 

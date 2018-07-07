@@ -4,14 +4,12 @@
 \alias{project_to_curve}
 \title{Project a set of points to the closest point on a curve}
 \usage{
-project_to_curve(x, s, ord = NULL, stretch = 2)
+project_to_curve(x, s, stretch = 2)
 }
 \arguments{
 \item{x}{a matrix of data points.}
 
 \item{s}{a parametrized curve, represented by a polygon.}
-
-\item{ord}{the order of the point in \code{s}. Default is the given order.}
 
 \item{stretch}{A stretch factor for the endpoints of the curve,
 allowing the curve to grow to avoid bunching at the end.
@@ -28,8 +26,7 @@ A structure is returned which represents a fitted curve.  It has components
 \description{
 Finds the projection index for a matrix of points \code{x}, when
 projected onto a curve \code{s}. The curve need not be of the same
-length as the number of points. If the points on the curve are not in
-order, this order needs to be given as well, in \code{ord}.
+length as the number of points.
 }
 \seealso{
 \code{\link{principal_curve}}

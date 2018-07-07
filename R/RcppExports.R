@@ -5,12 +5,10 @@
 #'
 #' Finds the projection index for a matrix of points \code{x}, when
 #' projected onto a curve \code{s}. The curve need not be of the same
-#' length as the number of points. If the points on the curve are not in
-#' order, this order needs to be given as well, in \code{ord}.
+#' length as the number of points.
 #'
 #' @param x a matrix of data points.
 #' @param s a parametrized curve, represented by a polygon.
-#' @param ord the order of the point in \code{s}. Default is the given order.
 #' @param stretch A stretch factor for the endpoints of the curve,
 #'   allowing the curve to grow to avoid bunching at the end.
 #'   Must be a numeric value between 0 and 2.
@@ -27,7 +25,7 @@
 #' @keywords regression smooth nonparametric
 #'
 #' @export
-project_to_curve <- function(x, s, ord = NULL, stretch = 2) {
-    .Call('_princurve_project_to_curve', PACKAGE = 'princurve', x, s, ord, stretch)
+project_to_curve <- function(x, s, stretch = 2) {
+    .Call('_princurve_project_to_curve', PACKAGE = 'princurve', x, s, stretch)
 }
 

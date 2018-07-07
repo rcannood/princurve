@@ -1,13 +1,14 @@
 ---
-output: md_document
-editor_options: 
-  chunk_output_type: console
+output:
+  github_document:
+    html_preview: false
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r setup1, include=FALSE}
 knitr::opts_chunk$set(fig.path = "man/figures/README_", warning = FALSE, message = FALSE, error = FALSE, echo = TRUE)
+set.seed(1)
 ```
 
 # princurve
@@ -19,12 +20,24 @@ knitr::opts_chunk$set(fig.path = "man/figures/README_", warning = FALSE, message
 Fitting a principal curve to a data matrix in arbitrary dimensions.
 
 ## Example
+We generate some example data:
+```{r example_data}
+t <- runif(100, -1, 1)
+x <- cbind(t, t ^ 2) + rnorm(200, sd = 0.05)
+colnames(x) <- c("dim1", "dim2")
+
+plot(x)
+```
+
+A principal curve can be fit to the data as follows:
 ```{r example_plot}
 library(princurve)
-set.seed(1)
-x <- runif(100, -1, 1)
-x <- cbind(x, x ^ 2 + rnorm(100, sd = 0.1))
-
-fit1 <- principal_curve(x)
-plot(fit1); points(fit1); whiskers(x, fit1$s)
+fit <- principal_curve(x)
+plot(fit); whiskers(x, fit$s, col = "gray")
 ```
+
+Check out `?principal_curve` for more information on the specific outputs of `principal_curve()`.
+
+## References
+
+Hastie, T. and Stuetzle, W., [Principal Curves](https://www.jstor.org/stable/2289936), JASA, Vol. 84, No. 406 (Jun., 1989), pp. 502-516, DOI: [10.2307/2289936](http://doi.org/10.2307/2289936) ([PDF](https://web.stanford.edu/~hastie/Papers/principalcurves.pdf))

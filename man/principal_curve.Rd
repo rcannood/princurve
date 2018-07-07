@@ -18,7 +18,7 @@ principal_curve(x, start = NULL, thresh = 0.001, maxit = 10,
 
 \method{points}{principal_curve}(x, ...)
 
-whiskers(x, s)
+whiskers(x, s, ...)
 }
 \arguments{
 \item{x}{a matrix of points in arbitrary dimension.}
@@ -64,7 +64,7 @@ An object of class \code{"principal_curve"} is returned. For this object
     projections.}
   \item{converged}{A logical indicating whether the algorithm converged
     or not.}
-  \item{nbrOfIterations}{Number of iterations completed before returning.}
+  \item{num_iterations}{Number of iterations completed before returning.}
   \item{call}{the call that created this object; allows it to be
     \code{updated()}.}
 }
@@ -86,8 +86,11 @@ plot(fit1)
 whiskers(x, fit1$s)
 }
 \references{
-\dQuote{Principal Curves} by Hastie, T. and Stuetzle, W. 1989, JASA.
-  See also Banfield and Raftery (JASA, 1992).
+Hastie, T. and Stuetzle, W.,
+ \href{https://www.jstor.org/stable/2289936}{Principal Curves},
+ JASA, Vol. 84, No. 406 (Jun., 1989), pp. 502-516,
+ DOI: \href{https://doi.org/10.2307/2289936}{10.2307/2289936}
+ (\href{https://web.stanford.edu/~hastie/Papers/principalcurves.pdf}{PDF}).
 }
 \seealso{
 \code{\link{project_to_curve}}

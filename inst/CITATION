@@ -1,5 +1,3 @@
-suppressWarnings(citation(auto = packageDescription("princurve")))
-
 citEntry(
   entry    = "Article",
   author   = "Trevor Hastie and Werner Stuetzle",

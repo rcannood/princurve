@@ -34,6 +34,33 @@ plot(fit); whiskers(x, fit$s, col = "gray")
 
 Check out `?principal_curve` for more information on the specific outputs of `principal_curve()`.
 
+<!-- ## Latest changes -->
+<!-- This section gets automatically generated from inst/NEWS.md, and also generates inst/NEWS -->
+Latest changes in princurve 2.0.4 (2018-07-09)
+----------------------------------------------
+
+-   BUG FIX: Fixed issues with legacy `principal.curve()` and `get.lam()` (\#8).
+
+-   TESTING: Perform direct comparison between the current princurve and princurve 1.1-12 to check whether `principal.curve()` and `get.lam()` produce output with exactly the same format and almost exactly the same values.
+
+-   SIGNIFICANT CHANGE: Remove the `ord` parameter from `project_to_curve()`, in order to reduce the amount of Rcpp code a little bit.
+
+-   DOCUMENTATION: Improved citations (\#10).
+
+-   DOCUMENTATION: Improved news (\#11).
+
+-   SPEED UP `project_to_curve`: Do not compute `lambda` accurately as it is only used to order the points in `x`.
+
+-   MINOR CHANGE: Added `...` argument to `whiskers()`.
+
+-   DOCUMENTATION: Minor fix in output documentation of `principal_curve()`.
+
+-   DOCUMENTATION: Added more information to the README.
+
+-   MINOR CHANGE: Support both `news()` and markdown news on GitHub.
+
+Check [NEWS.md](inst/NEWS.md) for full list of changes.
+
 References
 ----------
 

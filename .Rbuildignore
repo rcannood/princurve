@@ -4,3 +4,6 @@
 ^\.travis\.yml$
 ^appveyor\.yml$
 ^README\.Rmd$
+^inst/NEWS.md$
+^.*\.o\.bc$
+^cran-comments\.md$

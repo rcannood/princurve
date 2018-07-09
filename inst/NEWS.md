@@ -1,4 +1,8 @@
-# princurve 2.0.4 (unreleased)
+# princurve 2.0.5 (unreleased)
+
+  * MINOR CHANGE: Support both `news()` and markdown news on GitHub.
+
+# princurve 2.0.4 (2018-07-09)
 
   * BUG FIX: Fixed issues with legacy `principal.curve()` and `get.lam()` (#8).
 

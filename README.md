@@ -35,6 +35,7 @@ plot(fit); whiskers(x, fit$s, col = "gray")
 Check out `?principal_curve` for more information on the specific outputs of `principal_curve()`.
 
 <!-- ## Latest changes -->
+<!-- This section gets automatically generated from inst/NEWS.md, and also generates inst/NEWS -->
 Latest changes in princurve 2.0.4 (unreleased)
 ----------------------------------------------
 

@@ -175,7 +175,7 @@ principal_curve <- function(
   # Pre-allocate nxp matrix 's'
   s <- matrix(as.double(NA), nrow = nrow(x), ncol = ncol(x))
 
-  has_converged <- (abs((dist_old - pcurve$dist) / dist_old) <= thresh)
+  has_converged <- abs(dist_old - pcurve$dist) <= thresh * dist_old
   while (!has_converged && it < maxit) {
     it <- it + 1
 
@@ -198,7 +198,7 @@ principal_curve <- function(
     }
 
     # Converged?
-    has_converged <- (abs((dist_old - pcurve$dist) / dist_old) <= thresh)
+    has_converged <- abs(dist_old - pcurve$dist) <= thresh * dist_old
 
     if (plot_iterations) {
       plot(

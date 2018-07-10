@@ -123,3 +123,7 @@ test_that("Testing principal_curve with periodic_lowess", {
   expect_gte(cor(as.vector(fit$s), as.vector(s)), .99)
 })
 
+test_that("New example", {
+  mat <- matrix(rep(seq(1, 11, 1), 3), ncol = 3)
+  fit <- principal_curve(mat)
+})

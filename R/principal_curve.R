@@ -144,13 +144,14 @@ principal_curve <- function(
       lambda <- svd_xstar$u[,1] * dd[1]
       ord <- order(lambda)
       s <- scale(outer(lambda, svd_xstar$v[,1]), center = -xbar, scale = FALSE)
+      dimnames(s) <- dimnames(x)
       dist <- sum((dd^2)[-1]) * nrow(x)
       start <- list(s = s, ord = ord, lambda = lambda, dist = dist)
     }
   } else if (!inherits(start, "principal_curve")) {
     # use given starting curve
     if (is.matrix(start)) {
-      start <- project_to_curve(x, s = start, stretch = stretch)
+      start <- project_to_curve(x = x, s = start, stretch = stretch)
     } else {
       stop("Invalid starting curve: should be a matrix or principal_curve")
     }
@@ -173,7 +174,12 @@ principal_curve <- function(
   }
 
   # Pre-allocate nxp matrix 's'
-  s <- matrix(as.double(NA), nrow = nrow(x), ncol = ncol(x))
+  s <- matrix(
+    as.double(NA),
+    nrow = nrow(x),
+    ncol = ncol(x),
+    dimnames = dimnames(x)
+  )
 
   has_converged <- abs(dist_old - pcurve$dist) <= thresh * dist_old
   while (!has_converged && it < maxit) {
@@ -186,18 +192,14 @@ principal_curve <- function(
     dist_old <- pcurve$dist
 
     # Finds the "projection index" for a matrix of points 'x',
-    # when projected onto a curve 's'.  The projection index,
-    # \lambda_f(x) [Eqn (3) in Hastie & Stuetzle (1989), is
-    # the value of \lambda for which f(\lambda) is closest
-    # to x.
-    pcurve <- project_to_curve(x, s = s, stretch = stretch)
+    pcurve <- project_to_curve(x = x, s = s, stretch = stretch)
 
-    # Bias correct?
+    # Bias correct
     if (bias_correct_curve) {
-      pcurve <- bias_correct_curve(x, pcurve = pcurve, ...)
+      pcurve <- bias_correct_curve(x = x, pcurve = pcurve, ...)
     }
 
-    # Converged?
+    # Converged
     has_converged <- abs(dist_old - pcurve$dist) <= thresh * dist_old
 
     if (plot_iterations) {
@@ -220,8 +222,8 @@ principal_curve <- function(
     ord = pcurve$ord,
     lambda = pcurve$lambda,
     dist = pcurve$dist,
-    converged = has_converged,         # Added by HB
-    num_iterations = as.integer(it),   # Added by HB
+    converged = has_converged,
+    num_iterations = as.integer(it),
     call = function_call
   )
   class(out) <- "principal_curve"

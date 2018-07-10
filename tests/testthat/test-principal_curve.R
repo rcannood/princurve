@@ -123,8 +123,29 @@ test_that("Testing principal_curve with periodic_lowess", {
   expect_gte(cor(as.vector(fit$s), as.vector(s)), .99)
 })
 
-test_that("New example", {
+test_that("principal_curve does not produce NAs when checking for convergence", {
   mat <- matrix(rep(seq(1, 11, 1), 3), ncol = 3)
   fit <- principal_curve(mat)
   expect_lte(sum((fit$s - mat)^2), 1e-10)
+})
+
+
+
+test_that("principal_curve keeps rownames and colnames", {
+  mat <- matrix(runif(100), ncol = 4)
+  rownames(mat) <- seq_len(25)
+  fit <- principal_curve(mat)
+  expect_equal(dimnames(fit$s), dimnames(mat))
+
+  colnames(mat) <- LETTERS[1:4]
+  fit <- principal_curve(mat)
+  expect_equal(dimnames(fit$s), dimnames(mat))
+
+  rownames(mat) <- NULL
+  fit <- principal_curve(mat)
+  expect_equal(dimnames(fit$s), dimnames(mat))
+
+  colnames(mat) <- NULL
+  fit <- principal_curve(mat)
+  expect_equal(dimnames(fit$s), dimnames(mat))
 })

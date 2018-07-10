@@ -76,8 +76,10 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
   // OUTPUT DATA STRUCTURES
   // projections of x onto s
   NumericMatrix new_s(x.nrow(), x.ncol());
-  rownames(new_s) = rownames(x);
-  colnames(new_s) = colnames(x);
+  new_s.attr("dimnames") = List::create(
+    rownames(x),
+    colnames(x)
+  );
 
   // distance from start of the curve
   NumericVector lambda(x.nrow());

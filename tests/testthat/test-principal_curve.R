@@ -126,4 +126,5 @@ test_that("Testing principal_curve with periodic_lowess", {
 test_that("New example", {
   mat <- matrix(rep(seq(1, 11, 1), 3), ncol = 3)
   fit <- principal_curve(mat)
+  expect_lte(sum((fit$s - mat)^2), 1e-10)
 })

@@ -43,6 +43,8 @@ Latest changes in princurve 2.0.5 (unreleased)
 
 -   BUG FIX `project_to_curve()`: set dimension names of outputted `s` correctly.
 
+-   DOCUMENTATION: Added `cran-comments.md` and `revdep` to repository.
+
 Check [NEWS.md](inst/NEWS.md) for full list of changes.
 
 References

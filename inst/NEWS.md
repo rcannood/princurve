@@ -4,6 +4,8 @@
     has already converged.
   
   * BUG FIX `project_to_curve()`: set dimension names of outputted `s` correctly.
+  
+  * DOCUMENTATION: Added `cran-comments.md` and `revdep` to repository.
 
 # princurve 2.0.4 (2018-07-09)
 

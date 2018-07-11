@@ -56,6 +56,7 @@
 #' @export
 #'
 #' @importFrom stats lowess smooth.spline predict var
+#' @importFrom grDevices extendrange
 #'
 #' @examples
 #' x <- runif(100,-1,1)
@@ -162,10 +163,10 @@ principal_curve <- function(
   if (plot_iterations) {
     plot(
       x[,1:2],
-      xlim = adjust_range(x[,1], 1.3999999999999999),
-	    ylim = adjust_range(x[,2], 1.3999999999999999))
-      lines(pcurve$s[pcurve$ord, 1:2]
+      xlim = grDevices::extendrange(x[,1], f = .2),
+	    ylim = grDevices::extendrange(x[,2], f = .2)
     )
+    lines(pcurve$s[pcurve$ord, 1:2])
   }
 
   it <- 0
@@ -205,8 +206,8 @@ principal_curve <- function(
     if (plot_iterations) {
       plot(
         x[,1:2],
-        xlim = adjust_range(x[,1], 1.3999999999999999),
-        ylim = adjust_range(x[,2], 1.3999999999999999)
+        xlim = grDevices::extendrange(x[,1], f = .2),
+        ylim = grDevices::extendrange(x[,2], f = .2)
       )
       lines(pcurve$s[pcurve$ord, 1:2])
     }

@@ -31,6 +31,7 @@ Depends: R (>= 3.0)
 Imports:
   stats,
   graphics,
+  grDevices,
   Rcpp
 Suggests:
   testthat,

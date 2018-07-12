@@ -6,6 +6,7 @@
 #' @param x The data for which to generate the initial circle
 #'
 #' @examples
+#' \dontrun{
 #' x <- cbind(
 #'   rnorm(100, 1, .2),
 #'   rnorm(100, -5, .2),
@@ -15,6 +16,7 @@
 #' circ <- start_circle(x)
 #' plot(x)
 #' lines(circ)
+#' }
 start_circle <- function(x) {
   n_points <- 360 # number of points to generate for the initial_s
 

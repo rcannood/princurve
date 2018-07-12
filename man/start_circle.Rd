@@ -14,6 +14,7 @@ The starting circle is defined in the first two dimensions,
 and has zero values in all other dimensions.
 }
 \examples{
+\dontrun{
 x <- cbind(
   rnorm(100, 1, .2),
   rnorm(100, -5, .2),
@@ -23,4 +24,5 @@ x <- cbind(
 circ <- start_circle(x)
 plot(x)
 lines(circ)
+}
 }

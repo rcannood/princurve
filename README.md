@@ -45,6 +45,16 @@ Latest changes in princurve 2.0.5 (unreleased)
 
 -   DOCUMENTATION: Added `cran-comments.md` and `revdep` to repository.
 
+-   MINOR CHANGE: Removed `adjust_range()`; use `grDevices::extendrange()` instead.
+
+-   TESTING `start_circle()`: Added unit tests.
+
+-   BUG FIX `start_circle()`: Make sure circle is centered and scaled correctly.
+
+-   MINOR CHANGE: Move smoother functions from inside `principal_curve()` to a list `smoother_functions`.
+
+-   TESTING `smoother_functions`: Added tests to ensure each of the smoother functions work correctly.
+
 Check [NEWS.md](inst/NEWS.md) for full list of changes.
 
 References

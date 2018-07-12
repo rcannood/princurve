@@ -1,7 +1,9 @@
 context("Comparing principal.curve and get.lam to legacy package")
 
-if (!"princurvelegacy" %in% rownames(installed.packages()))
+already_installed <- "princurvelegacy" %in% rownames(installed.packages())
+if (!already_installed) {
   devtools::install_github("dynverse/princurve@legacy")
+}
 
 for (i in seq_len(10)) {
   test_that(paste0("Directly compare principal.curve against legagy, run ", i), {
@@ -46,4 +48,8 @@ for (i in seq_len(10)) {
     expect_gte(abs(cor(fit1$lambda, fit3$lambda)), .99)
     expect_lte(abs(fit1$dist - fit3$dist), .01)
   })
+}
+
+if (!already_installed) {
+  remove.packages("princurvelegacy")
 }

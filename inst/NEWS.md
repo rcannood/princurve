@@ -18,6 +18,10 @@
     
   * TESTING `smoother_functions`: Added tests to ensure each of the smoother
     functions work correctly.
+    
+  * SPEED UP `principal_curve()`: Added `approx_points` parameter. This allows
+    approximation of the curve between smoothing and projection, to ensure 
+    `principal_curve()` scales well to higher numbers of samples.
 
 # princurve 2.0.4 (2018-07-09)
 

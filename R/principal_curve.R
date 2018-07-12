@@ -80,7 +80,6 @@ principal_curve <- function(
   plot_iterations = FALSE,
   ...
 ) {
-  force(smoother)
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Validate arguments:
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -102,9 +101,9 @@ principal_curve <- function(
 
     if (smoother == "periodic_lowess") {
       stretch <- 0
-      bias_correct_curve <- FALSE
-    } else {
       bias_correct_curve <- TRUE
+    } else {
+      bias_correct_curve <- FALSE
     }
   }
 

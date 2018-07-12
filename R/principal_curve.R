@@ -55,6 +55,8 @@
 #'
 #' @export
 #'
+#' @include smoother_functions.R
+#'
 #' @importFrom stats lowess smooth.spline predict var
 #' @importFrom grDevices extendrange
 #'
@@ -73,11 +75,12 @@ principal_curve <- function(
   thresh = 0.001,
   maxit = 10,
   stretch = 2,
-  smoother = c("smooth_spline", "lowess", "periodic_lowess"),
+  smoother = names(smoother_functions),
   trace = FALSE,
   plot_iterations = FALSE,
   ...
 ) {
+  force(smoother)
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Validate arguments:
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -90,45 +93,24 @@ principal_curve <- function(
   # Check 'smoother'
   if (is.function(smoother)) {
     smoother_function <- smoother
+    bias_correct_curve <- FALSE
   } else if (is.character(smoother)) {
     # substitute .'s to _'s for backwards compatibility
     smoother <- gsub("\\.", "_", smoother)
     smoother <- match.arg(smoother)
-    smoother_function <- NULL
+    smoother_function <- smoother_functions[[smoother]]
 
     if (smoother == "periodic_lowess") {
       stretch <- 0
+      bias_correct_curve <- FALSE
+    } else {
+      bias_correct_curve <- TRUE
     }
   }
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Setup
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  if (is.null(smoother_function)) {
-    smoother_function <- switch(smoother,
-      lowess = function(lambda, xj, ...) {
-        stats::lowess(lambda, xj, ...)$y
-      },
-
-      smooth_spline = function(lambda, xj, ..., df = 5) {
-        ord <- order(lambda)
-        lambda <- lambda[ord]
-        xj <- xj[ord]
-        fit <- stats::smooth.spline(lambda, xj, ..., df = df, keep.data = FALSE)
-        stats::predict(fit, x = lambda)$y
-      },
-
-      periodic_lowess = function(lambda, xj, ...) {
-        periodic_lowess(lambda, xj, ...)$y
-      }
-    )
-
-    # Should the fitted curve be bias corrected (in each iteration)?
-    bias_correct_curve <- (smoother == "periodic_lowess")
-  } else {
-    bias_correct_curve <- FALSE
-  }
-
   function_call <- match.call()
   dist_old <- sum(diag(stats::var(x)))
 
@@ -230,6 +212,8 @@ principal_curve <- function(
   class(out) <- "principal_curve"
   out
 }
+
+formals(principal_curve)$smoother <- names(smoother_functions)
 
 #' @rdname principal_curve
 #' @export

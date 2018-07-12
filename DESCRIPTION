@@ -42,3 +42,13 @@ URL: https://github.com/dynverse/princurve
 BugReports: https://github.com/dynverse/princurve/issues
 LinkingTo: 
   Rcpp
+Collate: 
+    'RcppExports.R'
+    'bias_correct_curve.R'
+    'get.lam.R'
+    'package.R'
+    'periodic_lowess.R'
+    'principal.curve.R'
+    'smoother_functions.R'
+    'principal_curve.R'
+    'start_circle.R'

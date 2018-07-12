@@ -14,7 +14,7 @@
 #'  JASA, Vol. 84, No. 406 (Jun., 1989), pp. 502-516,
 #'  DOI: \href{https://doi.org/10.2307/2289936}{10.2307/2289936}
 #'  (\href{https://web.stanford.edu/~hastie/Papers/principalcurves.pdf}{PDF}).
-#' 
+#'
 #'  See also Banfield and Raftery (JASA, 1992).
 #'
 #' @keywords regression smooth nonparametric

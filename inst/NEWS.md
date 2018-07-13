@@ -18,6 +18,10 @@
     
   * TESTING `smoother_functions`: Added tests to ensure each of the smoother
     functions work correctly.
+    
+  * SPEED UP `project_to_curve`: Significantly speed up this function by not
+    allocation objects that don't need allocation, and pre-allocating objects
+    that do.
 
 # princurve 2.0.4 (2018-07-09)
 

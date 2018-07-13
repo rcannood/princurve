@@ -199,6 +199,7 @@ test_that("Expect project_to_curve to error elegantly", {
   expect_error(project_to_curve(x = x, s = list(), stretch = 0))
   expect_error(project_to_curve(x, s, stretch = -1), "larger than or equal to 0")
   expect_error(project_to_curve(x, s, stretch = "10"))
+  expect_error(project_to_curve(x, cbind(s, s)), "must have an equal number of columns")
 })
 
 

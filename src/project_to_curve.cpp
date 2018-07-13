@@ -78,7 +78,8 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
   for (int i = 0; i < nseg; ++i) {
     diff(i, _) = s(i + 1, _) - s(i, _);
 
-    // OPTIMISATION: length[i] = sum(pow(diff(i, _), 2));
+    // OPTIMISATION: compute length manually
+    // length[i] = sum(pow(diff(i, _), 2));
     double l = 0;
     for (int k = 0; k < ncols; ++k) {
       l += diff(i, k) * diff(i, k);
@@ -144,6 +145,7 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
 
   // calculate lambda for new_s
   NumericVector new_lambda = no_init(new_ord.length());
+  new_lambda[new_ord[0]] = 0;
 
   for (int i = 1; i < new_ord.length(); ++i) {
     int o1 = new_ord[i];

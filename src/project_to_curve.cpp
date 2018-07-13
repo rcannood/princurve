@@ -72,18 +72,24 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
 
   // precompute distances between successive points in the curve
   // and the length of each segment
-  NumericMatrix diff(nseg, ncols);
-  NumericVector length(nseg);
+  NumericMatrix diff = no_init(nseg, ncols);
+  NumericVector length = no_init(nseg);
 
   for (int i = 0; i < nseg; ++i) {
     diff(i, _) = s(i + 1, _) - s(i, _);
-    length[i] = sum(pow(diff(i, _), 2.0));
+
+    // OPTIMISATION: length[i] = sum(pow(diff(i, _), 2));
+    double l = 0;
+    for (int k = 0; k < ncols; ++k) {
+      l += diff(i, k) * diff(i, k);
+    }
+    length[i] = l;
   }
 
   // OUTPUT DATA STRUCTURES
-  NumericMatrix new_s(npts, ncols);  // projections of x onto s
-  NumericVector lambda(npts);           // distance from start of the curve
-  NumericVector dist_ind(npts);         // distances between x and new_s
+  NumericMatrix new_s = no_init(npts, ncols);     // projections of x onto s
+  NumericVector lambda = no_init(npts);           // distance from start of the curve
+  NumericVector dist_ind = no_init(npts);         // distances between x and new_s
 
   // iterate over points in x
   for (int i = 0; i < npts; ++i) {
@@ -92,7 +98,7 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
     // store information on the closest segment
     int bestj = -1;
     double bestt = -1;
-    NumericVector n(ncols);
+    NumericVector n = no_init(ncols);
     double bestdi = R_PosInf;
 
     // iterate over the segments
@@ -137,7 +143,7 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
   double dist = sum(dist_ind);
 
   // calculate lambda for new_s
-  NumericVector new_lambda(new_ord.length());
+  NumericVector new_lambda = no_init(new_ord.length());
 
   for (int i = 1; i < new_ord.length(); ++i) {
     int o1 = new_ord[i];

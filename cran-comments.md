@@ -35,9 +35,5 @@ Error in project_to_curve(x = x, s = start, stretch = stretch) :
   Expecting a single value: [extent=50].
 ```
 
-I have sent the maintainer a patch for pathifier which solves the problem.
-The parameter `stretch` is supposed to be a numeric of length 1, 
-but in a pathifier example a numeric of length 50 is passed.
-princurve <= 2.0.2 did not make a fuss when a vector of incorrect length
-is passed, but princurve >= 2.0.3 is more stringent.
-
+This error has been fixed in the bioconductor repository, but 
+still needs to be approved by bioconductor.

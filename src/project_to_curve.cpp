@@ -96,15 +96,18 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
   // pre-allocate intermediate vectors
   NumericVector n_test = no_init(ncols);
   NumericVector n = no_init(ncols);
+  NumericVector p = no_init(ncols);
 
   // iterate over points in x
   for (int i = 0; i < npts; ++i) {
-    NumericVector p = x(i, _);
-
     // store information on the closest segment
-    int bestj = -1;
-    double bestt = -1;
+    double bestlam = -1;
     double bestdi = R_PosInf;
+
+    // copy current point to p
+    for (int k = 0; k < ncols; ++k) {
+      p[k] = x(i, k);
+    }
 
     // iterate over the segments
     for (int j = 0; j < nseg; ++j) {
@@ -116,7 +119,7 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
       // double t = sum(diff1 * diff2) / length(j);
       double t = 0;
       for (int k = 0; k < ncols; ++k) {
-        t += diff(j, k) * (p(k) - s(j, k));
+        t += diff(j, k) * (p[k] - s(j, k));
       }
       t /= length(j);
       // END OPTIMISATION
@@ -137,16 +140,14 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
       for (int k = 0; k < ncols; ++k) {
         double value = s(j, k) + t * diff(j, k);
         n_test(k) = value;
-        value -= p[k];
-        di += value * value;
+        di += (value - p[k]) * (value - p[k]);
       }
       // END OPTIMISATION
 
       // if this is better than what was found earlier, store it
       if (di < bestdi) {
         bestdi = di;
-        bestj = j;
-        bestt = t;
+        bestlam = bestj + .1 + .9 * bestt;
         for (int k = 0; k < ncols; ++k) {
           n[k] = n_test[k];
         }
@@ -155,7 +156,7 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
     }
 
     // save the best projection to the output data structures
-    lambda[i] = bestj + .1 + .9 * bestt;
+    lambda[i] = bestlam;
     dist_ind[i] = bestdi;
     for (int k = 0; k < ncols; ++k) {
       new_s(i, k) = n[k];

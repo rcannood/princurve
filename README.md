@@ -55,6 +55,8 @@ Latest changes in princurve 2.0.5 (unreleased)
 
 -   TESTING `smoother_functions`: Added tests to ensure each of the smoother functions work correctly.
 
+-   SPEED UP `project_to_curve`: Significantly speed up this function by not allocation objects that don't need allocation, and pre-allocating objects that do.
+
 Check [NEWS.md](inst/NEWS.md) for full list of changes.
 
 References

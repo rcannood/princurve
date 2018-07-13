@@ -19,10 +19,14 @@
   * TESTING `smoother_functions`: Added tests to ensure each of the smoother
     functions work correctly.
     
+  * SPEED UP `project_to_curve()`: Significantly speed up this function by not
+    allocation objects that don't need allocation, and pre-allocating objects
+    that do.
+
   * SPEED UP `principal_curve()`: Added `approx_points` parameter. This allows
     approximation of the curve between smoothing and projection, to ensure 
     `principal_curve()` scales well to higher numbers of samples.
-
+    
 # princurve 2.0.4 (2018-07-09)
 
   * BUG FIX: Fixed issues with legacy `principal.curve()` and `get.lam()` (#8).

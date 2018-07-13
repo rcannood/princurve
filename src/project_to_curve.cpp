@@ -74,19 +74,9 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
   }
 
   // OUTPUT DATA STRUCTURES
-  // projections of x onto s
-  NumericMatrix new_s(x.nrow(), x.ncol());
-  new_s.attr("dimnames") = List::create(
-    rownames(x),
-    colnames(x)
-  );
-
-  // distance from start of the curve
-  NumericVector lambda(x.nrow());
-
-  // distances between x and new_s
-  NumericVector dist_ind(x.nrow());
-  dist_ind.attr("names") = rownames(x);
+  NumericMatrix new_s(x.nrow(), x.ncol());  // projections of x onto s
+  NumericVector lambda(x.nrow());           // distance from start of the curve
+  NumericVector dist_ind(x.nrow());         // distances between x and new_s
 
   // iterate over points in x
   for (int i = 0; i < x.nrow(); ++i) {
@@ -142,7 +132,6 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
 
   // calculate lambda for new_s
   NumericVector new_lambda(new_ord.length());
-  new_lambda.attr("names") = rownames(x);
 
   for (int i = 1; i < new_ord.length(); ++i) {
     int o1 = new_ord[i];
@@ -151,6 +140,14 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
     NumericVector p0 = new_s(o0, _);
     new_lambda[o1] = new_lambda[o0] + sqrt(sum(pow(p1 - p0, 2.0)));
   }
+
+  // make sure all dimnames are correct
+  new_s.attr("dimnames") = List::create(
+    rownames(x),
+    colnames(x)
+  );
+  dist_ind.attr("names") = rownames(x);
+  new_lambda.attr("names") = rownames(x);
 
   // return output
   List ret;

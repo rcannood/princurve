@@ -62,39 +62,45 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
     stop("Argument 'stretch' should be larger than or equal to 0");
   }
 
+  int nseg = s.nrow() - 1;
+  int npts = x.nrow();
+  int ncols = x.ncol();
+
+  if (s.ncol() != ncols) {
+    stop("'x' and 's' must have an equal number of columns");
+  }
+
   // precompute distances between successive points in the curve
   // and the length of each segment
-  int num_segments = s.nrow() - 1;
-  NumericMatrix diff(num_segments, s.ncol());
-  NumericVector length(num_segments);
+  NumericMatrix diff(nseg, ncols);
+  NumericVector length(nseg);
 
-  for (int i = 0; i < num_segments; ++i) {
+  for (int i = 0; i < nseg; ++i) {
     diff(i, _) = s(i + 1, _) - s(i, _);
     length[i] = sum(pow(diff(i, _), 2.0));
   }
 
   // OUTPUT DATA STRUCTURES
-  NumericMatrix new_s(x.nrow(), x.ncol());  // projections of x onto s
-  NumericVector lambda(x.nrow());           // distance from start of the curve
-  NumericVector dist_ind(x.nrow());         // distances between x and new_s
+  NumericMatrix new_s(npts, ncols);  // projections of x onto s
+  NumericVector lambda(npts);           // distance from start of the curve
+  NumericVector dist_ind(npts);         // distances between x and new_s
 
   // iterate over points in x
-  for (int i = 0; i < x.nrow(); ++i) {
+  for (int i = 0; i < npts; ++i) {
     NumericVector p = x(i, _);
 
     // store information on the closest segment
     int bestj = -1;
     double bestt = -1;
-    NumericVector n(x.ncol());
+    NumericVector n(ncols);
     double bestdi = R_PosInf;
 
     // iterate over the segments
-    for (int j = 0; j < num_segments; ++j) {
+    for (int j = 0; j < nseg; ++j) {
 
       // project p orthogonally onto the segment
       NumericVector diff1 = diff(j, _);
       NumericVector diff2 = p - s(j, _);
-
       double t = sum(diff1 * diff2) / length(j);
       if (t < 0) {
         t = 0.0;

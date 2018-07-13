@@ -77,8 +77,8 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
 
   for (int i = 0; i < nseg; ++i) {
     // OPTIMISATION: compute length manually
-    // diff(i, _) = s(i + 1, _) - s(i, _);
-    // length[i] = sum(pow(diff(i, _), 2));
+    //   diff(i, _) = s(i + 1, _) - s(i, _);
+    //   length[i] = sum(pow(diff(i, _), 2));
     double l = 0;
     for (int k = 0; k < ncols; ++k) {
       double value = s(i + 1, k) - s(i, k);
@@ -115,9 +115,9 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
 
       // project p orthogonally onto the segment
       // OPTIMISATION: do not allocate diff1 and diff2; compute t manually
-      // NumericVector diff1 = s(j + 1, _) - s(j, _);
-      // NumericVector diff2 = p - s(j, _);
-      // double t = sum(diff1 * diff2) / length(j);
+      //   NumericVector diff1 = s(j + 1, _) - s(j, _);
+      //   NumericVector diff2 = p - s(j, _);
+      //   double t = sum(diff1 * diff2) / length(j);
       double t = 0;
       for (int k = 0; k < ncols; ++k) {
         t += diff(j, k) * (p[k] - s(j, k));
@@ -133,10 +133,9 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
       }
 
       // calculate position of projection and the distance
-
       // OPTIMISATION: compute di and n_test manually
-      // NumericVector n_test = s(j, _) + t * diff(j, _);
-      // double di = sum(pow(n_test - p, 2.0));
+      //   NumericVector n_test = s(j, _) + t * diff(j, _);
+      //   double di = sum(pow(n_test - p, 2.0));
       double di = 0;
       for (int k = 0; k < ncols; ++k) {
         double value = s(j, k) + t * diff(j, k);
@@ -170,16 +169,24 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
   // calculate total dist
   double dist = sum(dist_ind);
 
-  // calculate lambda for new_s
-  // NumericVector new_lambda = no_init(new_ord.length());
+  // recalculate lambda for new_s
   lambda[new_ord[0]] = 0;
 
   for (int i = 1; i < new_ord.length(); ++i) {
     int o1 = new_ord[i];
     int o0 = new_ord[i - 1];
-    NumericVector p1 = new_s(o1, _);
-    NumericVector p0 = new_s(o0, _);
-    lambda[o1] = lambda[o0] + sqrt(sum(pow(p1 - p0, 2.0)));
+
+    // OPTIMISATION: compute lambda[o1] manually
+    //   NumericVector p1 = new_s(o1, _);
+    //   NumericVector p0 = new_s(o0, _);
+    //   lambda[o1] = lambda[o0] + sqrt(sum(pow(p1 - p0, 2.0)));
+    double o0o1 = 0;
+    for (int k = 0; k < ncols; ++k) {
+      double val = new_s(o1, k) - new_s(o0, k);
+      o0o1 += val * val;
+    }
+    lambda[o1] = lambda[o0] + sqrt(o0o1);
+    // END OPTIMISATION
   }
 
   // make sure all dimnames are correct

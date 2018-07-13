@@ -85,6 +85,7 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
       l += diff(i, k) * diff(i, k);
     }
     length[i] = l;
+    // END OPTIMISATION
   }
 
   // OUTPUT DATA STRUCTURES
@@ -115,6 +116,7 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
         t += diff(j, k) * (p(k) - s(j, k));
       }
       t /= length(j);
+      // END OPTIMISATION
 
       if (t < 0) {
         t = 0.0;

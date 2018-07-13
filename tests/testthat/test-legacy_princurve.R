@@ -66,7 +66,7 @@ test_that("project_to_cells is at least as fast as legacy get.lam", {
     times = 100L
   )
   smic <- summary(mic)
-  expect_lte(smic$mean[[2]], smic$mean[[1]] * 1.2)
+  expect_lte(smic$mean[[2]], smic$mean[[1]] * 2)
 })
 
 if (!already_installed) {

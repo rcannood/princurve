@@ -10,7 +10,7 @@
 \usage{
 principal_curve(x, start = NULL, thresh = 0.001, maxit = 10,
   stretch = 2, smoother = c("smooth_spline", "lowess", "periodic_lowess"),
-  trace = FALSE, plot_iterations = FALSE, ...)
+  approx_points = FALSE, trace = FALSE, plot_iterations = FALSE, ...)
 
 \method{lines}{principal_curve}(x, ...)
 
@@ -40,6 +40,11 @@ Must be a numeric value between 0 and 2.}
 \code{"smooth_spline"}, and other choices are \code{"lowess"} and
 \code{"periodic_lowess"}. The latter allows one to fit closed curves.
 Beware, you may want to use \code{iter = 0} with \code{lowess()}.}
+
+\item{approx_points}{Approximate curve after smoothing to reduce computational time.
+If \code{FALSE}, no approximation of the curve occurs. Otherwise,
+\code{approx_points} must be equal to the number of points the curve
+gets approximated to; preferably about 100.}
 
 \item{trace}{If \code{TRUE}, the iteration information is printed}
 

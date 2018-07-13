@@ -27,6 +27,16 @@ test_that("Testing principal_curve with smooth_spline", {
   expect_gte(abs(cor(fit$ord, seq_len(100))), .99)
 })
 
+
+test_that("Testing principal_curve returns same results with approx optimisation", {
+  fit <- principal_curve(x)
+  fit2 <- principal_curve(x, approx_points = 100)
+
+  expect_gte(cor(as.vector(fit$s), as.vector(fit2$s)), .99)
+  expect_gte(abs(cor(order(fit$ord), order(fit2$ord))), .99)
+  expect_gte(abs(cor(fit$lambda, fit2$lambda)), .99)
+})
+
 test_that("Testing principal_curve with custom function", {
   fun <- function(lambda, xj, ...) {
     stats::lowess(lambda, xj, ...)$y

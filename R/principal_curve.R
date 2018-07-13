@@ -21,6 +21,10 @@
 #'   \code{"smooth_spline"}, and other choices are \code{"lowess"} and
 #'   \code{"periodic_lowess"}. The latter allows one to fit closed curves.
 #'   Beware, you may want to use \code{iter = 0} with \code{lowess()}.
+#' @param approx_points Approximate curve after smoothing to reduce computational time.
+#'   If \code{FALSE}, no approximation of the curve occurs. Otherwise,
+#'   \code{approx_points} must be equal to the number of points the curve
+#'   gets approximated to; preferably about 100.
 #' @param trace If \code{TRUE}, the iteration information is printed
 #' @param ... additional arguments to the smoothers
 #'
@@ -76,6 +80,7 @@ principal_curve <- function(
   maxit = 10,
   stretch = 2,
   smoother = names(smoother_functions),
+  approx_points = FALSE,
   trace = FALSE,
   plot_iterations = FALSE,
   ...
@@ -158,7 +163,7 @@ principal_curve <- function(
   # Pre-allocate nxp matrix 's'
   s <- matrix(
     as.double(NA),
-    nrow = nrow(x),
+    nrow = ifelse(approx_points > 0, approx_points, nrow(x)),
     ncol = ncol(x),
     dimnames = dimnames(x)
   )
@@ -167,8 +172,17 @@ principal_curve <- function(
   while (!has_converged && it < maxit) {
     it <- it + 1
 
-    for(jj in seq_len(ncol(x))) {
-      s[,jj] <- smoother_function(pcurve$lambda, x[,jj], ...)
+    if (approx_points > 0) {
+      sort_lambda <- sort(pcurve$lambda)
+      xout_lambda <- seq(sort_lambda[[1]], sort_lambda[[length(sort_lambda)]], length.out = approx_points)
+    }
+
+    for (jj in seq_len(ncol(x))) {
+      yjj <- smoother_function(pcurve$lambda, x[,jj], ...)
+      if (approx_points > 0) {
+        yjj <- approx(x = sort_lambda, y = yjj, xout = xout_lambda)$y
+      }
+      s[,jj] <- yjj
     }
 
     dist_old <- pcurve$dist

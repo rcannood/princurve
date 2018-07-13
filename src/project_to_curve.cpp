@@ -106,9 +106,16 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
     for (int j = 0; j < nseg; ++j) {
 
       // project p orthogonally onto the segment
-      NumericVector diff1 = diff(j, _);
-      NumericVector diff2 = p - s(j, _);
-      double t = sum(diff1 * diff2) / length(j);
+      // OPTIMISATION: do not allocate diff1 and diff2; compute t manually
+      // NumericVector diff1 = s(j + 1, _) - s(j, _);
+      // NumericVector diff2 = p - s(j, _);
+      // double t = sum(diff1 * diff2) / length(j);
+      double t = 0;
+      for (int k = 0; k < ncols; ++k) {
+        t += diff(j, k) * (p(k) - s(j, k));
+      }
+      t /= length(j);
+
       if (t < 0) {
         t = 0.0;
       }

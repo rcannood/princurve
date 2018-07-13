@@ -93,6 +93,10 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
   NumericVector lambda = no_init(npts);           // distance from start of the curve
   NumericVector dist_ind = no_init(npts);         // distances between x and new_s
 
+  // pre-allocate intermediate vectors
+  NumericVector n_test = no_init(ncols);
+  NumericVector n = no_init(ncols);
+
   // iterate over points in x
   for (int i = 0; i < npts; ++i) {
     NumericVector p = x(i, _);
@@ -100,7 +104,6 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
     // store information on the closest segment
     int bestj = -1;
     double bestt = -1;
-    NumericVector n = no_init(ncols);
     double bestdi = R_PosInf;
 
     // iterate over the segments
@@ -126,24 +129,37 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
       }
 
       // calculate position of projection and the distance
-      NumericVector n_test = s(j, _) + t * diff(j, _);
 
-      // calcualte distance of projection and original point
-      double di = sum(pow(n_test - p, 2.0));
+      // OPTIMISATION: compute di and n_test manually
+      // NumericVector n_test = s(j, _) + t * diff(j, _);
+      // double di = sum(pow(n_test - p, 2.0));
+      double di = 0;
+      for (int k = 0; k < ncols; ++k) {
+        double value = s(j, k) + t * diff(j, k);
+        n_test(k) = value;
+        value -= p[k];
+        di += value * value;
+      }
+      // END OPTIMISATION
 
       // if this is better than what was found earlier, store it
       if (di < bestdi) {
         bestdi = di;
-        n = n_test;
         bestj = j;
         bestt = t;
+        for (int k = 0; k < ncols; ++k) {
+          n[k] = n_test[k];
+        }
+
       }
     }
 
     // save the best projection to the output data structures
-    new_s(i, _) = n;
     lambda[i] = bestj + .1 + .9 * bestt;
     dist_ind[i] = bestdi;
+    for (int k = 0; k < ncols; ++k) {
+      new_s(i, k) = n[k];
+    }
   }
 
   // get ordering from old lambda

@@ -76,19 +76,20 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
   NumericVector length = no_init(nseg);
 
   for (int i = 0; i < nseg; ++i) {
-    diff(i, _) = s(i + 1, _) - s(i, _);
-
     // OPTIMISATION: compute length manually
+    // diff(i, _) = s(i + 1, _) - s(i, _);
     // length[i] = sum(pow(diff(i, _), 2));
     double l = 0;
     for (int k = 0; k < ncols; ++k) {
-      l += diff(i, k) * diff(i, k);
+      double value = s(i + 1, k) - s(i, k);
+      diff(i, k) = value;
+      l += value * value;
     }
     length[i] = l;
     // END OPTIMISATION
   }
 
-  // OUTPUT DATA STRUCTURES
+  // allocate output data structures
   NumericMatrix new_s = no_init(npts, ncols);     // projections of x onto s
   NumericVector lambda = no_init(npts);           // distance from start of the curve
   NumericVector dist_ind = no_init(npts);         // distances between x and new_s
@@ -147,7 +148,7 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
       // if this is better than what was found earlier, store it
       if (di < bestdi) {
         bestdi = di;
-        bestlam = bestj + .1 + .9 * bestt;
+        bestlam = j + .1 + .9 * t;
         for (int k = 0; k < ncols; ++k) {
           n[k] = n_test[k];
         }
@@ -170,15 +171,15 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
   double dist = sum(dist_ind);
 
   // calculate lambda for new_s
-  NumericVector new_lambda = no_init(new_ord.length());
-  new_lambda[new_ord[0]] = 0;
+  // NumericVector new_lambda = no_init(new_ord.length());
+  lambda[new_ord[0]] = 0;
 
   for (int i = 1; i < new_ord.length(); ++i) {
     int o1 = new_ord[i];
     int o0 = new_ord[i - 1];
     NumericVector p1 = new_s(o1, _);
     NumericVector p0 = new_s(o0, _);
-    new_lambda[o1] = new_lambda[o0] + sqrt(sum(pow(p1 - p0, 2.0)));
+    lambda[o1] = lambda[o0] + sqrt(sum(pow(p1 - p0, 2.0)));
   }
 
   // make sure all dimnames are correct
@@ -187,13 +188,13 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
     colnames(x)
   );
   dist_ind.attr("names") = rownames(x);
-  new_lambda.attr("names") = rownames(x);
+  lambda.attr("names") = rownames(x);
 
   // return output
   List ret;
   ret["s"] = new_s;
   ret["ord"] = new_ord + 1;
-  ret["lambda"] = new_lambda;
+  ret["lambda"] = lambda;
   ret["dist_ind"] = dist_ind;
   ret["dist"] = dist;
 

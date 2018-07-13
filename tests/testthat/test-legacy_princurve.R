@@ -50,6 +50,25 @@ for (i in seq_len(10)) {
   })
 }
 
+test_that("project_to_cells is at least as fast as legacy get.lam", {
+  set.seed(1)
+  np <- 1000
+  lambda <- rnorm(np, 0, .2)
+  x <- cbind(
+    lambda + rnorm(length(lambda), 0, .02),
+    lambda^2 + rnorm(length(lambda), 0, .02)
+  )
+  s <- cbind(lambda, lambda^2)
+  mic <- microbenchmark::microbenchmark(
+    fortran = princurvelegacy::get.lam(x, s),
+    rcpp = princurve::project_to_curve(x, s),
+    unit = "ms",
+    times = 100L
+  )
+  smic <- summary(mic)
+  expect_lte(smic$mean[[2]], smic$mean[[1]] * 1.2)
+})
+
 if (!already_installed) {
   remove.packages("princurvelegacy")
 }

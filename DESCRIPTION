@@ -1,5 +1,5 @@
 Package: princurve
-Version: 2.0.5.9001
+Version: 2.1.0.9001
 Title: Fits a Principal Curve in Arbitrary Dimension
 Authors@R: c(
   person("Trevor", "Hastie", email = "trevor@research.att.com", role = "aut"),
@@ -31,13 +31,25 @@ Depends: R (>= 3.0)
 Imports:
   stats,
   graphics,
+  grDevices,
   Rcpp
 Suggests:
-  testthat,
-  devtools
+  devtools,
+  microbenchmark,
+  testthat
 NeedsCompilation: yes
 RoxygenNote: 6.0.1
 URL: https://github.com/dynverse/princurve
 BugReports: https://github.com/dynverse/princurve/issues
 LinkingTo: 
   Rcpp
+Collate: 
+    'RcppExports.R'
+    'bias_correct_curve.R'
+    'get.lam.R'
+    'package.R'
+    'periodic_lowess.R'
+    'principal.curve.R'
+    'smoother_functions.R'
+    'principal_curve.R'
+    'start_circle.R'

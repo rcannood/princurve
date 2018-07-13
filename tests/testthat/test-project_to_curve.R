@@ -32,7 +32,6 @@ test_projection <- function(x, s, stretch, fit) {
 # test data
 z <- seq(-1, 1, length.out = 100)
 s <- cbind(z, z^2, z^3, z^4)
-colnames(s) <- paste0("Comp", seq_len(ncol(s)))
 x <- s + rnorm(length(s), mean = 0, sd = .005)
 ord <- sample.int(nrow(x))
 
@@ -48,6 +47,21 @@ test_that("Testing project_to_curve", {
 
   expect_gte(cor(as.vector(fit$s), as.vector(s)), .99)
   expect_gte(cor(fit$ord, seq_len(100)), .99)
+})
+
+
+test_that("Checking whether project_to_curve retains dimnames", {
+  colnames(x) <- paste0("Comp", seq_len(ncol(x)))
+  fit <- project_to_curve(x = x, s = s, stretch = 0)
+  test_projection(x, s, stretch = 0, fit)
+
+  rownames(x) <- paste0("Sample", seq_len(nrow(x)))
+  fit <- project_to_curve(x = x, s = s, stretch = 0)
+  test_projection(x, s, stretch = 0, fit)
+
+  colnames(x) <- NULL
+  fit <- project_to_curve(x = x, s = s, stretch = 0)
+  test_projection(x, s, stretch = 0, fit)
 })
 
 test_that("Testing get.lam for backwards compatibility", {
@@ -185,6 +199,7 @@ test_that("Expect project_to_curve to error elegantly", {
   expect_error(project_to_curve(x = x, s = list(), stretch = 0))
   expect_error(project_to_curve(x, s, stretch = -1), "larger than or equal to 0")
   expect_error(project_to_curve(x, s, stretch = "10"))
+  expect_error(project_to_curve(x, cbind(s, s)), "must have an equal number of columns")
 })
 
 

@@ -36,28 +36,28 @@ Check out `?principal_curve` for more information on the specific outputs of `pr
 
 <!-- ## Latest changes -->
 <!-- This section gets automatically generated from inst/NEWS.md, and also generates inst/NEWS -->
-Latest changes in princurve 2.0.4 (2018-07-09)
+Latest changes in princurve 2.1.0 (unreleased)
 ----------------------------------------------
 
--   BUG FIX: Fixed issues with legacy `principal.curve()` and `get.lam()` (\#8).
+-   BUG FIX `principal_curve()`: avoid division by zero when the initial principal curve has already converged.
 
--   TESTING: Perform direct comparison between the current princurve and princurve 1.1-12 to check whether `principal.curve()` and `get.lam()` produce output with exactly the same format and almost exactly the same values.
+-   BUG FIX `project_to_curve()`: set dimension names of outputted `s` correctly.
 
--   SIGNIFICANT CHANGE: Remove the `ord` parameter from `project_to_curve()`, in order to reduce the amount of Rcpp code a little bit.
+-   DOCUMENTATION: Added `cran-comments.md` and `revdep` to repository.
 
--   DOCUMENTATION: Improved citations (\#10).
+-   MINOR CHANGE: Removed `adjust_range()`; use `grDevices::extendrange()` instead.
 
--   DOCUMENTATION: Improved news (\#11).
+-   TESTING `start_circle()`: Added unit tests.
 
--   SPEED UP `project_to_curve`: Do not compute `lambda` accurately as it is only used to order the points in `x`.
+-   BUG FIX `start_circle()`: Make sure circle is centered and scaled correctly.
 
--   MINOR CHANGE: Added `...` argument to `whiskers()`.
+-   MINOR CHANGE: Move smoother functions from inside `principal_curve()` to a list `smoother_functions`.
 
--   DOCUMENTATION: Minor fix in output documentation of `principal_curve()`.
+-   TESTING `smoother_functions`: Added tests to ensure each of the smoother functions work correctly.
 
--   DOCUMENTATION: Added more information to the README.
+-   SPEED UP `project_to_curve()`: Significantly speed up this function by not allocation objects that don't need allocation, and pre-allocating objects that do.
 
--   MINOR CHANGE: Support both `news()` and markdown news on GitHub.
+-   SPEED UP `principal_curve()`: Added `approx_points` parameter. This allows approximation of the curve between smoothing and projection, to ensure `principal_curve()` scales well to higher numbers of samples.
 
 Check [NEWS.md](inst/NEWS.md) for full list of changes.
 

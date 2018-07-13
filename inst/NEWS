@@ -1,3 +1,32 @@
+princurve 2.1.0 (unreleased)
+
+  * BUG FIX `principal_curve()`: avoid division by zero when the initial principal curve
+    has already converged.
+  
+  * BUG FIX `project_to_curve()`: set dimension names of outputted `s` correctly.
+  
+  * DOCUMENTATION: Added `cran-comments.md` and `revdep` to repository.
+  
+  * MINOR CHANGE: Removed `adjust_range()`; use `grDevices::extendrange()` instead.
+  
+  * TESTING `start_circle()`: Added unit tests.
+  
+  * BUG FIX `start_circle()`: Make sure circle is centered and scaled correctly.
+  
+  * MINOR CHANGE: Move smoother functions from inside `principal_curve()` to 
+    a list `smoother_functions`.
+    
+  * TESTING `smoother_functions`: Added tests to ensure each of the smoother
+    functions work correctly.
+    
+  * SPEED UP `project_to_curve()`: Significantly speed up this function by not
+    allocation objects that don't need allocation, and pre-allocating objects
+    that do.
+
+  * SPEED UP `principal_curve()`: Added `approx_points` parameter. This allows
+    approximation of the curve between smoothing and projection, to ensure 
+    `principal_curve()` scales well to higher numbers of samples.
+    
 princurve 2.0.4 (2018-07-09)
 
   * BUG FIX: Fixed issues with legacy `principal.curve()` and `get.lam()` (#8).
@@ -13,7 +42,7 @@ princurve 2.0.4 (2018-07-09)
 
   * DOCUMENTATION: Improved news (#11).
 
-  * SPEED UP `project_to_curve`: Do not compute `lambda` accurately as it
+  * SPEED UP `project_to_curve()`: Do not compute `lambda` accurately as it
     is only used to order the points in `x`.
 
   * MINOR CHANGE: Added `...` argument to `whiskers()`.

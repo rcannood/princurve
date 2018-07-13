@@ -7,3 +7,4 @@
 ^inst/NEWS.md$
 ^.*\.o\.bc$
 ^cran-comments\.md$
+^revdep$

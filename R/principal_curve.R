@@ -21,6 +21,10 @@
 #'   \code{"smooth_spline"}, and other choices are \code{"lowess"} and
 #'   \code{"periodic_lowess"}. The latter allows one to fit closed curves.
 #'   Beware, you may want to use \code{iter = 0} with \code{lowess()}.
+#' @param approx_points Approximate curve after smoothing to reduce computational time.
+#'   If \code{FALSE}, no approximation of the curve occurs. Otherwise,
+#'   \code{approx_points} must be equal to the number of points the curve
+#'   gets approximated to; preferably about 100.
 #' @param trace If \code{TRUE}, the iteration information is printed
 #' @param ... additional arguments to the smoothers
 #'
@@ -55,7 +59,10 @@
 #'
 #' @export
 #'
+#' @include smoother_functions.R
+#'
 #' @importFrom stats lowess smooth.spline predict var
+#' @importFrom grDevices extendrange
 #'
 #' @examples
 #' x <- runif(100,-1,1)
@@ -72,7 +79,8 @@ principal_curve <- function(
   thresh = 0.001,
   maxit = 10,
   stretch = 2,
-  smoother = c("smooth_spline", "lowess", "periodic_lowess"),
+  smoother = names(smoother_functions),
+  approx_points = FALSE,
   trace = FALSE,
   plot_iterations = FALSE,
   ...
@@ -89,45 +97,24 @@ principal_curve <- function(
   # Check 'smoother'
   if (is.function(smoother)) {
     smoother_function <- smoother
+    bias_correct_curve <- FALSE
   } else if (is.character(smoother)) {
     # substitute .'s to _'s for backwards compatibility
     smoother <- gsub("\\.", "_", smoother)
     smoother <- match.arg(smoother)
-    smoother_function <- NULL
+    smoother_function <- smoother_functions[[smoother]]
 
     if (smoother == "periodic_lowess") {
       stretch <- 0
+      bias_correct_curve <- TRUE
+    } else {
+      bias_correct_curve <- FALSE
     }
   }
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Setup
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  if (is.null(smoother_function)) {
-    smoother_function <- switch(smoother,
-      lowess = function(lambda, xj, ...) {
-        stats::lowess(lambda, xj, ...)$y
-      },
-
-      smooth_spline = function(lambda, xj, ..., df = 5) {
-        ord <- order(lambda)
-        lambda <- lambda[ord]
-        xj <- xj[ord]
-        fit <- stats::smooth.spline(lambda, xj, ..., df = df, keep.data = FALSE)
-        stats::predict(fit, x = lambda)$y
-      },
-
-      periodic_lowess = function(lambda, xj, ...) {
-        periodic_lowess(lambda, xj, ...)$y
-      }
-    )
-
-    # Should the fitted curve be bias corrected (in each iteration)?
-    bias_correct_curve <- (smoother == "periodic_lowess")
-  } else {
-    bias_correct_curve <- FALSE
-  }
-
   function_call <- match.call()
   dist_old <- sum(diag(stats::var(x)))
 
@@ -144,13 +131,14 @@ principal_curve <- function(
       lambda <- svd_xstar$u[,1] * dd[1]
       ord <- order(lambda)
       s <- scale(outer(lambda, svd_xstar$v[,1]), center = -xbar, scale = FALSE)
+      dimnames(s) <- dimnames(x)
       dist <- sum((dd^2)[-1]) * nrow(x)
       start <- list(s = s, ord = ord, lambda = lambda, dist = dist)
     }
   } else if (!inherits(start, "principal_curve")) {
     # use given starting curve
     if (is.matrix(start)) {
-      start <- project_to_curve(x, s = start, stretch = stretch)
+      start <- project_to_curve(x = x, s = start, stretch = stretch)
     } else {
       stop("Invalid starting curve: should be a matrix or principal_curve")
     }
@@ -161,10 +149,10 @@ principal_curve <- function(
   if (plot_iterations) {
     plot(
       x[,1:2],
-      xlim = adjust_range(x[,1], 1.3999999999999999),
-	    ylim = adjust_range(x[,2], 1.3999999999999999))
-      lines(pcurve$s[pcurve$ord, 1:2]
+      xlim = grDevices::extendrange(x[,1], f = .2),
+	    ylim = grDevices::extendrange(x[,2], f = .2)
     )
+    lines(pcurve$s[pcurve$ord, 1:2])
   }
 
   it <- 0
@@ -173,38 +161,48 @@ principal_curve <- function(
   }
 
   # Pre-allocate nxp matrix 's'
-  s <- matrix(as.double(NA), nrow = nrow(x), ncol = ncol(x))
+  s <- matrix(
+    as.double(NA),
+    nrow = ifelse(approx_points > 0, approx_points, nrow(x)),
+    ncol = ncol(x),
+    dimnames = dimnames(x)
+  )
 
-  has_converged <- (abs((dist_old - pcurve$dist) / dist_old) <= thresh)
+  has_converged <- abs(dist_old - pcurve$dist) <= thresh * dist_old
   while (!has_converged && it < maxit) {
     it <- it + 1
 
-    for(jj in seq_len(ncol(x))) {
-      s[,jj] <- smoother_function(pcurve$lambda, x[,jj], ...)
+    if (approx_points > 0) {
+      sort_lambda <- sort(pcurve$lambda)
+      xout_lambda <- seq(sort_lambda[[1]], sort_lambda[[length(sort_lambda)]], length.out = approx_points)
+    }
+
+    for (jj in seq_len(ncol(x))) {
+      yjj <- smoother_function(pcurve$lambda, x[,jj], ...)
+      if (approx_points > 0) {
+        yjj <- approx(x = sort_lambda, y = yjj, xout = xout_lambda)$y
+      }
+      s[,jj] <- yjj
     }
 
     dist_old <- pcurve$dist
 
     # Finds the "projection index" for a matrix of points 'x',
-    # when projected onto a curve 's'.  The projection index,
-    # \lambda_f(x) [Eqn (3) in Hastie & Stuetzle (1989), is
-    # the value of \lambda for which f(\lambda) is closest
-    # to x.
-    pcurve <- project_to_curve(x, s = s, stretch = stretch)
+    pcurve <- project_to_curve(x = x, s = s, stretch = stretch)
 
-    # Bias correct?
+    # Bias correct
     if (bias_correct_curve) {
-      pcurve <- bias_correct_curve(x, pcurve = pcurve, ...)
+      pcurve <- bias_correct_curve(x = x, pcurve = pcurve, ...)
     }
 
-    # Converged?
-    has_converged <- (abs((dist_old - pcurve$dist) / dist_old) <= thresh)
+    # Converged
+    has_converged <- abs(dist_old - pcurve$dist) <= thresh * dist_old
 
     if (plot_iterations) {
       plot(
         x[,1:2],
-        xlim = adjust_range(x[,1], 1.3999999999999999),
-        ylim = adjust_range(x[,2], 1.3999999999999999)
+        xlim = grDevices::extendrange(x[,1], f = .2),
+        ylim = grDevices::extendrange(x[,2], f = .2)
       )
       lines(pcurve$s[pcurve$ord, 1:2])
     }
@@ -220,13 +218,15 @@ principal_curve <- function(
     ord = pcurve$ord,
     lambda = pcurve$lambda,
     dist = pcurve$dist,
-    converged = has_converged,         # Added by HB
-    num_iterations = as.integer(it),   # Added by HB
+    converged = has_converged,
+    num_iterations = as.integer(it),
     call = function_call
   )
   class(out) <- "principal_curve"
   out
 }
+
+formals(principal_curve)$smoother <- names(smoother_functions)
 
 #' @rdname principal_curve
 #' @export

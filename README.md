@@ -36,7 +36,7 @@ Check out `?principal_curve` for more information on the specific outputs of `pr
 
 <!-- ## Latest changes -->
 <!-- This section gets automatically generated from inst/NEWS.md, and also generates inst/NEWS -->
-Latest changes in princurve 2.1.0 (unreleased)
+Latest changes in princurve 2.1.0 (2018-07-14)
 ----------------------------------------------
 
 -   BUG FIX `principal_curve()`: avoid division by zero when the initial principal curve has already converged.

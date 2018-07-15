@@ -69,6 +69,10 @@ ix <- which(str_detect(news_md, "^# princurve"))
 cat(str_replace(news_md[[ix[[1]]]], "^# ", "## Latest changes in "))
 
 cat(news_md[seq(ix[[1]]+1, ix[[2]]-1)], sep = "\n")
+
+cat(str_replace(news_md[[ix[[2]]]], "^# ", "## Latest changes in "))
+
+cat(news_md[seq(ix[[2]]+1, ix[[3]]-1)], sep = "\n")
 ```
 
 Check [NEWS.md](inst/NEWS.md) for a full list of changes.

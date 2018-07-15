@@ -35,17 +35,25 @@ Imports:
   Rcpp
 Suggests:
   devtools,
+  dplyr,
+  ggplot2,
+  knitr,
   microbenchmark,
-  testthat
+  purrr,
+  rmarkdown,
+  testthat,
+  tidyr
 NeedsCompilation: yes
 RoxygenNote: 6.0.1
 URL: https://github.com/dynverse/princurve
 BugReports: https://github.com/dynverse/princurve/issues
 LinkingTo: 
   Rcpp
+VignetteBuilder: knitr
 Collate: 
     'RcppExports.R'
     'bias_correct_curve.R'
+    'data.R'
     'get.lam.R'
     'package.R'
     'periodic_lowess.R'

@@ -32,10 +32,24 @@ plot(fit); whiskers(x, fit$s, col = "gray")
 
 ![](man/figures/README_example_plot-1.png)
 
-Check out `?principal_curve` for more information on the specific outputs of `principal_curve()`.
+Check out `?principal_curve` for more information on the specific outputs of `principal_curve()`. An overview of the principal curve algorithm is given in the [algorithm](vignettes/algorithm.md) vignette.
+
+Benchmarks
+----------
+
+Using the experimental `approx_points` parameter, princurve 2.1.0 offers major performance improvements for large datasets.
+
+![](vignettes/benchmarks_files/figure-markdown_github/compare-1.png)
+
+Read more about this feature in the [benchmarks](vignettes/benchmarks.md) vignette.
 
 <!-- ## Latest changes -->
 <!-- This section gets automatically generated from inst/NEWS.md, and also generates inst/NEWS -->
+Latest changes in princurve 2.1.1 (unreleased)
+----------------------------------------------
+
+-   DOCUMENTATION: Added vignettes on the algorithm behind princurve and on benchmarking results between princurve 1.1 and 2.1.
+
 Latest changes in princurve 2.1.0 (2018-07-14)
 ----------------------------------------------
 
@@ -59,7 +73,7 @@ Latest changes in princurve 2.1.0 (2018-07-14)
 
 -   SPEED UP `principal_curve()`: Added `approx_points` parameter. This allows approximation of the curve between smoothing and projection, to ensure `principal_curve()` scales well to higher numbers of samples.
 
-Check [NEWS.md](inst/NEWS.md) for full list of changes.
+Check [NEWS.md](inst/NEWS.md) for a full list of changes.
 
 References
 ----------

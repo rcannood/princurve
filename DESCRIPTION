@@ -40,6 +40,7 @@ Suggests:
   knitr,
   microbenchmark,
   purrr,
+  rmarkdown,
   testthat,
   tidyr
 NeedsCompilation: yes

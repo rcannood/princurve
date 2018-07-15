@@ -39,7 +39,17 @@ fit <- principal_curve(x)
 plot(fit); whiskers(x, fit$s, col = "gray")
 ```
 
-Check out `?principal_curve` for more information on the specific outputs of `principal_curve()`.
+Check out `?principal_curve` for more information on the specific outputs of `principal_curve()`. 
+An overview of the principal curve algorithm is given in the [algorithm](vignettes/algorithm.md) vignette.
+
+## Benchmarks
+
+Using the experimental `approx_points` parameter, princurve 2.1.0 offers major performance improvements for large datasets.
+
+![](vignettes/benchmarks_files/figure-markdown_github/compare-1.png)
+
+
+Read more about this feature in the [benchmarks](vignettes/benchmarks.md) vignette.
 
 <!-- ## Latest changes -->
 <!-- This section gets automatically generated from inst/NEWS.md, and also generates inst/NEWS -->
@@ -61,7 +71,7 @@ cat(str_replace(news_md[[ix[[1]]]], "^# ", "## Latest changes in "))
 cat(news_md[seq(ix[[1]]+1, ix[[2]]-1)], sep = "\n")
 ```
 
-Check [NEWS.md](inst/NEWS.md) for full list of changes.
+Check [NEWS.md](inst/NEWS.md) for a full list of changes.
 
 ## References
 

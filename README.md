@@ -32,34 +32,25 @@ plot(fit); whiskers(x, fit$s, col = "gray")
 
 ![](man/figures/README_example_plot-1.png)
 
-Check out `?principal_curve` for more information on the specific outputs of `principal_curve()`.
+Check out `?principal_curve` for more information on the specific outputs of `principal_curve()`. An overview of the principal curve algorithm is given in the [algorithm](vignettes/algorithm.md) vignette.
+
+Benchmarks
+----------
+
+Using the experimental `approx_points` parameter, princurve 2.1.0 offers major performance improvements for large datasets.
+
+![](vignettes/benchmarks_files/figure-markdown_github/compare-1.png)
+
+Read more about this feature in the [benchmarks](vignettes/benchmarks.md) vignette.
 
 <!-- ## Latest changes -->
 <!-- This section gets automatically generated from inst/NEWS.md, and also generates inst/NEWS -->
-Latest changes in princurve 2.1.0 (2018-07-14)
+Latest changes in princurve 2.1.1 (unreleased)
 ----------------------------------------------
 
--   BUG FIX `principal_curve()`: avoid division by zero when the initial principal curve has already converged.
+-   DOCUMENTATION: Added vignettes on the algorithm behind princurve and on benchmarking results between princurve 1.1 and 2.1.
 
--   BUG FIX `project_to_curve()`: set dimension names of outputted `s` correctly.
-
--   DOCUMENTATION: Added `cran-comments.md` and `revdep` to repository.
-
--   MINOR CHANGE: Removed `adjust_range()`; use `grDevices::extendrange()` instead.
-
--   TESTING `start_circle()`: Added unit tests.
-
--   BUG FIX `start_circle()`: Make sure circle is centered and scaled correctly.
-
--   MINOR CHANGE: Move smoother functions from inside `principal_curve()` to a list `smoother_functions`.
-
--   TESTING `smoother_functions`: Added tests to ensure each of the smoother functions work correctly.
-
--   SPEED UP `project_to_curve()`: Significantly speed up this function by not allocation objects that don't need allocation, and pre-allocating objects that do.
-
--   SPEED UP `principal_curve()`: Added `approx_points` parameter. This allows approximation of the curve between smoothing and projection, to ensure `principal_curve()` scales well to higher numbers of samples.
-
-Check [NEWS.md](inst/NEWS.md) for full list of changes.
+Check [NEWS.md](inst/NEWS.md) for a full list of changes.
 
 References
 ----------

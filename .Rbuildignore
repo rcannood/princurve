@@ -8,3 +8,7 @@
 ^.*\.o\.bc$
 ^cran-comments\.md$
 ^revdep$
+^data-raw
+^vignettes/.*\.html$
+^vignettes/.*\.md$
+^vignettes/.*/.*\.png$

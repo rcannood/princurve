@@ -1,3 +1,8 @@
+princurve 2.1.1 (unreleased)
+
+  * DOCUMENTATION: Added vignettes on the algorithm behind princurve and
+    on benchmarking results between princurve 1.1 and 2.1.
+
 princurve 2.1.0 (2018-07-14)
 
   * BUG FIX `principal_curve()`: avoid division by zero when the initial principal curve

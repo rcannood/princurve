@@ -100,7 +100,7 @@ principal_curve <- function(
     bias_correct_curve <- FALSE
   } else if (is.character(smoother)) {
     # substitute .'s to _'s for backwards compatibility
-    smoother <- gsub("\\.", "_", smoother)
+    smoother <- gsub(".", "_", smoother, fixed = TRUE)
     smoother <- match.arg(smoother)
     smoother_function <- smoother_functions[[smoother]]
 

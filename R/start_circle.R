@@ -20,7 +20,7 @@
 start_circle <- function(x) {
   n_points <- 360 # number of points to generate for the initial_s
 
-  xbar <- apply(x, 2, mean)
+  xbar <- colMeans(x)
   radius <- colMeans(abs(sweep(x, 2, xbar)))
   theta <- pi * seq_len(n_points) * 2 / n_points
 

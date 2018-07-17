@@ -2,7 +2,7 @@
 bias_correct_curve <- function(x, pcurve, ...) {
   # bias correction, as suggested by Jeff Banfield
   ones <- rep(1, ncol(x))
-  sbar <- apply(pcurve$s, 2, "mean")
+  sbar <- colMeans(pcurve$s)
   ray <- drop(sqrt(((x - pcurve$s)^2) %*% ones))
   dist1 <- (scale(x, sbar, FALSE)^2) %*% ones
   dist2 <- (scale(pcurve$s, sbar, FALSE)^2) %*% ones

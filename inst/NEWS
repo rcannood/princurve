@@ -1,7 +1,15 @@
-princurve 2.1.1 (unreleased)
+princurve 2.1.1 (2018-07-23)
 
   * DOCUMENTATION: Added vignettes on the algorithm behind princurve and
     on benchmarking results between princurve 1.1 and 2.1.
+    
+  * BUG FIX `principal_curve()`: Don't apply rownames to curve as approx_points could
+    be set to a different value other than `nrow(x)`.
+  
+  * TESTING: Skip comparison unit test between princurve 1.1 and 2.1 on CRAN.
+  
+  * MINOR CHANGE `project_to_curve()`: Attempt to fix rchk warnings by not using
+    `x(i, j) = v` notation but instead `x[j * x.nrow() + i] = v`.
 
 princurve 2.1.0 (2018-07-14)
 

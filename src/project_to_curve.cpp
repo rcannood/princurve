@@ -20,7 +20,7 @@ IntegerVector order(const NumericVector & x) {
 
   IntegerVector result = no_init(n);
   for(size_t i = 0; i < n; ++i) {
-    result(i) = pairs[i].first;
+    result[i] = pairs[i].first;
   }
 
   return result;
@@ -82,7 +82,7 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
     double l = 0;
     for (int k = 0; k < ncols; ++k) {
       double value = s(i + 1, k) - s(i, k);
-      diff(i, k) = value;
+      diff[k * nseg + i] = value;
       l += value * value;
     }
     length[i] = l;
@@ -139,7 +139,7 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
       double di = 0;
       for (int k = 0; k < ncols; ++k) {
         double value = s(j, k) + t * diff(j, k);
-        n_test(k) = value;
+        n_test[k] = value;
         di += (value - p[k]) * (value - p[k]);
       }
       // END OPTIMISATION
@@ -159,7 +159,7 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
     lambda[i] = bestlam;
     dist_ind[i] = bestdi;
     for (int k = 0; k < ncols; ++k) {
-      new_s(i, k) = n[k];
+      new_s[k * npts + i] = n[k];
     }
   }
 

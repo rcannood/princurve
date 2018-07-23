@@ -32,6 +32,7 @@ This is showcased on a toy example, where the number of points was varied betwee
 
 ```{r benchmark, eval=FALSE}
 # warning: running this will take ± 2 hours
+# princurvelegacy can be installed using devtools::install_github("dynverse/princurve@legacy")
 num_points <- round(10^seq(log10(100), log10(100000), length.out = 25))
 lambda <- rnorm(max(num_points), 0, .2)
 x <- cbind(lambda, lambda^2) + rnorm(length(lambda) * 2, 0, .02)
@@ -41,7 +42,7 @@ benchmarks <- map_df(
   function(np) {
     xsel <- x[seq_len(np),]
     microbenchmark::microbenchmark(
-      "princurve1.1" = princurvelegacy::principal.curve(xsel),
+      "princurve1.1" = princurvelegacy::principal.curve(xsel), 
       "princurve2.1" = princurve::principal_curve(xsel, approx_points = 100),
       times = 10L,
       unit = "ms"

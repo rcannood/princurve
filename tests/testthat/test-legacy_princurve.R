@@ -1,5 +1,7 @@
 context("Comparing principal.curve and get.lam to legacy package")
 
+skip_on_cran()
+
 already_installed <- "princurvelegacy" %in% rownames(installed.packages())
 if (!already_installed) {
   devtools::install_github("dynverse/princurve@legacy")

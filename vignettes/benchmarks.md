@@ -9,6 +9,7 @@ princurve 2.1 contains major optimisations if the `approx_points` parameter is u
 
 ``` r
 # warning: running this will take ± 2 hours
+# princurvelegacy can be installed using devtools::install_github("dynverse/princurve@legacy")
 num_points <- round(10^seq(log10(100), log10(100000), length.out = 25))
 lambda <- rnorm(max(num_points), 0, .2)
 x <- cbind(lambda, lambda^2) + rnorm(length(lambda) * 2, 0, .02)

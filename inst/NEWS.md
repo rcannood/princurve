@@ -7,6 +7,9 @@
     be set to a different value other than `nrow(x)`.
   
   * TESTING: Skip comparison unit test between princurve 1.1 and 2.1 on CRAN.
+  
+  * MINOR CHANGE `project_to_curve()`: Attempt to fix rchk warnings by not using
+    `x(i, j) = v` notation but instead `x[j * x.nrow() + i] = v`.
 
 # princurve 2.1.0 (2018-07-14)
 

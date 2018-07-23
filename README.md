@@ -54,6 +54,8 @@ Latest changes in princurve 2.1.1 (2018-07-23)
 
 -   TESTING: Skip comparison unit test between princurve 1.1 and 2.1 on CRAN.
 
+-   MINOR CHANGE `project_to_curve()`: Attempt to fix rchk warnings by not using `x(i, j) = v` notation but instead `x[j * x.nrow() + i] = v`.
+
 Latest changes in princurve 2.1.0 (2018-07-14)
 ----------------------------------------------
 

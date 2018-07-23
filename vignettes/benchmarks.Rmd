@@ -1,7 +1,11 @@
 ---
 title: "Benchmarking princurve"
-author: "Robrecht Cannoodt"
-output: rmarkdown::html_vignette
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    fig_caption: false
+    toc: false
+    toc_depth: 3
 vignette: >
   %\VignetteIndexEntry{Benchmarking princurve}
   %\VignetteEncoding{UTF-8}
@@ -11,7 +15,7 @@ editor_options:
 ---
 
 <!-- github markdown using
-rmarkdown::render("vignettes/benchmarks.Rmd", output_format = "github_document")
+rmarkdown::render(input = "vignettes/benchmarks.Rmd")
 -->
 
 ```{r, echo=FALSE}

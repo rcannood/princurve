@@ -7,3 +7,6 @@ src/*.so
 src/*.dll
 .DS_Store
 revdep/**/
+vignettes/*.html
+vignettes/*.md
+vignettes/**/figure*

@@ -1,17 +1,22 @@
 ---
-title: "Explanation of the principal curve algorithm"
-author: "Robrecht Cannoodt"
-output: rmarkdown::html_vignette
+title: "The princurve algorithm"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    fig_caption: false
+    toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+    toc_depth: 3
 vignette: >
-  %\VignetteIndexEntry{Explanation of the principal curve algorithm}
-  %\VignetteEncoding{UTF-8}
+  %\VignetteIndexEntry{The princurve algoritm}
   %\VignetteEngine{knitr::rmarkdown}
-editor_options: 
-  chunk_output_type: console
+  %\VignetteEncoding{UTF-8}
 ---
 
 <!-- github markdown using
-rmarkdown::render("vignettes/algorithm.Rmd", output_format = "github_document")
+rmarkdown::render(input = "vignettes/algorithm.Rmd")
 -->
 
 ```{r setup, echo=FALSE, message=FALSE}

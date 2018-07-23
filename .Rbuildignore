@@ -11,4 +11,4 @@
 ^data-raw
 ^vignettes/.*\.html$
 ^vignettes/.*\.md$
-^vignettes/.*/.*\.png$
+^vignettes/.*/figure.*$

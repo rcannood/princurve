@@ -1,8 +1,7 @@
 context("Ensuring that princurve is at least as fast as legacy princurve")
 
-skip_on_appveyor()
-skip_on_cran()
-skip_on_travis()
+# only run this test on the maintainer's development environment
+skip_if_not(Sys.info()[["user"]] %in% c("rcannood"))
 
 already_installed <- "princurvelegacy" %in% rownames(installed.packages())
 if (!already_installed) {

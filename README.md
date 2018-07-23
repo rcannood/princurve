@@ -39,7 +39,18 @@ Benchmarks
 
 Using the experimental `approx_points` parameter, princurve 2.1.0 offers major performance improvements for large datasets.
 
-![](vignettes/benchmarks_files/figure-markdown_github/compare-1.png)
+``` r
+data("benchmarks", package = "princurve")
+ggplot(benchmarks, aes(num_points, median / 1000)) +
+  geom_point() +
+  geom_line() +
+  facet_wrap(~expr, ncol = 1, scales = "free") +
+  theme_bw() +
+  labs(x = "Number of rows in dataset", y = "Time (s)") +
+  scale_colour_brewer(palette = "Set1")
+```
+
+![](man/figures/README_compare-1.png)
 
 Read more about this feature in the [benchmarks](vignettes/benchmarks.md) vignette.
 
@@ -55,6 +66,8 @@ Latest changes in princurve 2.1.1 (2018-07-23)
 -   TESTING: Skip comparison unit test between princurve 1.1 and 2.1 on CRAN.
 
 -   MINOR CHANGE `project_to_curve()`: Attempt to fix rchk warnings by not using `x(i, j) = v` notation but instead `x[j * x.nrow() + i] = v`.
+
+-   DOCUMENTATION: Fix in README documentation.
 
 Latest changes in princurve 2.1.0 (2018-07-14)
 ----------------------------------------------

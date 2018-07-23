@@ -50,6 +50,8 @@ Latest changes in princurve 2.1.1 (unreleased)
 
 -   DOCUMENTATION: Added vignettes on the algorithm behind princurve and on benchmarking results between princurve 1.1 and 2.1.
 
+-   TESTING: Skip comparison unit test between princurve 1.1 and 2.1 on CRAN.
+
 Latest changes in princurve 2.1.0 (2018-07-14)
 ----------------------------------------------
 

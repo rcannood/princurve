@@ -165,7 +165,7 @@ principal_curve <- function(
     as.double(NA),
     nrow = ifelse(approx_points > 0, approx_points, nrow(x)),
     ncol = ncol(x),
-    dimnames = dimnames(x)
+    dimnames = list(NULL, colnames(x))
   )
 
   has_converged <- abs(dist_old - pcurve$dist) <= thresh * dist_old

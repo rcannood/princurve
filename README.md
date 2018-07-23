@@ -45,10 +45,12 @@ Read more about this feature in the [benchmarks](vignettes/benchmarks.md) vignet
 
 <!-- ## Latest changes -->
 <!-- This section gets automatically generated from inst/NEWS.md, and also generates inst/NEWS -->
-Latest changes in princurve 2.1.1 (unreleased)
+Latest changes in princurve 2.1.1 (2018-07-23)
 ----------------------------------------------
 
 -   DOCUMENTATION: Added vignettes on the algorithm behind princurve and on benchmarking results between princurve 1.1 and 2.1.
+
+-   BUG FIX `principal_curve()`: Don't apply rownames to curve as approx\_points could be set to a different value other than `nrow(x)`.
 
 -   TESTING: Skip comparison unit test between princurve 1.1 and 2.1 on CRAN.
 

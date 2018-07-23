@@ -9,26 +9,26 @@
 |language |(EN)                            |
 |collate  |en_GB.UTF-8                     |
 |tz       |Europe/Brussels                 |
-|date     |2018-07-13                      |
+|date     |2018-07-23                      |
 
 # Dependencies
 
-|package   |old   |new        |Δ  |
-|:---------|:-----|:----------|:--|
-|princurve |2.0.4 |2.0.5.9001 |*  |
+|package   |old   |new   |Δ  |
+|:---------|:-----|:-----|:--|
+|princurve |2.1.0 |2.1.1 |*  |
 
 # Revdeps
 
 ## All (8)
 
-|package                                                |version |error |warning |note |
-|:------------------------------------------------------|:-------|:-----|:-------|:----|
-|analogue                                               |0.17-0  |      |        |     |
-|[aroma.light](problems.md#aromalight)                  |3.10.0  |      |        |1    |
-|[ClusterSignificance](problems.md#clustersignificance) |1.8.0   |-1    |        |1    |
-|FateID                                                 |0.1.2   |      |        |     |
-|MDSMap                                                 |1.0     |      |        |     |
-|[pathifier](problems.md#pathifier)                     |1.18.0  |1     |        |2    |
-|RSDA                                                   |2.0.4   |      |        |     |
-|SCORPIUS                                               |1.0.2   |      |        |     |
+|package                               |version |error |warning |note |
+|:-------------------------------------|:-------|:-----|:-------|:----|
+|analogue                              |0.17-0  |      |        |     |
+|[aroma.light](problems.md#aromalight) |3.10.0  |      |        |1    |
+|ClusterSignificance                   |1.8.2   |      |        |     |
+|FateID                                |0.1.2   |      |        |     |
+|MDSMap                                |1.0     |      |        |     |
+|[pathifier](problems.md#pathifier)    |1.20.0  |      |        |1    |
+|RSDA                                  |2.0.4   |      |        |     |
+|SCORPIUS                              |1.0.2   |      |        |     |
 

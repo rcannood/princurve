@@ -10,6 +10,8 @@
   
   * MINOR CHANGE `project_to_curve()`: Attempt to fix rchk warnings by not using
     `x(i, j) = v` notation but instead `x[j * x.nrow() + i] = v`.
+    
+  * DOCUMENTATION: Fix in README documentation.
 
 # princurve 2.1.0 (2018-07-14)
 

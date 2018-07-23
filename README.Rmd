@@ -46,8 +46,16 @@ An overview of the principal curve algorithm is given in the [algorithm](vignett
 
 Using the experimental `approx_points` parameter, princurve 2.1.0 offers major performance improvements for large datasets.
 
-![](vignettes/benchmarks_files/figure-markdown_github/compare-1.png)
-
+```{r compare, fig.height=8, fig.width=8}
+data("benchmarks", package = "princurve")
+ggplot(benchmarks, aes(num_points, median / 1000)) +
+  geom_point() +
+  geom_line() +
+  facet_wrap(~expr, ncol = 1, scales = "free") +
+  theme_bw() +
+  labs(x = "Number of rows in dataset", y = "Time (s)") +
+  scale_colour_brewer(palette = "Set1")
+```
 
 Read more about this feature in the [benchmarks](vignettes/benchmarks.md) vignette.
 

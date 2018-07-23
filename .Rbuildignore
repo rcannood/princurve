@@ -10,3 +10,5 @@
 ^revdep$
 ^data-raw
 ^vignettes/.*\.html$
+^vignettes/.*\.md$
+^vignettes/.*/.*\.png$

@@ -1,28 +1,23 @@
-Submitting princurve 2.1.1 because one of the tests was failing on CRAN.
-In this test, the current version of princurve was being directly compared to
-princurve 1.1-12 to ensure backwards compatibility. This issue was solved
-by disabling the test, as it is sufficient to run this test on locally and 
-on travis.
+There was a problem generating the vignettes because ffmpeg was not installed,
+resulting in warnings on fedora and solaris platforms.
 
-I noticed rchk produced a warning for princurve 2.1.0, which should be fixed
-in this version.
+I rewrote the vignette to use `magick` instead of `animation`, which uses 
+imagemagick instead of ffmpeg as a back end. 
 
 ## Changelog
 
-  * DOCUMENTATION: Added vignettes on the algorithm behind princurve and
-    on benchmarking results between princurve 1.1 and 2.1.
+  * DOCUMENTATION: Use the `magick` package to generate animated GIFs in 
+    the vignette, instead of the `animation` package, because
+    `animation` uses `ffmpeg` which is not installed on all CRAN systems.
     
-  * BUG FIX `principal_curve()`: Don't apply rownames to curve as approx_points could
-    be set to a different value other than `nrow(x)`.
-  
-  * TESTING: Skip comparison unit test between princurve 1.1 and 2.1 on CRAN.
-  
-  * MINOR CHANGE `project_to_curve()`: Attempt to fix rchk warnings by not using
-  `x(i, j) = v` notation but instead `x[j * x.nrow() + i] = v`.
+  * DEPRECATION: Added deprecation which will be triggered starting from 2018-08-01
+    upon calling `principal.curve()` or `get.lam()`.
 
 ## Test environments
-* local OS X install, R 3.5.0
-* ubuntu 12.04 (on travis-ci), R 3.5.0
+* local Fedora 28 install, R 3.5.0
+* OS X (on travis-ci), R 3.5.0
+* Ubuntu 14.04 (on travis-ci), R 3.5.0
+* Windows (on appveyor), R 3.5.0
 * win-builder (devel and release)
 
 ## R CMD check results

@@ -5,66 +5,87 @@ princurve
 
 [![Build Status](https://travis-ci.org/dynverse/princurve.svg?branch=master)](https://travis-ci.org/dynverse/princurve) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/dynverse/princurve?branch=master&svg=true)](https://ci.appveyor.com/project/dynverse/princurve) [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/princurve)](https://cran.r-project.org/package=princurve) [![Coverage Status](https://codecov.io/gh/dynverse/princurve/branch/master/graph/badge.svg)](https://codecov.io/gh/dynverse/princurve?branch=master)
 
-Fitting a principal curve to a data matrix in arbitrary dimensions.
+Fitting a principal curve to a data matrix in arbitrary dimensions. A principal curve is a smooth curve passing through the middle of a multidimensional dataset. This package is an R/C++ reimplementation of the S/Fortran code provided by Trevor Hastie, with multiple performance tweaks.
 
-Example
--------
-
-We generate some example data:
-
-``` r
-t <- runif(100, -1, 1)
-x <- cbind(t, t ^ 2) + rnorm(200, sd = 0.05)
-colnames(x) <- c("dim1", "dim2")
-
-plot(x)
-```
-
-![](man/figures/README_example_data-1.png)
-
-A principal curve can be fit to the data as follows:
+Deriving a principal curve is an iterative process. This is what it looks like for a two-dimensional toy dataset:
 
 ``` r
 library(princurve)
-fit <- principal_curve(x)
-plot(fit); whiskers(x, fit$s, col = "gray")
+library(magick)
+
+ggif_list <- function(list, .width = 8, .height = 6, .dpi = 300, .fps = 1, ...) {
+  dir <- tempfile("gif_files")
+  dir.create(dir)
+  on.exit(unlink(dir))
+  
+  img <- lapply(
+    seq_along(list),
+    function(i) {
+      filename <- paste0(dir, "/image-", i, ".png")
+      ggsave(filename, list[[i]], width = .width, height = .height, dpi = .dpi)
+      image_read(filename)
+    }
+  )
+  
+  image_animate(do.call(c, img), fps = .fps, dispose = "none")
+}
+
+ggif_lapply <- function(X, FUN, .width = 8, .height = 6, .dpi = 300, .fps = 1, ...) {
+  list <- lapply(X, FUN)
+  ggif_list(list, .width = .width, .height = .height, .dpi = .dpi, .fps = .fps, ...)
+}
+
+set.seed(1)
+z <- sort(runif(100, -1.4 * pi, .4 * pi))
+s <- data_frame(
+  x = cos(z) * 1.5,
+  y = sin(z)
+)
+x <- s %>% 
+  sample_frac(1) %>% 
+  mutate(
+    x = x + rnorm(length(x), 0, .05),
+    y = y + rnorm(length(x), 0, .05)
+  )
+
+ggif_lapply(seq(0, 10), function(it) {
+  fit <- principal_curve(as.matrix(x), maxit = it)
+  
+  curve <- 
+    as_data_frame(fit$s) %>% 
+    mutate(lambda = fit$lambda, it = it) %>% 
+    slice(fit$ord) %>% 
+    mutate(pos = seq_len(n()))
+  
+  ggplot() +
+    geom_point(aes(x, y), x, colour = "darkgray") +
+    geom_path(aes(x, y), curve) +
+    theme_bw() +
+    coord_cartesian(xlim = c(-1.6, 1.6), ylim = c(-1.1, 1.1)) +
+    labs(title = paste0("Iteration ", it)) 
+})
 ```
 
-![](man/figures/README_example_plot-1.png)
+![](man/figures/README_example-1.gif)
 
-Check out `?principal_curve` for more information on the specific outputs of `principal_curve()`. An overview of the principal curve algorithm is given in the [algorithm](https://cran.r-project.org/web/packages/princurve/vignettes/algorithm.html) vignette.
+For more information on how to use the `princurve` package, check out the following resources:
 
-Benchmarks
-----------
+-   Vignette: [Introduction to the princurve package](https://cran.r-project.org/web/packages/princurve/vignettes/intro.html)
+-   Help files: `?principal_curve`
 
-Using the experimental `approx_points` parameter, princurve 2.1.0 offers major performance improvements for large datasets.
+Latest changes
+--------------
 
-``` r
-data("benchmarks", package = "princurve")
-ggplot(benchmarks, aes(num_points, median / 1000)) +
-  geom_point() +
-  geom_line() +
-  facet_wrap(~expr, ncol = 1, scales = "free") +
-  theme_bw() +
-  labs(x = "Number of rows in dataset", y = "Time (s)") +
-  scale_colour_brewer(palette = "Set1")
-```
+Check out `news(package = "princurve")` or [NEWS.md](inst/NEWS.md) for a full list of changes.
 
-![](man/figures/README_compare-1.png)
-
-Read more about this feature in the [benchmarks](https://cran.r-project.org/web/packages/princurve/vignettes/benchmark.html) vignette.
-
-<!-- ## Latest changes -->
 <!-- This section gets automatically generated from inst/NEWS.md, and also generates inst/NEWS -->
-Latest changes in princurve 2.1.2 (unreleased)
-----------------------------------------------
+### Latest changes in princurve 2.1.2 (unreleased)
 
 -   DOCUMENTATION: Use the `magick` package to generate animated GIFs in the vignette, instead of the `animation` package, because `animation` uses `ffmpeg` which is not installed on all CRAN systems.
 
 -   DEPRECATION: Added deprecation which will be triggered starting from 2018-08-01 upon calling `principal.curve()` or `get.lam()`.
 
-Latest changes in princurve 2.1.1 (2018-07-23)
-----------------------------------------------
+### Latest changes in princurve 2.1.1 (2018-07-23)
 
 -   DOCUMENTATION: Added vignettes on the algorithm behind princurve and on benchmarking results between princurve 1.1 and 2.1.
 
@@ -75,8 +96,6 @@ Latest changes in princurve 2.1.1 (2018-07-23)
 -   MINOR CHANGE `project_to_curve()`: Attempt to fix rchk warnings by not using `x(i, j) = v` notation but instead `x[j * x.nrow() + i] = v`.
 
 -   DOCUMENTATION: Fix in README documentation.
-
-Check [NEWS.md](inst/NEWS.md) for a full list of changes.
 
 References
 ----------

@@ -1,5 +1,5 @@
 ---
-title: "The princurve package: fitting a principal curve in arbitrary dimensions"
+title: "Introduction to the princurve package"
 date: "`r Sys.Date()`"
 output:
   html_document:
@@ -10,7 +10,7 @@ output:
       smooth_scroll: false
     toc_depth: 3
 vignette: >
-  %\VignetteIndexEntry{The princurve package: fitting a principal curve in arbitrary dimensions}
+  %\VignetteIndexEntry{Introduction to the princurve package}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

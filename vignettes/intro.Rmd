@@ -1,0 +1,105 @@
+---
+title: "The princurve package: fitting a principal curve in arbitrary dimensions"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    fig_caption: false
+    toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+    toc_depth: 3
+vignette: >
+  %\VignetteIndexEntry{The princurve package: fitting a principal curve in arbitrary dimensions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+<!-- render using
+rmarkdown::render(input = "vignettes/intro.Rmd")
+-->
+
+```{r setup, echo=FALSE, message=FALSE}
+knitr::opts_chunk$set(comment = "#>", echo = FALSE)#, collapse = TRUE
+set.seed(1)
+library(dplyr)
+library(tidyr)
+library(purrr)
+library(ggplot2)
+library(princurve)
+dev.off <- function(){
+  invisible(grDevices::dev.off())
+}
+```
+
+A principal curve is a smooth curve passing through the middle of a multidimensional dataset. 
+This package is an R/C++ reimplementation of the S/Fortran code provided by Trevor Hastie, 
+with multiple performance tweaks.
+
+## Example
+Deriving a principal curve is an iterative process. This is what it looks like for 
+a two-dimensional toy dataset:
+
+```{r dataset}
+set.seed(1)
+z <- sort(runif(100, -1.4 * pi, .4 * pi))
+s <- data_frame(
+  x = cos(z) * 1.5,
+  y = sin(z)
+)
+x <- s %>% 
+  sample_frac(1) %>% 
+  mutate(
+    x = x + rnorm(length(x), 0, .05),
+    y = y + rnorm(length(x), 0, .05)
+  )
+```
+
+```{r iterative, echo=FALSE}
+library(magick)
+img <- image_graph(600, 340, res = 96, clip = FALSE)
+
+out <- lapply(
+  seq(0, 10), 
+  function(it) {
+  fit <- principal_curve(as.matrix(x), maxit = it)
+  curve <- 
+    as_data_frame(fit$s) %>% 
+    mutate(lambda = fit$lambda, it = it) %>% 
+    slice(fit$ord) %>% 
+    mutate(pos = seq_len(n()))
+  
+  g <- ggplot() +
+    geom_point(aes(x, y), x, colour = "darkgray") +
+    geom_path(aes(x, y), curve) +
+    theme_bw()+
+    coord_cartesian(xlim = c(-1.6, 1.6), ylim = c(-1.1, 1.1)) +
+    labs(title = paste0("Iteration ", it)) 
+  print(g)
+})
+dev.off()
+
+tmp <- tempfile()
+sink(tmp)
+animation <- image_animate(img, fps = 2)
+print(animation)
+sink()
+unlink(tmp)
+```
+
+
+### Projection: calculate new lambda
+The projection step is same as before; all the points are orthogonally 
+projected onto the new curve, and the arc-length `lambda` is recalculated 
+for the new projections.
+
+```{r relambda}
+ggplot() +
+  geom_segment(aes(x = x$x, xend = fit1$s[,1], y = x$y, yend = fit1$s[,2]), linetype = "dashed", colour = "lightgray") +
+  geom_path(aes(x, y), as_data_frame(fit1$s[fit1$ord, ]), colour = "darkgray") +
+  geom_point(aes(x, y), x, colour = "darkgray") +
+  geom_point(aes(x, y), as_data_frame(fit1$s)) +
+  theme_bw() +
+  coord_cartesian(xlim = c(-1.6, 1.6), ylim = c(-1.1, 1.1)) +
+  labs(x = "x", y = "y")
+```

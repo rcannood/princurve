@@ -84,9 +84,9 @@ suggested by Jeff Banfield.
 x <- runif(100,-1,1)
 x <- cbind(x, x ^ 2 + rnorm(100, sd = 0.1))
 fit <- principal_curve(x)
+plot(fit)
 lines(fit)
 points(fit)
-plot(fit)
 whiskers(x, fit$s)
 }
 \references{

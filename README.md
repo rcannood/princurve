@@ -14,7 +14,7 @@ Deriving a principal curve is an iterative process. This is what it looks like f
 For more information on how to use the `princurve` package, check out the following resources:
 
 -   Vignette: [Introduction to the princurve package](https://cran.r-project.org/web/packages/princurve/vignettes/intro.html)
--   Help files: `?principal_curve`
+-   Help file: `?principal_curve`
 
 Latest changes
 --------------

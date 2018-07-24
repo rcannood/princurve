@@ -20,7 +20,7 @@ rmarkdown::render(input = "vignettes/intro.Rmd")
 -->
 
 ```{r setup, echo = FALSE, message = FALSE}
-knitr::opts_chunk$set(comment = "#>", echo = FALSE, fig.width = 8, fig.height = 6)#, collapse = TRUE
+knitr::opts_chunk$set(comment = "#>", echo = FALSE, fig.width = 8, fig.height = 6)
 set.seed(1)
 library(dplyr)
 library(tidyr)
@@ -77,23 +77,21 @@ x <- s %>%
 ```
 
 ```{r iterative}
-ggif_lapply(
-  seq(0, 10), 
-  function(it) {
-    fit <- principal_curve(as.matrix(x), maxit = it)
-    
-    curve <- 
-      as_data_frame(fit$s) %>% 
-      mutate(lambda = fit$lambda, it = it) %>% 
-      slice(fit$ord) %>% 
-      mutate(pos = seq_len(n()))
-    
-    ggplot() +
-      geom_point(aes(x, y), x, colour = "darkgray") +
-      geom_path(aes(x, y), curve) +
-      theme_bw()+
-      coord_cartesian(xlim = c(-1.6, 1.6), ylim = c(-1.1, 1.1)) +
-      labs(title = paste0("Iteration ", it)) 
+ggif_lapply(seq(0, 10), function(it) {
+  fit <- principal_curve(as.matrix(x), maxit = it)
+  
+  curve <- 
+    as_data_frame(fit$s) %>% 
+    mutate(lambda = fit$lambda, it = it) %>% 
+    slice(fit$ord) %>% 
+    mutate(pos = seq_len(n()))
+  
+  ggplot() +
+    geom_point(aes(x, y), x, colour = "darkgray") +
+    geom_path(aes(x, y), curve) +
+    theme_bw()+
+    coord_cartesian(xlim = c(-1.6, 1.6), ylim = c(-1.1, 1.1)) +
+    labs(title = paste0("Iteration ", it)) 
 })
 ```
 

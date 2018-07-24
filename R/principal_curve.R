@@ -178,10 +178,15 @@ principal_curve <- function(
     }
 
     for (jj in seq_len(ncol(x))) {
+      # Smooth (lambda, x)
       yjj <- smoother_function(pcurve$lambda, x[,jj], ...)
+
+      # If requested, approximate the smoothed curve to reduce computational complexity
       if (approx_points > 0) {
         yjj <- approx(x = sort_lambda, y = yjj, xout = xout_lambda)$y
       }
+
+      # Store curve
       s[,jj] <- yjj
     }
 

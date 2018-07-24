@@ -32,7 +32,7 @@ plot(fit); whiskers(x, fit$s, col = "gray")
 
 ![](man/figures/README_example_plot-1.png)
 
-Check out `?principal_curve` for more information on the specific outputs of `principal_curve()`. An overview of the principal curve algorithm is given in the [algorithm](vignettes/algorithm.md) vignette.
+Check out `?principal_curve` for more information on the specific outputs of `principal_curve()`. An overview of the principal curve algorithm is given in the [algorithm](https://cran.r-project.org/web/packages/princurve/vignettes/algorithm.html) vignette.
 
 Benchmarks
 ----------
@@ -52,10 +52,15 @@ ggplot(benchmarks, aes(num_points, median / 1000)) +
 
 ![](man/figures/README_compare-1.png)
 
-Read more about this feature in the [benchmarks](vignettes/benchmarks.md) vignette.
+Read more about this feature in the [benchmarks](https://cran.r-project.org/web/packages/princurve/vignettes/benchmark.html) vignette.
 
 <!-- ## Latest changes -->
 <!-- This section gets automatically generated from inst/NEWS.md, and also generates inst/NEWS -->
+Latest changes in princurve 2.1.2 (unreleased)
+----------------------------------------------
+
+-   DOCUMENTATION: Use the `magick` package to generate animated GIFs in the vignette, instead of the `animation` package, because `animation` uses `ffmpeg` which is not installed on all CRAN systems.
+
 Latest changes in princurve 2.1.1 (2018-07-23)
 ----------------------------------------------
 
@@ -68,29 +73,6 @@ Latest changes in princurve 2.1.1 (2018-07-23)
 -   MINOR CHANGE `project_to_curve()`: Attempt to fix rchk warnings by not using `x(i, j) = v` notation but instead `x[j * x.nrow() + i] = v`.
 
 -   DOCUMENTATION: Fix in README documentation.
-
-Latest changes in princurve 2.1.0 (2018-07-14)
-----------------------------------------------
-
--   BUG FIX `principal_curve()`: avoid division by zero when the initial principal curve has already converged.
-
--   BUG FIX `project_to_curve()`: set dimension names of outputted `s` correctly.
-
--   DOCUMENTATION: Added `cran-comments.md` and `revdep` to repository.
-
--   MINOR CHANGE: Removed `adjust_range()`; use `grDevices::extendrange()` instead.
-
--   TESTING `start_circle()`: Added unit tests.
-
--   BUG FIX `start_circle()`: Make sure circle is centered and scaled correctly.
-
--   MINOR CHANGE: Move smoother functions from inside `principal_curve()` to a list `smoother_functions`.
-
--   TESTING `smoother_functions`: Added tests to ensure each of the smoother functions work correctly.
-
--   SPEED UP `project_to_curve()`: Significantly speed up this function by not allocation objects that don't need allocation, and pre-allocating objects that do.
-
--   SPEED UP `principal_curve()`: Added `approx_points` parameter. This allows approximation of the curve between smoothing and projection, to ensure `principal_curve()` scales well to higher numbers of samples.
 
 Check [NEWS.md](inst/NEWS.md) for a full list of changes.
 

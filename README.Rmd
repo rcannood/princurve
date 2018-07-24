@@ -40,7 +40,7 @@ plot(fit); whiskers(x, fit$s, col = "gray")
 ```
 
 Check out `?principal_curve` for more information on the specific outputs of `principal_curve()`. 
-An overview of the principal curve algorithm is given in the [algorithm](vignettes/algorithm.md) vignette.
+An overview of the principal curve algorithm is given in the [algorithm](https://cran.r-project.org/web/packages/princurve/vignettes/algorithm.html) vignette.
 
 ## Benchmarks
 
@@ -57,7 +57,7 @@ ggplot(benchmarks, aes(num_points, median / 1000)) +
   scale_colour_brewer(palette = "Set1")
 ```
 
-Read more about this feature in the [benchmarks](vignettes/benchmarks.md) vignette.
+Read more about this feature in the [benchmarks](https://cran.r-project.org/web/packages/princurve/vignettes/benchmark.html) vignette.
 
 <!-- ## Latest changes -->
 <!-- This section gets automatically generated from inst/NEWS.md, and also generates inst/NEWS -->

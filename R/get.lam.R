@@ -17,7 +17,11 @@ get.lam <- function(
   stretch = 2
 ) {
   # This function will be deprecated on August 1st, 2018
-  # .Deprecated("project_to_curve", package = "princurve", old = "get.lam")
+  if (Sys.Date() >= deprecation_date) {
+    .Deprecated("project_to_curve", package = "princurve", old = "get.lam")
+  }
+
+
   if (!is.null(tag)) {
     s <- s[tag, , drop = FALSE]
   }

@@ -5,59 +5,30 @@ princurve
 
 [![Build Status](https://travis-ci.org/dynverse/princurve.svg?branch=master)](https://travis-ci.org/dynverse/princurve) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/dynverse/princurve?branch=master&svg=true)](https://ci.appveyor.com/project/dynverse/princurve) [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/princurve)](https://cran.r-project.org/package=princurve) [![Coverage Status](https://codecov.io/gh/dynverse/princurve/branch/master/graph/badge.svg)](https://codecov.io/gh/dynverse/princurve?branch=master)
 
-Fitting a principal curve to a data matrix in arbitrary dimensions.
+Fitting a principal curve to a data matrix in arbitrary dimensions. A principal curve is a smooth curve passing through the middle of a multidimensional dataset. This package is an R/C++ reimplementation of the S/Fortran code provided by Trevor Hastie, with multiple performance tweaks.
 
-Example
--------
+Deriving a principal curve is an iterative process. This is what it looks like for a two-dimensional toy dataset:
 
-We generate some example data:
+![](man/figures/README_example-1.gif)
 
-``` r
-t <- runif(100, -1, 1)
-x <- cbind(t, t ^ 2) + rnorm(200, sd = 0.05)
-colnames(x) <- c("dim1", "dim2")
+For more information on how to use the `princurve` package, check out the following resources:
 
-plot(x)
-```
+-   Vignette: [Introduction to the princurve package](https://cran.r-project.org/web/packages/princurve/vignettes/intro.html)
+-   Help files: `?principal_curve`
 
-![](man/figures/README_example_data-1.png)
+Latest changes
+--------------
 
-A principal curve can be fit to the data as follows:
+Check out `news(package = "princurve")` or [NEWS.md](inst/NEWS.md) for a full list of changes.
 
-``` r
-library(princurve)
-fit <- principal_curve(x)
-plot(fit); whiskers(x, fit$s, col = "gray")
-```
-
-![](man/figures/README_example_plot-1.png)
-
-Check out `?principal_curve` for more information on the specific outputs of `principal_curve()`. An overview of the principal curve algorithm is given in the [algorithm](vignettes/algorithm.md) vignette.
-
-Benchmarks
-----------
-
-Using the experimental `approx_points` parameter, princurve 2.1.0 offers major performance improvements for large datasets.
-
-``` r
-data("benchmarks", package = "princurve")
-ggplot(benchmarks, aes(num_points, median / 1000)) +
-  geom_point() +
-  geom_line() +
-  facet_wrap(~expr, ncol = 1, scales = "free") +
-  theme_bw() +
-  labs(x = "Number of rows in dataset", y = "Time (s)") +
-  scale_colour_brewer(palette = "Set1")
-```
-
-![](man/figures/README_compare-1.png)
-
-Read more about this feature in the [benchmarks](vignettes/benchmarks.md) vignette.
-
-<!-- ## Latest changes -->
 <!-- This section gets automatically generated from inst/NEWS.md, and also generates inst/NEWS -->
-Latest changes in princurve 2.1.1 (2018-07-23)
-----------------------------------------------
+### Latest changes in princurve 2.1.2 (unreleased)
+
+-   DOCUMENTATION: Use the `magick` package to generate animated GIFs in the vignette, instead of the `animation` package, because `animation` uses `ffmpeg` which is not installed on all CRAN systems.
+
+-   DEPRECATION: Added deprecation which will be triggered starting from 2018-08-01 upon calling `principal.curve()` or `get.lam()`.
+
+### Latest changes in princurve 2.1.1 (2018-07-23)
 
 -   DOCUMENTATION: Added vignettes on the algorithm behind princurve and on benchmarking results between princurve 1.1 and 2.1.
 
@@ -68,31 +39,6 @@ Latest changes in princurve 2.1.1 (2018-07-23)
 -   MINOR CHANGE `project_to_curve()`: Attempt to fix rchk warnings by not using `x(i, j) = v` notation but instead `x[j * x.nrow() + i] = v`.
 
 -   DOCUMENTATION: Fix in README documentation.
-
-Latest changes in princurve 2.1.0 (2018-07-14)
-----------------------------------------------
-
--   BUG FIX `principal_curve()`: avoid division by zero when the initial principal curve has already converged.
-
--   BUG FIX `project_to_curve()`: set dimension names of outputted `s` correctly.
-
--   DOCUMENTATION: Added `cran-comments.md` and `revdep` to repository.
-
--   MINOR CHANGE: Removed `adjust_range()`; use `grDevices::extendrange()` instead.
-
--   TESTING `start_circle()`: Added unit tests.
-
--   BUG FIX `start_circle()`: Make sure circle is centered and scaled correctly.
-
--   MINOR CHANGE: Move smoother functions from inside `principal_curve()` to a list `smoother_functions`.
-
--   TESTING `smoother_functions`: Added tests to ensure each of the smoother functions work correctly.
-
--   SPEED UP `project_to_curve()`: Significantly speed up this function by not allocation objects that don't need allocation, and pre-allocating objects that do.
-
--   SPEED UP `principal_curve()`: Added `approx_points` parameter. This allows approximation of the curve between smoothing and projection, to ensure `principal_curve()` scales well to higher numbers of samples.
-
-Check [NEWS.md](inst/NEWS.md) for a full list of changes.
 
 References
 ----------

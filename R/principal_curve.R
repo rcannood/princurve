@@ -67,12 +67,11 @@
 #' @examples
 #' x <- runif(100,-1,1)
 #' x <- cbind(x, x ^ 2 + rnorm(100, sd = 0.1))
-#' fit1 <- principal_curve(x, plot_iterations = TRUE)
-#' fit2 <- principal_curve(x, plot_iterations = TRUE, smoother = "lowess")
-#' lines(fit1)
-#' points(fit1)
-#' plot(fit1)
-#' whiskers(x, fit1$s)
+#' fit <- principal_curve(x)
+#' plot(fit)
+#' lines(fit)
+#' points(fit)
+#' whiskers(x, fit$s)
 principal_curve <- function(
   x,
   start = NULL,
@@ -178,10 +177,15 @@ principal_curve <- function(
     }
 
     for (jj in seq_len(ncol(x))) {
+      # Smooth (lambda, x)
       yjj <- smoother_function(pcurve$lambda, x[,jj], ...)
+
+      # If requested, approximate the smoothed curve to reduce computational complexity
       if (approx_points > 0) {
         yjj <- approx(x = sort_lambda, y = yjj, xout = xout_lambda)$y
       }
+
+      # Store curve
       s[,jj] <- yjj
     }
 

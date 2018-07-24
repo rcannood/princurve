@@ -21,45 +21,78 @@ library(tidyverse)
 [![Coverage Status](https://codecov.io/gh/dynverse/princurve/branch/master/graph/badge.svg)](https://codecov.io/gh/dynverse/princurve?branch=master)
 
 Fitting a principal curve to a data matrix in arbitrary dimensions.
+A principal curve is a smooth curve passing through the middle of a multidimensional dataset. 
+This package is an R/C++ reimplementation of the S/Fortran code provided by Trevor Hastie, 
+with multiple performance tweaks.
 
-## Example
-We generate some example data:
-```{r example_data}
-t <- runif(100, -1, 1)
-x <- cbind(t, t ^ 2) + rnorm(200, sd = 0.05)
-colnames(x) <- c("dim1", "dim2")
+Deriving a principal curve is an iterative process. This is what it looks like for 
+a two-dimensional toy dataset:
 
-plot(x)
-```
-
-A principal curve can be fit to the data as follows:
-```{r example_plot}
+```{r example, echo = FALSE, fig.width = 8, fig.height = 6}
 library(princurve)
-fit <- principal_curve(x)
-plot(fit); whiskers(x, fit$s, col = "gray")
+library(magick)
+
+ggif_list <- function(list, .width = 8, .height = 6, .dpi = 80, .fps = 1, ...) {
+  dir <- tempfile("gif_files")
+  dir.create(dir)
+  on.exit(unlink(dir))
+  
+  img <- lapply(
+    seq_along(list),
+    function(i) {
+      filename <- paste0(dir, "/image-", i, ".png")
+      ggsave(filename, list[[i]], width = .width, height = .height, dpi = .dpi)
+      image_read(filename)
+    }
+  )
+  
+  image_animate(do.call(c, img), fps = .fps, dispose = "none")
+}
+
+ggif_lapply <- function(X, FUN, .width = 8, .height = 6, .dpi = 80, .fps = 1, ...) {
+  list <- lapply(X, FUN)
+  ggif_list(list, .width = .width, .height = .height, .dpi = .dpi, .fps = .fps, ...)
+}
+
+set.seed(1)
+z <- sort(runif(100, -1.4 * pi, .4 * pi))
+s <- data_frame(
+  x = cos(z) * 1.5,
+  y = sin(z)
+)
+x <- s %>% 
+  sample_frac(1) %>% 
+  mutate(
+    x = x + rnorm(length(x), 0, .05),
+    y = y + rnorm(length(x), 0, .05)
+  )
+
+ggif_lapply(seq(0, 10), function(it) {
+  fit <- principal_curve(as.matrix(x), maxit = it)
+  
+  curve <- 
+    as_data_frame(fit$s) %>% 
+    mutate(lambda = fit$lambda, it = it) %>% 
+    slice(fit$ord) %>% 
+    mutate(pos = seq_len(n()))
+  
+  ggplot() +
+    geom_point(aes(x, y), x, colour = "darkgray") +
+    geom_path(aes(x, y), curve) +
+    theme_bw() +
+    coord_cartesian(xlim = c(-1.6, 1.6), ylim = c(-1.1, 1.1)) +
+    labs(title = paste0("Iteration ", it)) 
+})
 ```
 
-Check out `?principal_curve` for more information on the specific outputs of `principal_curve()`. 
-An overview of the principal curve algorithm is given in the [algorithm](vignettes/algorithm.md) vignette.
+For more information on how to use the `princurve` package, check out the following resources:
+ 
+ * Vignette: [Introduction to the princurve package](https://cran.r-project.org/web/packages/princurve/vignettes/intro.html)
+ * Help files: `?principal_curve`
 
-## Benchmarks
+## Latest changes
+Check out `news(package = "princurve")` or [NEWS.md](inst/NEWS.md) for a full list of changes.
 
-Using the experimental `approx_points` parameter, princurve 2.1.0 offers major performance improvements for large datasets.
-
-```{r compare, fig.height=8, fig.width=8}
-data("benchmarks", package = "princurve")
-ggplot(benchmarks, aes(num_points, median / 1000)) +
-  geom_point() +
-  geom_line() +
-  facet_wrap(~expr, ncol = 1, scales = "free") +
-  theme_bw() +
-  labs(x = "Number of rows in dataset", y = "Time (s)") +
-  scale_colour_brewer(palette = "Set1")
-```
-
-Read more about this feature in the [benchmarks](vignettes/benchmarks.md) vignette.
-
-<!-- ## Latest changes -->
 <!-- This section gets automatically generated from inst/NEWS.md, and also generates inst/NEWS -->
 
 ```{r news, results='asis', echo=FALSE}
@@ -74,16 +107,14 @@ readr::write_lines(news_normal, "inst/NEWS")
 # creating text for readme
 ix <- which(str_detect(news_md, "^# princurve"))
 
-cat(str_replace(news_md[[ix[[1]]]], "^# ", "## Latest changes in "))
+cat(str_replace(news_md[[ix[[1]]]], "^# ", "### Latest changes in "))
 
 cat(news_md[seq(ix[[1]]+1, ix[[2]]-1)], sep = "\n")
 
-cat(str_replace(news_md[[ix[[2]]]], "^# ", "## Latest changes in "))
+cat(str_replace(news_md[[ix[[2]]]], "^# ", "### Latest changes in "))
 
 cat(news_md[seq(ix[[2]]+1, ix[[3]]-1)], sep = "\n")
 ```
-
-Check [NEWS.md](inst/NEWS.md) for a full list of changes.
 
 ## References
 

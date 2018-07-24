@@ -1,3 +1,5 @@
+deprecation_date <- as.Date("2018-08-01")
+
 #' Fit a Principal Curve
 #'
 #' This function will be deprecated on August 1st, 2018.
@@ -35,7 +37,9 @@ principal.curve <- function(
   ...
 ) {
   # This function will be deprecated on August 1st, 2018
-  # .Deprecated("principal_curve", package = "princurve", old = "principal.curve")
+  if (Sys.Date() >= deprecation_date) {
+    .Deprecated("principal_curve", package = "princurve", old = "principal.curve")
+  }
 
   out <- principal_curve(
     x = x,
@@ -57,22 +61,14 @@ principal.curve <- function(
 
 #' @rdname principal.curve
 #' @export
-#' @importFrom graphics lines
-lines.principal.curve <- function(x, ...) {
-  lines.principal_curve(x, ...)
-}
+#' @include principal_curve.R
+lines.principal.curve <- lines.principal_curve
 
 #' @rdname principal.curve
 #' @export
-#' @importFrom graphics plot
-plot.principal.curve <- function(x, ...) {
-  plot.principal_curve(x, ...)
-}
+plot.principal.curve <- plot.principal_curve
 
 #' @rdname principal.curve
 #' @export
-#' @importFrom graphics points
-points.principal.curve <- function(x, ...) {
-  points.principal_curve
-}
+points.principal.curve <- points.principal_curve
 

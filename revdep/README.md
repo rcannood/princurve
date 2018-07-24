@@ -9,13 +9,14 @@
 |language |(EN)                            |
 |collate  |en_GB.UTF-8                     |
 |tz       |Europe/Brussels                 |
-|date     |2018-07-23                      |
+|date     |2018-07-24                      |
 
 # Dependencies
 
-|package   |old   |new   |Δ  |
-|:---------|:-----|:-----|:--|
-|princurve |2.1.0 |2.1.1 |*  |
+|package   |old   |new        |Δ  |
+|:---------|:-----|:----------|:--|
+|princurve |2.1.1 |2.1.2.9001 |*  |
+|Rcpp      |NA    |0.12.18    |*  |
 
 # Revdeps
 

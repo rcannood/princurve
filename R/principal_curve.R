@@ -67,12 +67,11 @@
 #' @examples
 #' x <- runif(100,-1,1)
 #' x <- cbind(x, x ^ 2 + rnorm(100, sd = 0.1))
-#' fit1 <- principal_curve(x, plot_iterations = TRUE)
-#' fit2 <- principal_curve(x, plot_iterations = TRUE, smoother = "lowess")
-#' lines(fit1)
-#' points(fit1)
-#' plot(fit1)
-#' whiskers(x, fit1$s)
+#' fit <- principal_curve(x)
+#' lines(fit)
+#' points(fit)
+#' plot(fit)
+#' whiskers(x, fit$s)
 principal_curve <- function(
   x,
   start = NULL,

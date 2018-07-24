@@ -56,7 +56,7 @@ Collate:
     'get.lam.R'
     'package.R'
     'periodic_lowess.R'
-    'principal.curve.R'
     'smoother_functions.R'
     'principal_curve.R'
+    'principal.curve.R'
     'start_circle.R'

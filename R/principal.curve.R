@@ -57,22 +57,14 @@ principal.curve <- function(
 
 #' @rdname principal.curve
 #' @export
-#' @importFrom graphics lines
-lines.principal.curve <- function(x, ...) {
-  lines.principal_curve(x, ...)
-}
+#' @include principal_curve.R
+lines.principal.curve <- lines.principal_curve
 
 #' @rdname principal.curve
 #' @export
-#' @importFrom graphics plot
-plot.principal.curve <- function(x, ...) {
-  plot.principal_curve(x, ...)
-}
+plot.principal.curve <- plot.principal_curve
 
 #' @rdname principal.curve
 #' @export
-#' @importFrom graphics points
-points.principal.curve <- function(x, ...) {
-  points.principal_curve
-}
+points.principal.curve <- points.principal_curve
 

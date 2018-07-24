@@ -2,7 +2,10 @@ There was a problem generating the vignettes because ffmpeg was not installed,
 resulting in warnings on fedora and solaris platforms.
 
 I rewrote the vignette to use `magick` instead of `animation`, which uses 
-imagemagick instead of ffmpeg as a back end. 
+imagemagick instead of ffmpeg as a back end. The updated vignette is based
+heavily on magick's vignettes, which all build 100% on CRAN 
+([link](https://cran.r-project.org/web/checks/check_results_magick.html))
+as to ensure the princurve vignettes also work fine.
 
 ## Changelog
 
@@ -22,11 +25,19 @@ imagemagick instead of ffmpeg as a back end.
 
 ## R CMD check results
 
-0 errors | 0 warnings | 0 notes
+0 errors | 0 warnings | 1 note
+
+* checking CRAN incoming feasibility ... NOTE
+  
+  Days since last update: 1
 
 ## Reverse dependencies
 
-R CMD check was run on 8 downstream dependencies.
+R CMD check was run at 2018/07/24 13:40 using the following command:
+
+```r
+revdepcheck::revdep_check(timeout = as.difftime(60, units = "mins"), num_workers = 8)
+```
 
 |package                                      |version |error |warning |note |
 |:--------------------------------------------|:-------|:-----|:-------|:----|

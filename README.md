@@ -9,63 +9,6 @@ Fitting a principal curve to a data matrix in arbitrary dimensions. A principal 
 
 Deriving a principal curve is an iterative process. This is what it looks like for a two-dimensional toy dataset:
 
-``` r
-library(princurve)
-library(magick)
-
-ggif_list <- function(list, .width = 8, .height = 6, .dpi = 300, .fps = 1, ...) {
-  dir <- tempfile("gif_files")
-  dir.create(dir)
-  on.exit(unlink(dir))
-  
-  img <- lapply(
-    seq_along(list),
-    function(i) {
-      filename <- paste0(dir, "/image-", i, ".png")
-      ggsave(filename, list[[i]], width = .width, height = .height, dpi = .dpi)
-      image_read(filename)
-    }
-  )
-  
-  image_animate(do.call(c, img), fps = .fps, dispose = "none")
-}
-
-ggif_lapply <- function(X, FUN, .width = 8, .height = 6, .dpi = 300, .fps = 1, ...) {
-  list <- lapply(X, FUN)
-  ggif_list(list, .width = .width, .height = .height, .dpi = .dpi, .fps = .fps, ...)
-}
-
-set.seed(1)
-z <- sort(runif(100, -1.4 * pi, .4 * pi))
-s <- data_frame(
-  x = cos(z) * 1.5,
-  y = sin(z)
-)
-x <- s %>% 
-  sample_frac(1) %>% 
-  mutate(
-    x = x + rnorm(length(x), 0, .05),
-    y = y + rnorm(length(x), 0, .05)
-  )
-
-ggif_lapply(seq(0, 10), function(it) {
-  fit <- principal_curve(as.matrix(x), maxit = it)
-  
-  curve <- 
-    as_data_frame(fit$s) %>% 
-    mutate(lambda = fit$lambda, it = it) %>% 
-    slice(fit$ord) %>% 
-    mutate(pos = seq_len(n()))
-  
-  ggplot() +
-    geom_point(aes(x, y), x, colour = "darkgray") +
-    geom_path(aes(x, y), curve) +
-    theme_bw() +
-    coord_cartesian(xlim = c(-1.6, 1.6), ylim = c(-1.1, 1.1)) +
-    labs(title = paste0("Iteration ", it)) 
-})
-```
-
 ![](man/figures/README_example-1.gif)
 
 For more information on how to use the `princurve` package, check out the following resources:

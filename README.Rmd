@@ -28,11 +28,11 @@ with multiple performance tweaks.
 Deriving a principal curve is an iterative process. This is what it looks like for 
 a two-dimensional toy dataset:
 
-```{r example}
+```{r example, echo = FALSE, fig.width = 8, fig.height = 6}
 library(princurve)
 library(magick)
 
-ggif_list <- function(list, .width = 8, .height = 6, .dpi = 300, .fps = 1, ...) {
+ggif_list <- function(list, .width = 8, .height = 6, .dpi = 120, .fps = 1, ...) {
   dir <- tempfile("gif_files")
   dir.create(dir)
   on.exit(unlink(dir))
@@ -49,7 +49,7 @@ ggif_list <- function(list, .width = 8, .height = 6, .dpi = 300, .fps = 1, ...) 
   image_animate(do.call(c, img), fps = .fps, dispose = "none")
 }
 
-ggif_lapply <- function(X, FUN, .width = 8, .height = 6, .dpi = 300, .fps = 1, ...) {
+ggif_lapply <- function(X, FUN, .width = 8, .height = 6, .dpi = 120, .fps = 1, ...) {
   list <- lapply(X, FUN)
   ggif_list(list, .width = .width, .height = .height, .dpi = .dpi, .fps = .fps, ...)
 }

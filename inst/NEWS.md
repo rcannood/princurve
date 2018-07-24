@@ -3,6 +3,9 @@
   * DOCUMENTATION: Use the `magick` package to generate animated GIFs in 
     the vignette, instead of the `animation` package, because
     `animation` uses `ffmpeg` which is not installed on all CRAN systems.
+    
+  * DEPRECATION: Added deprecation which will be triggered starting from 2018-08-01
+    upon calling `principal.curve()` or `get.lam()`.
 
 # princurve 2.1.1 (2018-07-23)
 

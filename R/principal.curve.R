@@ -1,3 +1,5 @@
+deprecation_date <- as.Date("2018-08-01")
+
 #' Fit a Principal Curve
 #'
 #' This function will be deprecated on August 1st, 2018.
@@ -35,7 +37,9 @@ principal.curve <- function(
   ...
 ) {
   # This function will be deprecated on August 1st, 2018
-  # .Deprecated("principal_curve", package = "princurve", old = "principal.curve")
+  if (Sys.Date() >= deprecation_date) {
+    .Deprecated("principal_curve", package = "princurve", old = "principal.curve")
+  }
 
   out <- principal_curve(
     x = x,

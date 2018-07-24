@@ -89,7 +89,7 @@ ggif_lapply(seq(0, 10), function(it) {
   ggplot() +
     geom_point(aes(x, y), x, colour = "darkgray") +
     geom_path(aes(x, y), curve) +
-    theme_bw()+
+    theme_bw() +
     coord_cartesian(xlim = c(-1.6, 1.6), ylim = c(-1.1, 1.1)) +
     labs(title = paste0("Iteration ", it)) 
 })

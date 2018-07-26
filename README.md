@@ -22,7 +22,7 @@ Latest changes
 Check out `news(package = "princurve")` or [NEWS.md](inst/NEWS.md) for a full list of changes.
 
 <!-- This section gets automatically generated from inst/NEWS.md, and also generates inst/NEWS -->
-### Latest changes in princurve 2.1.2 (unreleased)
+### Latest changes in princurve 2.1.2 (2018-07-24)
 
 -   DOCUMENTATION: Use the `magick` package to generate animated GIFs in the vignette, instead of the `animation` package, because `animation` uses `ffmpeg` which is not installed on all CRAN systems.
 

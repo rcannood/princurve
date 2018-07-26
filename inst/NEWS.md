@@ -1,4 +1,4 @@
-# princurve 2.1.2 (unreleased)
+# princurve 2.1.2 (2018-07-24)
   
   * DOCUMENTATION: Use the `magick` package to generate animated GIFs in 
     the vignette, instead of the `animation` package, because

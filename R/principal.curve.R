@@ -2,7 +2,7 @@ deprecation_date <- as.Date("2018-08-01")
 
 #' Fit a Principal Curve
 #'
-#' This function will be deprecated on August 1st, 2018.
+#' This function was deprecated on August 1st, 2018.
 #' Use \code{\link{principal_curve}} instead.
 #'
 #' @param x a matrix of points in arbitrary dimension.

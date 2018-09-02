@@ -9,8 +9,9 @@
 \title{Fit a Principal Curve}
 \usage{
 principal_curve(x, start = NULL, thresh = 0.001, maxit = 10,
-  stretch = 2, smoother = c("smooth_spline", "lowess", "periodic_lowess"),
-  approx_points = FALSE, trace = FALSE, plot_iterations = FALSE, ...)
+  stretch = 2, smoother = c("smooth_spline", "lowess",
+  "periodic_lowess"), approx_points = FALSE, trace = FALSE,
+  plot_iterations = FALSE, ...)
 
 \method{lines}{principal_curve}(x, ...)
 

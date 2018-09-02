@@ -1,3 +1,6 @@
+# princurve 2.1.3 (2018-09-02)
+  * Removed extra dependencies in princurve by removing vignettes; fixes #28.
+
 # princurve 2.1.2 (2018-07-24)
   
   * DOCUMENTATION: Use the `magick` package to generate animated GIFs in 

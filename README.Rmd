@@ -25,70 +25,24 @@ A principal curve is a smooth curve passing through the middle of a multidimensi
 This package is an R/C++ reimplementation of the S/Fortran code provided by Trevor Hastie, 
 with multiple performance tweaks.
 
-Deriving a principal curve is an iterative process. This is what it looks like for 
-a two-dimensional toy dataset:
+## Example
+Usage of princurve is demonstrated with a toy dataset.
+```{r example}
+t <- runif(100, -1, 1)
+x <- cbind(t, t ^ 2) + rnorm(200, sd = 0.05)
+colnames(x) <- c("dim1", "dim2")
 
-```{r example, echo = FALSE, fig.width = 8, fig.height = 6}
-library(princurve)
-library(magick)
-
-ggif_list <- function(list, .width = 8, .height = 6, .dpi = 80, .fps = 1, ...) {
-  dir <- tempfile("gif_files")
-  dir.create(dir)
-  on.exit(unlink(dir))
-  
-  img <- lapply(
-    seq_along(list),
-    function(i) {
-      filename <- paste0(dir, "/image-", i, ".png")
-      ggsave(filename, list[[i]], width = .width, height = .height, dpi = .dpi)
-      image_read(filename)
-    }
-  )
-  
-  image_animate(do.call(c, img), fps = .fps, dispose = "none")
-}
-
-ggif_lapply <- function(X, FUN, .width = 8, .height = 6, .dpi = 80, .fps = 1, ...) {
-  list <- lapply(X, FUN)
-  ggif_list(list, .width = .width, .height = .height, .dpi = .dpi, .fps = .fps, ...)
-}
-
-set.seed(1)
-z <- sort(runif(100, -1.4 * pi, .4 * pi))
-s <- data_frame(
-  x = cos(z) * 1.5,
-  y = sin(z)
-)
-x <- s %>% 
-  sample_frac(1) %>% 
-  mutate(
-    x = x + rnorm(length(x), 0, .05),
-    y = y + rnorm(length(x), 0, .05)
-  )
-
-ggif_lapply(seq(0, 10), function(it) {
-  fit <- principal_curve(as.matrix(x), maxit = it)
-  
-  curve <- 
-    as_data_frame(fit$s) %>% 
-    mutate(lambda = fit$lambda, it = it) %>% 
-    slice(fit$ord) %>% 
-    mutate(pos = seq_len(n()))
-  
-  ggplot() +
-    geom_point(aes(x, y), x, colour = "darkgray") +
-    geom_path(aes(x, y), curve) +
-    theme_bw() +
-    coord_cartesian(xlim = c(-1.6, 1.6), ylim = c(-1.1, 1.1)) +
-    labs(title = paste0("Iteration ", it)) 
-})
+plot(x)
 ```
 
-For more information on how to use the `princurve` package, check out the following resources:
- 
- * Vignette: [Introduction to the princurve package](https://cran.r-project.org/web/packages/princurve/vignettes/intro.html)
- * Help file: `?principal_curve`
+A principal curve can be fit to the data as follows:
+```{r princurve}
+library(princurve)
+fit <- principal_curve(x)
+plot(fit); whiskers(x, fit$s, col = "gray")
+```
+
+See `?principal_curve` for more information on how to use the `princurve` package.
 
 ## Latest changes
 Check out `news(package = "princurve")` or [NEWS.md](inst/NEWS.md) for a full list of changes.

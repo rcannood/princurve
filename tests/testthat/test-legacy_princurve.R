@@ -11,13 +11,9 @@ for (i in seq_len(10)) {
   test_that(paste0("Directly compare principal.curve against legagy, run ", i), {
     x <- matrix(runif(1000), ncol = 10)
 
-    if (Sys.Date() >= deprecation_date) {
-      expect_warning({
-        fit1 <- princurve::principal.curve(x)
-      }, "deprecated")
-    } else {
+    expect_warning({
       fit1 <- princurve::principal.curve(x)
-    }
+    }, "deprecated")
     fit2 <- princurvelegacy::principal.curve(x)
 
     expect_equal(names(fit1), names(fit2))
@@ -37,13 +33,9 @@ for (i in seq_len(10)) {
     x <- matrix(runif(1000), ncol = 10)
     s <- matrix(runif(100), ncol = 10)
 
-    if (Sys.Date() >= deprecation_date) {
-      expect_warning({
-        fit1 <- princurve::get.lam(x, s)
-      }, "deprecated")
-    } else {
+    expect_warning({
       fit1 <- princurve::get.lam(x, s)
-    }
+    }, "deprecated")
 
     fit2 <- princurvelegacy::get.lam(x, s)
 
@@ -57,13 +49,9 @@ for (i in seq_len(10)) {
     expect_lte(abs(fit1$dist - fit2$dist), .01)
 
     ord <- sample.int(10)
-    if (Sys.Date() >= deprecation_date) {
-      expect_warning({
-        fit3 <- princurve::get.lam(x, s[ord, ], tag = order(ord))
-      }, "deprecated")
-    } else {
+    expect_warning({
       fit3 <- princurve::get.lam(x, s[ord, ], tag = order(ord))
-    }
+    }, "deprecated")
 
     expect_gte(abs(cor(as.vector(fit1$s), as.vector(fit3$s))), .99)
     expect_gte(cor(order(fit1$tag), order(fit3$tag)), .99)

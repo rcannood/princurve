@@ -52,7 +52,10 @@ changes.
 
 <!-- This section gets automatically generated from inst/NEWS.md, and also generates inst/NEWS -->
 
-### Latest changes in princurve 2.1.3 (2018-09-02) \* Removed extra dependencies in princurve by removing vignettes; fixes \#28.
+### Latest changes in princurve 2.1.3 (2018-09-02)
+
+  - Removed extra dependencies in princurve by removing vignettes; fixes
+    \#28.
 
   - Fully deprecated `principal.curve()` function.
 

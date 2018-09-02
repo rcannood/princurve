@@ -1,20 +1,11 @@
-There was a problem generating the vignettes because ffmpeg was not installed,
-resulting in warnings on fedora and solaris platforms.
-
-I rewrote the vignette to use `magick` instead of `animation`, which uses 
-imagemagick instead of ffmpeg as a back end. The updated vignette is based
-heavily on magick's vignettes, which all build 100% on CRAN 
-([link](https://cran.r-project.org/web/checks/check_results_magick.html))
-as to ensure the princurve vignettes also work fine.
+`analogue` and `aroma.light` both get warnings as a result of the deprecation of 
+`principal.curve()`. 
 
 ## Changelog
 
-  * DOCUMENTATION: Use the `magick` package to generate animated GIFs in 
-    the vignette, instead of the `animation` package, because
-    `animation` uses `ffmpeg` which is not installed on all CRAN systems.
-    
-  * DEPRECATION: Added deprecation which will be triggered starting from 2018-08-01
-    upon calling `principal.curve()` or `get.lam()`.
+  * Removed extra dependencies in princurve by removing vignettes; fixes #28.
+  
+  * Fully deprecated `principal.curve()` function.
 
 ## Test environments
 * local Fedora 28 install, R 3.5.0
@@ -33,7 +24,7 @@ as to ensure the princurve vignettes also work fine.
 
 ## Reverse dependencies
 
-R CMD check was run at 2018/07/24 13:40 using the following command:
+R CMD check was run at 2019/09/02 using the following command:
 
 ```r
 revdepcheck::revdep_check(timeout = as.difftime(60, units = "mins"), num_workers = 8)
@@ -41,11 +32,12 @@ revdepcheck::revdep_check(timeout = as.difftime(60, units = "mins"), num_workers
 
 |package                                      |version |error |warning |note |
 |:--------------------------------------------|:-------|:-----|:-------|:----|
-|analogue                                     |0.17-0  |      |        |     |
-|[aroma.light](revdep/problems.md#aromalight) |3.10.0  |      |        |1    |
+|[analogue](revdep/problems.md#analogue)      |0.17-0  |      |__+1__  |     |
+|[aroma.light](revdep/problems.md#aromalight) |3.10.0  |      |__+1__  |1    |
 |ClusterSignificance                          |1.8.2   |      |        |     |
-|FateID                                       |0.1.2   |      |        |     |
-|MDSMap                                       |1.0     |      |        |     |
+|[FateID](revdep/problems.md#fateid)          |0.1.4   |      |1       |     |
+|[lilikoi](revdep/problems.md#lilikoi)        |0.1.0   |      |        |3    |
+|MDSMap                                       |1.1     |      |        |     |
 |[pathifier](revdep/problems.md#pathifier)    |1.20.0  |      |        |1    |
-|RSDA                                         |2.0.4   |      |        |     |
+|[RSDA](revdep/problems.md#rsda)              |2.0.5   |1     |        |     |
 |SCORPIUS                                     |1.0.2   |      |        |     |

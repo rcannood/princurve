@@ -65,13 +65,9 @@ test_that("Checking whether project_to_curve retains dimnames", {
 })
 
 test_that("Testing get.lam for backwards compatibility", {
-  if (Sys.Date() >= deprecation_date) {
-    expect_warning({
-      fit <- get.lam(x = x, s = s, stretch = 0)
-    }, "deprecated")
-  } else {
+  expect_warning({
     fit <- get.lam(x = x, s = s, stretch = 0)
-  }
+  }, "deprecated")
 
   expect_equal(names(fit), c("s", "tag", "lambda", "dist"))
   expect_gte(cor(as.vector(fit$s), as.vector(s)), .99)

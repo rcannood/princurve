@@ -1,5 +1,5 @@
 `analogue` and `aroma.light` both get warnings as a result of the deprecation of 
-`principal.curve()`. 
+`principal.curve()`.
 
 ## Changelog
 
@@ -16,11 +16,7 @@
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
-
-* checking CRAN incoming feasibility ... NOTE
-  
-  Days since last update: 1
+0 errors | 0 warnings | 0 notes
 
 ## Reverse dependencies
 

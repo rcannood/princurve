@@ -1,7 +1,7 @@
 #' Projection Index
 #'
-#' This function will be deprecated on August 1st, 2018.
-#' See \code{\link{project_to_curve}} instead.
+#' This function is deprecated, please use
+#' \code{\link{project_to_curve}} instead.
 #'
 #' @param x a matrix of data points.
 #' @param s a parametrized curve, represented by a polygon.
@@ -16,10 +16,7 @@ get.lam <- function(
   tag = NULL,
   stretch = 2
 ) {
-  # This function will be deprecated on August 1st, 2018
-  if (Sys.Date() >= deprecation_date) {
-    .Deprecated("project_to_curve", package = "princurve", old = "get.lam")
-  }
+  .Deprecated("project_to_curve", package = "princurve", old = "get.lam")
 
 
   if (!is.null(tag)) {

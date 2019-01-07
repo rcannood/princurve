@@ -46,6 +46,6 @@ Beware, you may want to use \code{iter = 0} with \code{lowess()}.}
 \item{...}{additional arguments to the smoothers}
 }
 \description{
-This function was deprecated on August 1st, 2018.
-Use \code{\link{principal_curve}} instead.
+This function is deprecated, please use
+\code{\link{project_to_curve}} instead.
 }

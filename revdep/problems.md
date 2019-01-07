@@ -1,51 +1,6 @@
-# analogue
-
-Version: 0.17-0
-
-## Newly broken
-
-*   checking examples ... WARNING
-    ```
-    ...
-      Warning: 'get.lam' is deprecated.
-      Warning: 'get.lam' is deprecated.
-      Warning: 'get.lam' is deprecated.
-      Warning: 'get.lam' is deprecated.
-      Warning: 'get.lam' is deprecated.
-      Warning: 'get.lam' is deprecated.
-      Warning: 'get.lam' is deprecated.
-      Warning: 'get.lam' is deprecated.
-      Warning: 'get.lam' is deprecated.
-      Warning: 'get.lam' is deprecated.
-      Warning: 'get.lam' is deprecated.
-      Warning: 'get.lam' is deprecated.
-      Warning: 'get.lam' is deprecated.
-      Warning: 'get.lam' is deprecated.
-      Warning: 'get.lam' is deprecated.
-      Warning: 'get.lam' is deprecated.
-      Warning: 'get.lam' is deprecated.
-      Warning: 'get.lam' is deprecated.
-    Deprecated functions may be defunct as soon as of the next release of
-    R.
-    See ?Deprecated.
-    ```
-
 # aroma.light
 
-Version: 3.10.0
-
-## Newly broken
-
-*   checking examples ... WARNING
-    ```
-    Found the following significant warnings:
-    
-      Warning: 'principal.curve' is deprecated.
-      Warning: 'principal.curve' is deprecated.
-    Deprecated functions may be defunct as soon as of the next release of
-    R.
-    See ?Deprecated.
-    ```
+Version: 3.12.0
 
 ## In both
 
@@ -59,7 +14,7 @@ Version: 3.10.0
 
 # FateID
 
-Version: 0.1.4
+Version: 0.1.5
 
 ## In both
 
@@ -67,10 +22,9 @@ Version: 0.1.4
     ```
     Error in re-building vignettes:
       ...
-    Error running filter pandoc-citeproc:
-    Could not find executable pandoc-citeproc
+    Quitting from lines 141-142 (FateID.Rmd) 
     Error: processing vignette 'FateID.Rmd' failed with diagnostics:
-    pandoc document conversion failed with error 83
+    there is no package called 'Biobase'
     Execution halted
     ```
 
@@ -126,13 +80,25 @@ Version: 1.20.0
 
 # RSDA
 
-Version: 2.0.5
+Version: 2.0.8
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘randomcoloR’
+      All declared Imports should be used.
+    ```
+
+# slingshot
+
+Version: 1.0.0
 
 ## In both
 
 *   checking package dependencies ... ERROR
     ```
-    Package required but not available: ‘randomcoloR’
+    Package required but not available: ‘SummarizedExperiment’
     
     See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
     manual.

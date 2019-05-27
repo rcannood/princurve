@@ -4,12 +4,12 @@
 # princurve
 
 [![Build
-Status](https://travis-ci.org/dynverse/princurve.svg?branch=master)](https://travis-ci.org/dynverse/princurve)
+Status](https://travis-ci.org/rcannood/princurve.svg?branch=master)](https://travis-ci.org/rcannood/princurve)
 [![AppVeyor Build
-Status](https://ci.appveyor.com/api/projects/status/github/dynverse/princurve?branch=master&svg=true)](https://ci.appveyor.com/project/dynverse/princurve)
+Status](https://ci.appveyor.com/api/projects/status/github/rcannood/princurve?branch=master&svg=true)](https://ci.appveyor.com/project/rcannood/princurve)
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/princurve)](https://cran.r-project.org/package=princurve)
 [![Coverage
-Status](https://codecov.io/gh/dynverse/princurve/branch/master/graph/badge.svg)](https://codecov.io/gh/dynverse/princurve?branch=master)
+Status](https://codecov.io/gh/rcannood/princurve/branch/master/graph/badge.svg)](https://codecov.io/gh/rcannood/princurve?branch=master)
 
 Fitting a principal curve to a data matrix in arbitrary dimensions. A
 principal curve is a smooth curve passing through the middle of a

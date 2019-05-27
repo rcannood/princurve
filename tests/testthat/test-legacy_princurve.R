@@ -4,7 +4,7 @@ skip_on_cran()
 
 already_installed <- "princurvelegacy" %in% rownames(installed.packages())
 if (!already_installed) {
-  devtools::install_github("dynverse/princurve@legacy")
+  devtools::install_github("rcannood/princurve@legacy")
 }
 
 for (i in seq_len(10)) {

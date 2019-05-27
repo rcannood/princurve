@@ -124,8 +124,8 @@
   * TESTING: Added tests for `principal_curve()` and `project_to_curve()`.
 
   * TESTING: Enabled continuous integration using
-    [travis-ci.org](https://travis-ci.org/dynverse/princurve) and
-    [ci.appveyor.com](https://ci.appveyor.com/project/dynverse/princurve).
+    [travis-ci.org](https://travis-ci.org/rcannood/princurve) and
+    [ci.appveyor.com](https://ci.appveyor.com/project/rcannood/princurve).
 
 # princurve 1.1-12 (2013-04-25)
 

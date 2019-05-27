@@ -38,8 +38,8 @@ LinkingTo:
     Rcpp
 NeedsCompilation: yes
 RoxygenNote: 6.1.1
-URL: https://github.com/dynverse/princurve
-BugReports: https://github.com/dynverse/princurve/issues
+URL: https://github.com/rcannood/princurve
+BugReports: https://github.com/rcannood/princurve/issues
 Collate: 
     'RcppExports.R'
     'bias_correct_curve.R'

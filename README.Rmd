@@ -50,24 +50,8 @@ Check out `news(package = "princurve")` or [NEWS.md](inst/NEWS.md) for a full li
 <!-- This section gets automatically generated from inst/NEWS.md, and also generates inst/NEWS -->
 
 ```{r news, results='asis', echo=FALSE}
-news_md <- readr::read_lines("inst/NEWS.md")
-
-# creating NEWS for package
-news_normal <- news_md %>% 
-  str_replace_all("^# princurve", "princurve") %>% 
-  str_replace_all("\\[[^\\]]*\\]\\(([^\\)]*)\\)", "\\1")
-readr::write_lines(news_normal, "inst/NEWS")
-
-# creating text for readme
-ix <- which(str_detect(news_md, "^# princurve"))
-
-cat(str_replace(news_md[[ix[[1]]]], "^# ", "### Latest changes in "))
-
-cat(news_md[seq(ix[[1]]+1, ix[[2]]-1)], sep = "\n")
-
-cat(str_replace(news_md[[ix[[2]]]], "^# ", "### Latest changes in "))
-
-cat(news_md[seq(ix[[2]]+1, ix[[3]]-1)], sep = "\n")
+dynutils::update_news()
+cat(dynutils::recent_news())
 ```
 
 ## References

@@ -1,4 +1,10 @@
-# princurve 2.1.3 (2018-09-02)
+# princurve 2.1.4 (unreleased)
+
+  * Fix warning in `stats::approx()` due to changes made in R 3.6.
+  
+  * Defuncted `principal.curve()` and `get.lam()`.
+
+# princurve 2.1.3 (2018-09-10)
 
   * Removed extra dependencies in princurve by removing vignettes; fixes #28.
   
@@ -118,8 +124,8 @@
   * TESTING: Added tests for `principal_curve()` and `project_to_curve()`.
 
   * TESTING: Enabled continuous integration using
-    [travis-ci.org](https://travis-ci.org/dynverse/princurve) and
-    [ci.appveyor.com](https://ci.appveyor.com/project/dynverse/princurve).
+    [travis-ci.org](https://travis-ci.org/rcannood/princurve) and
+    [ci.appveyor.com](https://ci.appveyor.com/project/rcannood/princurve).
 
 # princurve 1.1-12 (2013-04-25)
 

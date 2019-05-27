@@ -97,25 +97,6 @@ test_that("Testing principal_curve with lowess", {
   expect_gte(abs(cor(fit$ord, seq_len(100))), .99)
 })
 
-
-test_that("Testing principal.curve for backward compatibility", {
-  expect_warning({
-    fit <- principal.curve(x, smoother = "smooth.spline")
-  }, "deprecated")
-
-  svg(file, 5, 5)
-  expect_error({
-    plot(fit)
-    points(fit)
-    lines(fit)
-  }, NA)
-  dev.off()
-
-  expect_gte(cor(as.vector(fit$s), as.vector(s)), .99)
-  expect_gte(abs(cor(fit$tag, seq_len(100))), .99)
-})
-
-
 z <- seq(0, 2 * pi, length.out = 100)
 s <- cbind(cos(z), sin(z), 2 * cos(z), 3 * sin(z))
 x <- s + rnorm(length(s), mean = 0, sd = .005)

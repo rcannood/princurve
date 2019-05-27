@@ -64,16 +64,6 @@ test_that("Checking whether project_to_curve retains dimnames", {
   test_projection(x, s, stretch = 0, fit)
 })
 
-test_that("Testing get.lam for backwards compatibility", {
-  expect_warning({
-    fit <- get.lam(x = x, s = s, stretch = 0)
-  }, "deprecated")
-
-  expect_equal(names(fit), c("s", "tag", "lambda", "dist"))
-  expect_gte(cor(as.vector(fit$s), as.vector(s)), .99)
-  expect_gte(cor(fit$tag, seq_len(100)), .99)
-})
-
 
 test_that("Testing project_to_curve with shuffled order", {
   fit <- project_to_curve(

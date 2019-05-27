@@ -4,12 +4,12 @@
 # princurve
 
 [![Build
-Status](https://travis-ci.org/dynverse/princurve.svg?branch=master)](https://travis-ci.org/dynverse/princurve)
+Status](https://travis-ci.org/rcannood/princurve.svg?branch=master)](https://travis-ci.org/rcannood/princurve)
 [![AppVeyor Build
-Status](https://ci.appveyor.com/api/projects/status/github/dynverse/princurve?branch=master&svg=true)](https://ci.appveyor.com/project/dynverse/princurve)
+Status](https://ci.appveyor.com/api/projects/status/github/rcannood/princurve?branch=master&svg=true)](https://ci.appveyor.com/project/rcannood/princurve)
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/princurve)](https://cran.r-project.org/package=princurve)
 [![Coverage
-Status](https://codecov.io/gh/dynverse/princurve/branch/master/graph/badge.svg)](https://codecov.io/gh/dynverse/princurve?branch=master)
+Status](https://codecov.io/gh/rcannood/princurve/branch/master/graph/badge.svg)](https://codecov.io/gh/rcannood/princurve?branch=master)
 
 Fitting a principal curve to a data matrix in arbitrary dimensions. A
 principal curve is a smooth curve passing through the middle of a
@@ -52,22 +52,18 @@ changes.
 
 <!-- This section gets automatically generated from inst/NEWS.md, and also generates inst/NEWS -->
 
-### Latest changes in princurve 2.1.3 (2018-09-02)
+### Recent changes in princurve 2.1.4 (unreleased)
+
+  - Fix warning in `stats::approx()` due to changes made in R 3.6.
+
+  - Defuncted `principal.curve()` and `get.lam()`.
+
+### Recent changes in princurve 2.1.3 (2018-09-10)
 
   - Removed extra dependencies in princurve by removing vignettes; fixes
     \#28.
 
   - Fully deprecated `principal.curve()` function.
-
-### Latest changes in princurve 2.1.2 (2018-07-24)
-
-  - DOCUMENTATION: Use the `magick` package to generate animated GIFs in
-    the vignette, instead of the `animation` package, because
-    `animation` uses `ffmpeg` which is not installed on all CRAN
-    systems.
-
-  - DEPRECATION: Added deprecation which will be triggered starting from
-    2018-08-01 upon calling `principal.curve()` or `get.lam()`.
 
 ## References
 

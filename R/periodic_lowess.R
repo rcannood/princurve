@@ -15,5 +15,5 @@ periodic_lowess <- function(x, y, f = 0.59999999999999998, ...) {
 
   f <- f / 2
   fit <- stats::lowess(xnew, ynew, f = f, ...)
-  stats::approx(fit$x, fit$y, x[o], rule = 2)
+  stats::approx(fit$x, fit$y, x[o], rule = 2, ties = "ordered")
 }

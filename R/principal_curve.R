@@ -182,7 +182,7 @@ principal_curve <- function(
 
       # If requested, approximate the smoothed curve to reduce computational complexity
       if (approx_points > 0) {
-        yjj <- approx(x = sort_lambda, y = yjj, xout = xout_lambda)$y
+        yjj <- stats::approx(x = sort_lambda, y = yjj, xout = xout_lambda, ties = "ordered")$y
       }
 
       # Store curve

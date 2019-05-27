@@ -42,8 +42,6 @@ get.lam(x, s, tag = NULL, stretch = 2)
 \item{s}{s}
 
 \item{tag}{tag}
-
-\item{stretch}{stretch}
 }
 \description{
 This function is deprecated, please use

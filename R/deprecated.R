@@ -13,7 +13,6 @@
 #' @param trace trace
 #' @param s s
 #' @param tag tag
-#' @param stretch stretch
 #' @param ... ...
 #'
 #' @rdname deprecated

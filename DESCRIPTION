@@ -36,16 +36,15 @@ Suggests:
 LinkingTo: 
     Rcpp
 NeedsCompilation: yes
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 URL: https://github.com/dynverse/princurve
 BugReports: https://github.com/dynverse/princurve/issues
 Collate: 
     'RcppExports.R'
     'bias_correct_curve.R'
-    'get.lam.R'
+    'deprecated.R'
     'package.R'
     'periodic_lowess.R'
     'smoother_functions.R'
     'principal_curve.R'
-    'principal.curve.R'
     'start_circle.R'

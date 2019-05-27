@@ -10,8 +10,7 @@ bias_correct_curve <- function(x, pcurve, ...) {
   ray <- sign * ray
 
   ploess <- periodic_lowess(pcurve$lambda, ray, ...)
-
-  sray <- stats::approx(
+  sray <- approx_sorted(
     ploess$x,
     ploess$y,
     pcurve$lambda

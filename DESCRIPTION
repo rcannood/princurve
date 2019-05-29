@@ -22,7 +22,8 @@ Authors@R: c(
       role = c("aut", "cre"),
       comment = c(ORCID = "0000-0003-3641-729X", github = "rcannood")
     ))
-Description: Fitting a principal curve to a data matrix in arbitrary dimensions.
+Description: Fitting a principal curve to a data matrix in arbitrary dimensions. 
+  Hastie and Stuetzle (1989) <doi:10.2307/2289936>.
 License: GPL-2
 Encoding: UTF-8
 Depends: R (>= 3.0)

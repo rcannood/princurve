@@ -46,13 +46,12 @@ See `?principal_curve` for more information on how to use the
 
 ## Latest changes
 
-Check out `news(package = "princurve")` or [NEWS.md](inst/NEWS.md) for a
-full list of
+Check out `news(package = "princurve")` for a full list of
 changes.
 
 <!-- This section gets automatically generated from inst/NEWS.md, and also generates inst/NEWS -->
 
-### Recent changes in princurve 2.1.4 (unreleased)
+### Recent changes in princurve 2.1.4 (2019-05-29)
 
   - Fix warning in `stats::approx()` due to changes made in R 3.6.
 
@@ -63,7 +62,7 @@ changes.
   - Removed extra dependencies in princurve by removing vignettes; fixes
     \#28.
 
-  - Fully deprecated `principal.curve()` function.
+  - Fully deprecated `principal.curve()` and `get.lam()`.
 
 ## References
 

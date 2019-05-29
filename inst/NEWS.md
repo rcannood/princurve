@@ -1,4 +1,4 @@
-# princurve 2.1.4 (unreleased)
+# princurve 2.1.4 (2019-05-29)
 
   * Fix warning in `stats::approx()` due to changes made in R 3.6.
   
@@ -8,7 +8,7 @@
 
   * Removed extra dependencies in princurve by removing vignettes; fixes #28.
   
-  * Fully deprecated `principal.curve()` function.
+  * Fully deprecated `principal.curve()` and `get.lam()`.
 
 # princurve 2.1.2 (2018-07-24)
   

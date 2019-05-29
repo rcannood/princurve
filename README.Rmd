@@ -45,7 +45,7 @@ plot(fit); whiskers(x, fit$s, col = "gray")
 See `?principal_curve` for more information on how to use the `princurve` package.
 
 ## Latest changes
-Check out `news(package = "princurve")` or [NEWS.md](inst/NEWS.md) for a full list of changes.
+Check out `news(package = "princurve")` for a full list of changes.
 
 <!-- This section gets automatically generated from inst/NEWS.md, and also generates inst/NEWS -->
 

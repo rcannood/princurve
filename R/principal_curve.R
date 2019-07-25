@@ -236,11 +236,7 @@ formals(principal_curve)$smoother <- names(smoother_functions)
 #' @export
 #' @importFrom graphics lines
 lines.principal_curve <- function(x, ...) {
-  if ("ord" %in% names(x)) {
-    ord <- x[["ord"]]
-  } else {
-    ord <- x[["tag"]]
-  }
+  ord <- x[["ord"]]
   graphics::lines(x$s[ord, ], ...)
 }
 
@@ -248,11 +244,7 @@ lines.principal_curve <- function(x, ...) {
 #' @export
 #' @importFrom graphics plot
 plot.principal_curve <- function(x, ...) {
-  if ("ord" %in% names(x)) {
-    ord <- x[["ord"]]
-  } else {
-    ord <- x[["tag"]]
-  }
+  ord <- x[["ord"]]
   graphics::plot(x$s[ord, ], ..., type = "l")
 }
 

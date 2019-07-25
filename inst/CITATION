@@ -13,3 +13,15 @@ citEntry(
   note     = "\\url{https://web.stanford.edu/~hastie/Papers/principalcurves.pdf}",
   textVersion = "Hastie, T. and Stuetzle, W., [Principal Curves](https://www.jstor.org/stable/2289936), JASA, Vol. 84, No. 406 (Jun., 1989), pp. 502-516. DOI: 10.2307/2289936 [[PDF](https://www.jstor.org/stable/2289936})]"
 )
+
+citEntry(
+  entry    = "Misc",
+  author   = "Robrecht Cannoodt",
+  title    = "princurve 2.0: Fits a Principal Curve in Arbitrary Dimension",
+  journal  = "CRAN",
+  year     = "2018",
+  month    = "June",
+  doi      = "10.5281/zenodo.3351282",
+  url      = "https://github.com/rcannood/princurve",
+  textVersion = "Cannoodt R., princurve 2.0: Fits a Principal Curve in Arbitrary Dimension (Jun., 2018). DOI: [10.5281/zenodo.3351282](https://doi.org/10.5281/zenodo.3351282)"
+)

@@ -1,20 +1,16 @@
 language: r
-sudo: required
-dist: trusty
 cache: packages
-r_check_args: "--as-cran"
-os:
- - linux
- - osx
-addons:
-  apt:
-    packages:
-    - libmagick++-dev
-install:
- - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install ffmpeg cairo; fi
- - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -y ffmpeg; fi
- - R -e 'if ("devtools" %in% rownames(installed.packages())) update.packages(oldPkgs = "devtools", ask = FALSE) else install.packages("devtools")'
- - R -e 'devtools::install_cran("covr")'
- - R -e 'setRepositories(ind = 1:2); devtools::install(dep = TRUE, upgrade = TRUE)'
+matrix:
+  include:
+  - r: oldrel
+    os: linux
+  - r: release
+    os: linux
+  - r: devel
+    os: linux
+  - r: release
+    os: osx
+r_packages:
+ - covr
 after_success:
  - R -e 'covr::codecov()'

@@ -3,11 +3,15 @@
 
 # princurve
 
-[![Build
+[![CRAN
+Status](https://www.r-pkg.org/badges/version/princurve)](https://cran.r-project.org/package=princurve)
+[![CRAN
+Downloads](https://cranlogs.r-pkg.org/badges/princurve)](https://cran.r-project.org/package=princurve)
+[![DOI](https://zenodo.org/badge/125849601.svg)](https://zenodo.org/badge/latestdoi/125849601)  
+[![Travis Build
 Status](https://travis-ci.org/rcannood/princurve.svg?branch=master)](https://travis-ci.org/rcannood/princurve)
 [![AppVeyor Build
-Status](https://ci.appveyor.com/api/projects/status/github/rcannood/princurve?branch=master&svg=true)](https://ci.appveyor.com/project/rcannood/princurve)
-[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/princurve)](https://cran.r-project.org/package=princurve)
+status](https://ci.appveyor.com/api/projects/status/kqlxkg73jm3vmuwe?svg=true)](https://ci.appveyor.com/project/dynverse/princurve)
 [![Coverage
 Status](https://codecov.io/gh/rcannood/princurve/branch/master/graph/badge.svg)](https://codecov.io/gh/rcannood/princurve?branch=master)
 

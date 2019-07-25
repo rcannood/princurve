@@ -1,12 +1,15 @@
 language: r
 cache: packages
-r:
-  - oldrel
-  - release
-  - devel
-os:
- - linux
- - osx
+matrix:
+  include:
+  - r: oldrel
+    os: linux
+  - r: release
+    os: linux
+  - r: devel
+    os: linux
+  - r: release
+    os: macosx
 r_packages:
  - covr
 after_success:

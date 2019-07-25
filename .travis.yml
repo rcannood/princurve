@@ -9,7 +9,7 @@ matrix:
   - r: devel
     os: linux
   - r: release
-    os: macosx
+    os: osx
 r_packages:
  - covr
 after_success:

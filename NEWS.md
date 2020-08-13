@@ -1,3 +1,8 @@
+# princurve 2.1.5 (2020-08-13)
+  
+  * BUG FIX `project_to_curve()`: Fix pass-by-reference bug, issue #33. Thanks 
+    to @szcf-weiya for detecting and fixing this bug!
+
 # princurve 2.1.4 (2019-05-29)
 
   * Fix warning in `stats::approx()` due to changes made in R 3.6.

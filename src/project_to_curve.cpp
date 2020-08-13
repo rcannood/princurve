@@ -57,6 +57,8 @@ List project_to_curve(
     const double stretch = 2
 ) {
   if (stretch > 0) {
+    s = clone(s);
+
     int n = s.nrow();
     NumericVector diff1 = s(0, _) - s(1, _);
     NumericVector diff2 = s(n - 1, _) - s(n - 2, _);

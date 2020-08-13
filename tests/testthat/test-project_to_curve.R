@@ -35,6 +35,16 @@ s <- cbind(z, z^2, z^3, z^4)
 x <- s + rnorm(length(s), mean = 0, sd = .005)
 ord <- sample.int(nrow(x))
 
+test_that("Verify s is not modified", {
+  s_orig <- s + 0
+  fit <- project_to_curve(
+    x = x,
+    s = s,
+    stretch = 2
+  )
+  expect_equal(s, s_orig, tolerance = 1e-5)
+})
+
 
 test_that("Testing project_to_curve", {
   fit <- project_to_curve(
@@ -204,4 +214,3 @@ test_that("Projecting to random data produces correct results", {
     test_projection(x, s, stretch = 0, fit)
   }
 })
-

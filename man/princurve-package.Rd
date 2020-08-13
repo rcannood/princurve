@@ -5,9 +5,6 @@
 \alias{princurve-package}
 \alias{princurve}
 \title{Fits a Principal Curve in Arbitrary Dimension}
-\description{
-Fits a Principal Curve in Arbitrary Dimension
-}
 \references{
 Hastie, T. and Stuetzle, W.,
  \href{https://www.jstor.org/stable/2289936}{Principal Curves},

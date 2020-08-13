@@ -8,9 +8,17 @@
 \alias{get.lam}
 \title{Deprecated functions}
 \usage{
-principal.curve(x, start = NULL, thresh = 0.001, plot.true = FALSE,
-  maxit = 10, stretch = 2, smoother = c("smooth_spline", "lowess",
-  "periodic_lowess"), trace = FALSE, ...)
+principal.curve(
+  x,
+  start = NULL,
+  thresh = 0.001,
+  plot.true = FALSE,
+  maxit = 10,
+  stretch = 2,
+  smoother = c("smooth_spline", "lowess", "periodic_lowess"),
+  trace = FALSE,
+  ...
+)
 
 \method{lines}{principal.curve}(x, ...)
 

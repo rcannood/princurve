@@ -17,11 +17,11 @@ citEntry(
 citEntry(
   entry    = "Misc",
   author   = "Robrecht Cannoodt",
-  title    = "princurve 2.0: Fits a Principal Curve in Arbitrary Dimension",
+  title    = "princurve 2.0: Fit a Principal Curve in Arbitrary Dimension",
   journal  = "CRAN",
   year     = "2018",
   month    = "June",
   doi      = "10.5281/zenodo.3351282",
   url      = "https://github.com/rcannood/princurve",
-  textVersion = "Cannoodt R., princurve 2.0: Fits a Principal Curve in Arbitrary Dimension (Jun., 2018). DOI: [10.5281/zenodo.3351282](https://doi.org/10.5281/zenodo.3351282)"
+  textVersion = "Cannoodt R., princurve 2.0: Fit a Principal Curve in Arbitrary Dimension (Jun., 2018). DOI: [10.5281/zenodo.3351282](https://doi.org/10.5281/zenodo.3351282)"
 )

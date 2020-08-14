@@ -1,6 +1,6 @@
 Package: princurve
 Version: 2.1.4.9000
-Title: Fits a Principal Curve in Arbitrary Dimension
+Title: Fit a Principal Curve in Arbitrary Dimension
 Authors@R: c(
     person("Trevor", "Hastie", email = "trevor@research.att.com", role = "aut"),
     person("Andreas", "Weingessel", email = "Andreas.Weingessel@ci.tuwien.ac.at", role = "aut"),

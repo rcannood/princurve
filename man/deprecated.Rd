@@ -8,40 +8,18 @@
 \alias{get.lam}
 \title{Deprecated functions}
 \usage{
-principal.curve(x, start = NULL, thresh = 0.001, plot.true = FALSE,
-  maxit = 10, stretch = 2, smoother = c("smooth_spline", "lowess",
-  "periodic_lowess"), trace = FALSE, ...)
+principal.curve(...)
 
-\method{lines}{principal.curve}(x, ...)
+\method{lines}{principal.curve}(...)
 
-\method{plot}{principal.curve}(x, ...)
+\method{plot}{principal.curve}(...)
 
-\method{points}{principal.curve}(x, ...)
+\method{points}{principal.curve}(...)
 
-get.lam(x, s, tag = NULL, stretch = 2)
+get.lam(...)
 }
 \arguments{
-\item{x}{x}
-
-\item{start}{start}
-
-\item{thresh}{thresh}
-
-\item{plot.true}{plot.true}
-
-\item{maxit}{maxit}
-
-\item{stretch}{stretch}
-
-\item{smoother}{smoother}
-
-\item{trace}{trace}
-
-\item{...}{...}
-
-\item{s}{s}
-
-\item{tag}{tag}
+\item{...}{Catch-all for old parameters.}
 }
 \description{
 This function is deprecated, please use

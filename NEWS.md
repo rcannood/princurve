@@ -1,14 +1,19 @@
+# princurve 2.1.5 (2020-08-13)
+  
+  * BUG FIX `project_to_curve()`: Fix pass-by-reference bug, issue #33. Thanks 
+    to @szcf-weiya for detecting and fixing this bug!
+
 # princurve 2.1.4 (2019-05-29)
 
-  * Fix warning in `stats::approx()` due to changes made in R 3.6.
+  * BUG FIX: Fix warning in `stats::approx()` due to changes made in R 3.6.
   
-  * Defuncted `principal.curve()` and `get.lam()`.
+  * DEFUNCT `principal.curve()` and `get.lam()`.
 
 # princurve 2.1.3 (2018-09-10)
 
-  * Removed extra dependencies in princurve by removing vignettes; fixes #28.
+  * BUG FIX: Removed extra dependencies in princurve by removing vignettes; fixes #28.
   
-  * Fully deprecated `principal.curve()` and `get.lam()`.
+  * DEPRECATION `principal.curve()` and `get.lam()`.
 
 # princurve 2.1.2 (2018-07-24)
   

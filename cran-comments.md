@@ -1,17 +1,24 @@
-This release fixes warnings when using `stats::approx()` in R 3.6.
-
-## Changelog
-
-  * Fix warning in `stats::approx()` due to changes made in R 3.6.
+# princurve 2.1.5 (2020-08-13)
   
-  * Defuncted `principal.curve()` and `get.lam()`.
+  * BUG FIX `project_to_curve()`: Fix pass-by-reference bug, issue #33. Thanks 
+    to @szcf-weiya for detecting and fixing this bug!
 
 ## Test environments
-* local Fedora 28 install, R 3.6.0
-* OS X (on travis-ci), R 3.6.0
-* Ubuntu 14.04 (on travis-ci), R 3.6.0
-* Windows (on appveyor), R 3.5.0
-* win-builder (devel and release)
+* localhost (before installation):
+  - Fedora 31, R 4.0.2
+* Github Actions (automated):
+  - Mac OS X, R Release
+  - Windows, R Release
+  - Ubuntu 16.04, R Release
+  - Ubuntu 16.04, R 3.2
+  - Ubuntu 16.04, R 3.3
+  - Ubuntu 16.04, R 3.4
+  - Ubuntu 16.04, R 3.5
+  - Ubuntu 16.04, R 3.6
+* win-builder:
+  - oldrelease
+  - release
+  - devel
 
 ## R CMD check results
 
@@ -19,25 +26,28 @@ This release fixes warnings when using `stats::approx()` in R 3.6.
 
 ## Reverse dependencies
 
-R CMD check was run on 27 May 2019 using the following command:
-
-```r
-revdepcheck::revdep_check(timeout = as.difftime(60, units = "mins"), num_workers = 8)
-```
-
 Summary:
 ```
-✔ aroma.light 3.12.0                     ── E: 0     | W: 0     | N: 1
-✔ pathifier 1.20.0                       ── E: 0     | W: 0     | N: 1
-✔ analogue 0.17-3                        ── E: 1     | W: 0     | N: 0
-✔ ClusterSignificance 1.10.0             ── E: 0     | W: 0     | N: 1
-✔ RSDA 2.0.8                             ── E: 1     | W: 0     | N: 0
-✔ lilikoi 0.1.0                          ── E: 1     | W: 0     | N: 0
-✔ SCORPIUS 1.0.2                         ── E: 1     | W: 0     | N: 0
-✔ MDSMap 1.1                             ── E: 0     | W: 0     | N: 0
-✔ FateID 0.1.7                           ── E: 0     | W: 0     | N: 0
-✔ slingshot 1.0.0                        ── E: 1     | W: 0     | N: 0
-OK: 10                                                                                                                                                                                
+> revdepcheck::revdep_check(num_workers = 8, timeout = as.difftime(600, units = "mins"))
+── INIT ─────────────────────────────────────────────────── Computing revdeps ──
+── INSTALL ─────────────────────────────────────────────────────── 2 versions ──
+Installing CRAN version of princurve
+also installing the dependency ‘Rcpp’
+Installing DEV version of princurve
+Installing 1 packages: Rcpp
+── CHECK ──────────────────────────────────────────────────────── 10 packages ──
+✓ aroma.light 3.18.0                     ── E: 0     | W: 0     | N: 1
+✓ pathifier 1.26.0                       ── E: 0     | W: 0     | N: 1
+✓ analogue 0.17-5                        ── E: 0     | W: 0     | N: 0
+✓ RSDA 3.0.4                             ── E: 1     | W: 0     | N: 0
+✓ ClusterSignificance 1.16.0             ── E: 0     | W: 0     | N: 0
+✓ FateID 0.1.9                           ── E: 0     | W: 0     | N: 1
+✓ SCORPIUS 1.0.7                         ── E: 0     | W: 0     | N: 0
+✓ MDSMap 1.1                             ── E: 0     | W: 0     | N: 0
+✓ slingshot 1.6.1                        ── E: 0     | W: 0     | N: 0
+✓ tradeSeq 1.2.01                        ── E: 0     | W: 0     | N: 3
+OK: 10
 BROKEN: 0
-Total time: 33 min
+Total time: 11 min
+── REPORT ──────────────────────────────────────────────────────────────────────
 ```

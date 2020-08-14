@@ -4,9 +4,13 @@
 \name{princurve-package}
 \alias{princurve-package}
 \alias{princurve}
-\title{Fits a Principal Curve in Arbitrary Dimension}
+\title{Fit a Principal Curve in Arbitrary Dimension}
 \description{
-Fits a Principal Curve in Arbitrary Dimension
+Fit a principal curve which describes a smooth curve that passes through the \code{middle}
+of the data \code{x} in an orthogonal sense. This curve is a non-parametric generalization
+of a linear principal component. If a closed curve is fit (using \code{smoother = "periodic_lowess"})
+then the starting curve defaults to a circle, and each fit is followed by a bias correction
+suggested by Jeff Banfield.
 }
 \references{
 Hastie, T. and Stuetzle, W.,

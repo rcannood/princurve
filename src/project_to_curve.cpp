@@ -51,8 +51,14 @@ IntegerVector order(const NumericVector & x) {
 //'
 //' @export
 // [[Rcpp::export]]
-List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
+List project_to_curve(
+    const NumericMatrix& x,
+    NumericMatrix s,
+    const double stretch = 2
+) {
   if (stretch > 0) {
+    s = clone(s);
+
     int n = s.nrow();
     NumericVector diff1 = s(0, _) - s(1, _);
     NumericVector diff2 = s(n - 1, _) - s(n - 2, _);
@@ -75,17 +81,21 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
   NumericMatrix diff = no_init(nseg, ncols);
   NumericVector length = no_init(nseg);
 
-  for (int i = 0; i < nseg; ++i) {
+  // preallocate variables
+  int i, j, k, l, m;
+  double u, v, w;
+
+  for (i = 0; i < nseg; ++i) {
     // OPTIMISATION: compute length manually
     //   diff(i, _) = s(i + 1, _) - s(i, _);
     //   length[i] = sum(pow(diff(i, _), 2));
-    double l = 0;
-    for (int k = 0; k < ncols; ++k) {
-      double value = s(i + 1, k) - s(i, k);
-      diff[k * nseg + i] = value;
-      l += value * value;
+    w = 0;
+    for (k = 0; k < ncols; ++k) {
+      v = s(i + 1, k) - s(i, k);
+      diff[k * nseg + i] = v;
+      w += v * v;
     }
-    length[i] = l;
+    length[i] = w;
     // END OPTIMISATION
   }
 
@@ -99,56 +109,59 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
   NumericVector n = no_init(ncols);
   NumericVector p = no_init(ncols);
 
+  // preallocate
+  double bestlam, bestdi;
+
   // iterate over points in x
-  for (int i = 0; i < npts; ++i) {
+  for (i = 0; i < npts; ++i) {
     // store information on the closest segment
-    double bestlam = -1;
-    double bestdi = R_PosInf;
+    bestlam = -1;
+    bestdi = R_PosInf;
 
     // copy current point to p
-    for (int k = 0; k < ncols; ++k) {
+    for (k = 0; k < ncols; ++k) {
       p[k] = x(i, k);
     }
 
     // iterate over the segments
-    for (int j = 0; j < nseg; ++j) {
+    for (j = 0; j < nseg; ++j) {
 
       // project p orthogonally onto the segment
       // OPTIMISATION: do not allocate diff1 and diff2; compute t manually
       //   NumericVector diff1 = s(j + 1, _) - s(j, _);
       //   NumericVector diff2 = p - s(j, _);
       //   double t = sum(diff1 * diff2) / length(j);
-      double t = 0;
-      for (int k = 0; k < ncols; ++k) {
-        t += diff(j, k) * (p[k] - s(j, k));
+      v = 0;
+      for (k = 0; k < ncols; ++k) {
+        v += diff(j, k) * (p[k] - s(j, k));
       }
-      t /= length(j);
+      v /= length(j);
       // END OPTIMISATION
 
-      if (t < 0) {
-        t = 0.0;
+      if (v < 0) {
+        v = 0.0;
       }
-      if (t > 1) {
-        t = 1.0;
+      if (v > 1) {
+        v = 1.0;
       }
 
       // calculate position of projection and the distance
       // OPTIMISATION: compute di and n_test manually
       //   NumericVector n_test = s(j, _) + t * diff(j, _);
       //   double di = sum(pow(n_test - p, 2.0));
-      double di = 0;
-      for (int k = 0; k < ncols; ++k) {
-        double value = s(j, k) + t * diff(j, k);
-        n_test[k] = value;
-        di += (value - p[k]) * (value - p[k]);
+      w = 0;
+      for (k = 0; k < ncols; ++k) {
+        u = s(j, k) + v * diff(j, k);
+        n_test[k] = u;
+        w += (u - p[k]) * (u - p[k]);
       }
       // END OPTIMISATION
 
       // if this is better than what was found earlier, store it
-      if (di < bestdi) {
-        bestdi = di;
-        bestlam = j + .1 + .9 * t;
-        for (int k = 0; k < ncols; ++k) {
+      if (w < bestdi) {
+        bestdi = w;
+        bestlam = j + .1 + .9 * v;
+        for (k = 0; k < ncols; ++k) {
           n[k] = n_test[k];
         }
 
@@ -158,7 +171,7 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
     // save the best projection to the output data structures
     lambda[i] = bestlam;
     dist_ind[i] = bestdi;
-    for (int k = 0; k < ncols; ++k) {
+    for (k = 0; k < ncols; ++k) {
       new_s[k * npts + i] = n[k];
     }
   }
@@ -172,20 +185,20 @@ List project_to_curve(NumericMatrix x, NumericMatrix s, double stretch = 2) {
   // recalculate lambda for new_s
   lambda[new_ord[0]] = 0;
 
-  for (int i = 1; i < new_ord.length(); ++i) {
-    int o1 = new_ord[i];
-    int o0 = new_ord[i - 1];
+  for (i = 1; i < new_ord.length(); ++i) {
+    l = new_ord[i - 1];
+    m = new_ord[i];
 
     // OPTIMISATION: compute lambda[o1] manually
     //   NumericVector p1 = new_s(o1, _);
     //   NumericVector p0 = new_s(o0, _);
     //   lambda[o1] = lambda[o0] + sqrt(sum(pow(p1 - p0, 2.0)));
-    double o0o1 = 0;
-    for (int k = 0; k < ncols; ++k) {
-      double val = new_s(o1, k) - new_s(o0, k);
-      o0o1 += val * val;
+    w = 0;
+    for (k = 0; k < ncols; ++k) {
+      v = new_s(m, k) - new_s(l, k);
+      w += v * v;
     }
-    lambda[o1] = lambda[o0] + sqrt(o0o1);
+    lambda[m] = lambda[l] + sqrt(w);
     // END OPTIMISATION
   }
 

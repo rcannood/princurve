@@ -1,6 +1,6 @@
 Package: princurve
-Version: 2.1.4
-Title: Fits a Principal Curve in Arbitrary Dimension
+Version: 2.1.5
+Title: Fit a Principal Curve in Arbitrary Dimension
 Authors@R: c(
     person("Trevor", "Hastie", email = "trevor@research.att.com", role = "aut"),
     person("Andreas", "Weingessel", email = "Andreas.Weingessel@ci.tuwien.ac.at", role = "aut"),
@@ -38,7 +38,7 @@ Suggests:
 LinkingTo: 
     Rcpp
 NeedsCompilation: yes
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1
 URL: https://github.com/rcannood/princurve
 BugReports: https://github.com/rcannood/princurve/issues
 Collate: 

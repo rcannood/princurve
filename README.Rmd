@@ -18,8 +18,7 @@ library(tidyverse)
 [![CRAN Status](https://www.r-pkg.org/badges/version/princurve)](https://cran.r-project.org/package=princurve)
 [![CRAN Downloads](https://cranlogs.r-pkg.org/badges/princurve)](https://cran.r-project.org/package=princurve)
 [![DOI](https://zenodo.org/badge/125849601.svg)](https://zenodo.org/badge/latestdoi/125849601)  
-[![Travis Build Status](https://travis-ci.org/rcannood/princurve.svg?branch=master)](https://travis-ci.org/rcannood/princurve)
-[![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/kqlxkg73jm3vmuwe?svg=true)](https://ci.appveyor.com/project/dynverse/princurve)
+[![R-CMD-check](https://github.com/rcannood/princurve/workflows/R-CMD-check/badge.svg)](https://github.com/rcannood/princurve/actions?query=workflow%3AR-CMD-check)
 [![Coverage Status](https://codecov.io/gh/rcannood/princurve/branch/master/graph/badge.svg)](https://codecov.io/gh/rcannood/princurve?branch=master)
 
 Fitting a principal curve to a data matrix in arbitrary dimensions.
@@ -47,12 +46,11 @@ plot(fit); whiskers(x, fit$s, col = "gray")
 See `?principal_curve` for more information on how to use the `princurve` package.
 
 ## Latest changes
-Check out `news(package = "princurve")` for a full list of changes.
+Check out `news(package = "princurve")` or [NEWS.md](NEWS.md) for a full list of changes.
 
-<!-- This section gets automatically generated from inst/NEWS.md, and also generates inst/NEWS -->
+<!-- This section gets automatically generated from NEWS.md -->
 
 ```{r news, results='asis', echo=FALSE}
-dynutils::update_news()
 cat(dynutils::recent_news())
 ```
 

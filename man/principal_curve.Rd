@@ -8,10 +8,18 @@
 \alias{whiskers}
 \title{Fit a Principal Curve}
 \usage{
-principal_curve(x, start = NULL, thresh = 0.001, maxit = 10,
-  stretch = 2, smoother = c("smooth_spline", "lowess",
-  "periodic_lowess"), approx_points = FALSE, trace = FALSE,
-  plot_iterations = FALSE, ...)
+principal_curve(
+  x,
+  start = NULL,
+  thresh = 0.001,
+  maxit = 10,
+  stretch = 2,
+  smoother = c("smooth_spline", "lowess", "periodic_lowess"),
+  approx_points = FALSE,
+  trace = FALSE,
+  plot_iterations = FALSE,
+  ...
+)
 
 \method{lines}{principal_curve}(x, ...)
 
@@ -75,9 +83,9 @@ An object of class \code{"principal_curve"} is returned. For this object
     \code{updated()}.}
 }
 \description{
-Fits a principal curve which describes a smooth curve that passes through the \code{middle}
-of the data \code{x} in an orthogonal sense.  This curve is a nonparametric generalization
-of a linear principal component.  If a closed curve is fit (using \code{smoother = "periodic_lowess"})
+Fit a principal curve which describes a smooth curve that passes through the \code{middle}
+of the data \code{x} in an orthogonal sense. This curve is a non-parametric generalization
+of a linear principal component. If a closed curve is fit (using \code{smoother = "periodic_lowess"})
 then the starting curve defaults to a circle, and each fit is followed by a bias correction
 suggested by Jeff Banfield.
 }

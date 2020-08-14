@@ -8,10 +8,7 @@ Status](https://www.r-pkg.org/badges/version/princurve)](https://cran.r-project.
 [![CRAN
 Downloads](https://cranlogs.r-pkg.org/badges/princurve)](https://cran.r-project.org/package=princurve)
 [![DOI](https://zenodo.org/badge/125849601.svg)](https://zenodo.org/badge/latestdoi/125849601)  
-[![Travis Build
-Status](https://travis-ci.org/rcannood/princurve.svg?branch=master)](https://travis-ci.org/rcannood/princurve)
-[![AppVeyor Build
-status](https://ci.appveyor.com/api/projects/status/kqlxkg73jm3vmuwe?svg=true)](https://ci.appveyor.com/project/dynverse/princurve)
+[![R-CMD-check](https://github.com/rcannood/princurve/workflows/R-CMD-check/badge.svg)](https://github.com/rcannood/princurve/actions?query=workflow%3AR-CMD-check)
 [![Coverage
 Status](https://codecov.io/gh/rcannood/princurve/branch/master/graph/badge.svg)](https://codecov.io/gh/rcannood/princurve?branch=master)
 
@@ -50,23 +47,22 @@ See `?principal_curve` for more information on how to use the
 
 ## Latest changes
 
-Check out `news(package = "princurve")` for a full list of
-changes.
+Check out `news(package = "princurve")` or [NEWS.md](NEWS.md) for a full
+list of changes.
 
-<!-- This section gets automatically generated from inst/NEWS.md, and also generates inst/NEWS -->
+<!-- This section gets automatically generated from NEWS.md -->
+
+### Recent changes in princurve 2.1.5 (2020-08-13)
+
+  - BUG FIX `project_to_curve()`: Fix pass-by-reference bug, issue \#33.
+    Thanks to @szcf-weiya for detecting and fixing this bug\!
 
 ### Recent changes in princurve 2.1.4 (2019-05-29)
 
-  - Fix warning in `stats::approx()` due to changes made in R 3.6.
+  - BUG FIX: Fix warning in `stats::approx()` due to changes made in R
+    3.6.
 
-  - Defuncted `principal.curve()` and `get.lam()`.
-
-### Recent changes in princurve 2.1.3 (2018-09-10)
-
-  - Removed extra dependencies in princurve by removing vignettes; fixes
-    \#28.
-
-  - Fully deprecated `principal.curve()` and `get.lam()`.
+  - DEFUNCT `principal.curve()` and `get.lam()`.
 
 ## References
 

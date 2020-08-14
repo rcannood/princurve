@@ -1,17 +1,24 @@
-This release fixes warnings when using `stats::approx()` in R 3.6.
-
-## Changelog
-
-  * Fix warning in `stats::approx()` due to changes made in R 3.6.
+# princurve 2.1.5 (2020-08-13)
   
-  * Defuncted `principal.curve()` and `get.lam()`.
+  * BUG FIX `project_to_curve()`: Fix pass-by-reference bug, issue #33. Thanks 
+    to @szcf-weiya for detecting and fixing this bug!
 
 ## Test environments
-* local Fedora 28 install, R 3.6.0
-* OS X (on travis-ci), R 3.6.0
-* Ubuntu 14.04 (on travis-ci), R 3.6.0
-* Windows (on appveyor), R 3.5.0
-* win-builder (devel and release)
+* localhost (before installation):
+  - Fedora 31, R 4.0.2
+* Github Actions (automated):
+  - Mac OS X, R Release
+  - Windows, R Release
+  - Ubuntu 18.04, R Release
+  - Ubuntu 18.04, R 3.2
+  - Ubuntu 18.04, R 3.3
+  - Ubuntu 18.04, R 3.4
+  - Ubuntu 18.04, R 3.5
+  - Ubuntu 18.04, R 3.6
+* win-builder:
+  - oldrelease
+  - release
+  - devel
 
 ## R CMD check results
 

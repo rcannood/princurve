@@ -9,12 +9,12 @@
 * Github Actions (automated):
   - Mac OS X, R Release
   - Windows, R Release
-  - Ubuntu 18.04, R Release
-  - Ubuntu 18.04, R 3.2
-  - Ubuntu 18.04, R 3.3
-  - Ubuntu 18.04, R 3.4
-  - Ubuntu 18.04, R 3.5
-  - Ubuntu 18.04, R 3.6
+  - Ubuntu 16.04, R Release
+  - Ubuntu 16.04, R 3.2
+  - Ubuntu 16.04, R 3.3
+  - Ubuntu 16.04, R 3.4
+  - Ubuntu 16.04, R 3.5
+  - Ubuntu 16.04, R 3.6
 * win-builder:
   - oldrelease
   - release

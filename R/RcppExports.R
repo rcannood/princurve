@@ -25,6 +25,17 @@
 #' @keywords regression smooth nonparametric
 #'
 #' @export
+#'
+#' @examples
+#' t <- runif(100, -1, 1)
+#' x <- cbind(t, t ^ 2) + rnorm(200, sd = 0.05)
+#' s <- matrix(c(-1, 0, 1, 1, 0, 1), ncol = 2)
+#'
+#' proj <- project_to_curve(x, s)
+#'
+#' plot(x)
+#' lines(s)
+#' segments(x[, 1], x[, 2], proj$s[, 1], proj$s[, 2])
 project_to_curve <- function(x, s, stretch = 2) {
     .Call('_princurve_project_to_curve', PACKAGE = 'princurve', x, s, stretch)
 }

@@ -67,7 +67,27 @@ List project_to_curve(
     NumericMatrix s,
     const double stretch = 2
 ) {
-  if (stretch > 0) {
+  int nseg = s.nrow() - 1;
+  int npts = x.nrow();
+  int ncols = x.ncol();
+
+  // argument checks
+  if (s.ncol() != ncols) {
+    stop("'x' and 's' must have an equal number of columns");
+  }
+  if (s.nrow() < 2) {
+    stop("'s' must contain at least two rows.");
+  }
+  if (x.nrow() == 0) {
+    stop("'x' must contain at least one row.");
+  }
+  if (stretch < 0) {
+    stop("Argument 'stretch' should be larger than or equal to 0");
+  }
+
+  // perform stretch on end points of s
+  // only perform stretch if s contains at least two rows
+  if (stretch > 0 && s.nrow() >= 2) {
     s = clone(s);
 
     int n = s.nrow();
@@ -75,16 +95,6 @@ List project_to_curve(
     NumericVector diff2 = s(n - 1, _) - s(n - 2, _);
     s(0,_) = s(0,_) + stretch * diff1;
     s(n - 1,_) = s(n - 1,_) + stretch * diff2;
-  } else if (stretch < 0) {
-    stop("Argument 'stretch' should be larger than or equal to 0");
-  }
-
-  int nseg = s.nrow() - 1;
-  int npts = x.nrow();
-  int ncols = x.ncol();
-
-  if (s.ncol() != ncols) {
-    stop("'x' and 's' must have an equal number of columns");
   }
 
   // precompute distances between successive points in the curve

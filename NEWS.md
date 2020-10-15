@@ -1,3 +1,8 @@
+# princurve 2.1.6
+
+  * BUG FIX `project_to_curve()`: Return error message when `x` or `s` contain
+    insufficient rows.
+
 # princurve 2.1.5 (2020-08-13)
   
   * BUG FIX `project_to_curve()`: Fix pass-by-reference bug, issue #33. Thanks 

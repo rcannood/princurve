@@ -45,7 +45,7 @@ jobs:
       - name: Install system dependencies
         if: runner.os == 'macOS'
         run: |
-          brew install gcc9
+          brew install gcc@10
 
       - name: Install dependencies
         run: |

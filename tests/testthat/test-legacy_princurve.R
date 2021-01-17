@@ -1,6 +1,7 @@
 context("Comparing principal_curve and project_to_curve to legacy package")
 
 skip_on_cran()
+skip_on_os("mac")
 
 if (!requireNamespace("princurvelegacy", quietly = TRUE)) {
   devtools::install_github("rcannood/princurve@legacy")

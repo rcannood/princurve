@@ -52,22 +52,23 @@ list of changes.
 
 <!-- This section gets automatically generated from NEWS.md -->
 
+### Recent changes in princurve 2.1.6 (2021-01-17)
+
+-   BUG FIX `project_to_curve()`: Return error message when `x` or `s`
+    contain insufficient rows.
+
+-   BUG FIX unit tests: Switch from `svg()` to `pdf()` as support for
+    `svg()` might be optional.
+
 ### Recent changes in princurve 2.1.5 (2020-08-13)
 
-  - BUG FIX `project_to_curve()`: Fix pass-by-reference bug, issue \#33.
-    Thanks to @szcf-weiya for detecting and fixing this bug\!
-
-### Recent changes in princurve 2.1.4 (2019-05-29)
-
-  - BUG FIX: Fix warning in `stats::approx()` due to changes made in R
-    3.6.
-
-  - DEFUNCT `principal.curve()` and `get.lam()`.
+-   BUG FIX `project_to_curve()`: Fix pass-by-reference bug, issue \#33.
+    Thanks to @szcf-weiya for detecting and fixing this bug!
 
 ## References
 
 Hastie, T. and Stuetzle, W., [Principal
 Curves](https://www.jstor.org/stable/2289936), JASA, Vol. 84, No. 406
 (Jun., 1989), pp. 502-516, DOI:
-[10.2307/2289936](http://doi.org/10.2307/2289936)
+[10.2307/2289936](https://doi.org/10.2307/2289936)
 ([PDF](https://web.stanford.edu/~hastie/Papers/principalcurves.pdf))

@@ -1,9 +1,9 @@
 context("Comparing principal_curve and project_to_curve to legacy package")
 
 skip_on_cran()
+skip_on_os("mac")
 
-already_installed <- "princurvelegacy" %in% rownames(installed.packages())
-if (!already_installed) {
+if (!requireNamespace("princurvelegacy", quietly = TRUE)) {
   devtools::install_github("rcannood/princurve@legacy")
 }
 
@@ -36,8 +36,4 @@ for (i in seq_len(10)) {
     expect_equivalent(fit1$lambda, fit2$lambda, tolerance = .001)
     expect_equivalent(fit1$dist, fit2$dist, tolerance = .001)
   })
-}
-
-if (!already_installed) {
-  remove.packages("princurvelegacy")
 }

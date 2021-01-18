@@ -1,3 +1,11 @@
+# princurve 2.1.6 (2021-01-17)
+
+  * BUG FIX `project_to_curve()`: Return error message when `x` or `s` contain
+    insufficient rows.
+    
+  * BUG FIX unit tests: Switch from `svg()` to `pdf()` as support for `svg()` 
+    might be optional. 
+
 # princurve 2.1.5 (2020-08-13)
   
   * BUG FIX `project_to_curve()`: Fix pass-by-reference bug, issue #33. Thanks 

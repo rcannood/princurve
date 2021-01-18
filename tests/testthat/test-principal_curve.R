@@ -4,17 +4,18 @@ z <- seq(-1, 1, length.out = 100)
 s <- cbind(z, z^2, z^3, z^4)
 x <- s + rnorm(length(s), mean = 0, sd = .005)
 
-file <- tempfile(fileext = ".svg")
-on.exit(unlink(file))
+file <- tempfile(fileext = ".png")
+
+on.exit(file.remove(file))
 
 test_that("Testing principal_curve with smooth_spline", {
-  svg(file, 5, 5)
+  pdf(file, 5, 5)
   sink(file)
   fit <- principal_curve(x, smoother = "smooth_spline", plot_iterations = TRUE, trace = TRUE)
   sink()
   dev.off()
 
-  svg(file, 5, 5)
+  pdf(file, 5, 5)
   expect_error({
     plot(fit)
     points(fit)
@@ -42,11 +43,11 @@ test_that("Testing principal_curve with custom function", {
     stats::lowess(lambda, xj, ...)$y
   }
 
-  svg(file, 5, 5)
+  pdf(file, 5, 5)
   fit <- principal_curve(x, smoother = fun, plot_iterations = TRUE)
   dev.off()
 
-  svg(file, 5, 5)
+  pdf(file, 5, 5)
   expect_error({
     plot(fit)
     points(fit)
@@ -61,11 +62,11 @@ test_that("Testing principal_curve with custom function", {
 test_that("Testing principal_curve with a given start curve", {
   start <- matrix(c(0, 0, 0, 0, 1, 1, 1, 1), ncol = 4, byrow = TRUE)
 
-  svg(file, 5, 5)
+  pdf(file, 5, 5)
   fit <- principal_curve(x, smoother = "smooth_spline", start = start, plot_iterations = TRUE)
   dev.off()
 
-  svg(file, 5, 5)
+  pdf(file, 5, 5)
   expect_error({
     plot(fit)
     points(fit)
@@ -86,7 +87,7 @@ test_that("Expect principal_curve to error elegantly", {
 test_that("Testing principal_curve with lowess", {
   fit <- principal_curve(x, smoother = "lowess")
 
-  svg(file, 5, 5)
+  pdf(file, 5, 5)
   expect_error({
     plot(fit)
     points(fit)
@@ -104,7 +105,7 @@ x <- s + rnorm(length(s), mean = 0, sd = .005)
 test_that("Testing principal_curve with periodic_lowess", {
   fit <- principal_curve(x, smoother = "periodic_lowess")
 
-  svg(file, 5, 5)
+  pdf(file, 5, 5)
   expect_error({
     plot(fit)
     points(fit)

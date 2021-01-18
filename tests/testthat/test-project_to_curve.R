@@ -190,12 +190,14 @@ test_that("Values are more or less correct, without stretch", {
 
 
 test_that("Expect project_to_curve to error elegantly", {
-  # expect_error(project_to_curve(list(1), list(1)))
-  # expect_error(project_to_curve(x = list(), s = s, stretch = 0))
-  # expect_error(project_to_curve(x = x, s = list(), stretch = 0))
+  expect_error(project_to_curve(list(1), list(1)))
+  expect_error(project_to_curve(x = list(), s = s, stretch = 0))
+  expect_error(project_to_curve(x = x, s = list(), stretch = 0))
   expect_error(project_to_curve(x, s, stretch = -1), "larger than or equal to 0")
-  # expect_error(project_to_curve(x, s, stretch = "10"))
+  expect_error(project_to_curve(x, s, stretch = "10"))
   expect_error(project_to_curve(x, cbind(s, s)), "must have an equal number of columns")
+  expect_error(project_to_curve(x, s[1,,drop=FALSE]), "at least two rows")
+  expect_error(project_to_curve(x[integer(0),,drop=FALSE], s), "at least one row")
 })
 
 

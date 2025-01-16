@@ -3,14 +3,15 @@
 
 # princurve
 
+<!-- badges: start -->
+
 [![CRAN
 Status](https://www.r-pkg.org/badges/version/princurve)](https://cran.r-project.org/package=princurve)
 [![CRAN
 Downloads](https://cranlogs.r-pkg.org/badges/princurve)](https://cran.r-project.org/package=princurve)
 [![DOI](https://zenodo.org/badge/125849601.svg)](https://zenodo.org/badge/latestdoi/125849601)  
-[![R-CMD-check](https://github.com/rcannood/princurve/workflows/R-CMD-check/badge.svg)](https://github.com/rcannood/princurve/actions?query=workflow%3AR-CMD-check)
-[![Coverage
-Status](https://codecov.io/gh/rcannood/princurve/branch/master/graph/badge.svg)](https://codecov.io/gh/rcannood/princurve?branch=master)
+[![R-CMD-check](https://github.com/rcannood/princurve/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rcannood/princurve/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
 
 Fitting a principal curve to a data matrix in arbitrary dimensions. A
 principal curve is a smooth curve passing through the middle of a
@@ -54,16 +55,16 @@ list of changes.
 
 ### Recent changes in princurve 2.1.6 (2021-01-17)
 
--   BUG FIX `project_to_curve()`: Return error message when `x` or `s`
-    contain insufficient rows.
+- BUG FIX `project_to_curve()`: Return error message when `x` or `s`
+  contain insufficient rows.
 
--   BUG FIX unit tests: Switch from `svg()` to `pdf()` as support for
-    `svg()` might be optional.
+- BUG FIX unit tests: Switch from `svg()` to `pdf()` as support for
+  `svg()` might be optional.
 
 ### Recent changes in princurve 2.1.5 (2020-08-13)
 
--   BUG FIX `project_to_curve()`: Fix pass-by-reference bug, issue \#33.
-    Thanks to @szcf-weiya for detecting and fixing this bug!
+- BUG FIX `project_to_curve()`: Fix pass-by-reference bug, issue \#33.
+  Thanks to @szcf-weiya for detecting and fixing this bug!
 
 ## References
 

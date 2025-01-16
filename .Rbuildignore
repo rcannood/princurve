@@ -13,3 +13,7 @@
 ^vignettes/.*\.md$
 ^vignettes/.*/figure.*$
 ^.github$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^\.github$

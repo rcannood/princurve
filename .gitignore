@@ -10,3 +10,4 @@ revdep/**/
 vignettes/*.html
 vignettes/*.md
 vignettes/**/figure*
+docs

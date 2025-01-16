@@ -39,7 +39,7 @@ LinkingTo:
     Rcpp
 NeedsCompilation: yes
 RoxygenNote: 7.1.1
-URL: https://github.com/rcannood/princurve
+URL: https://github.com/rcannood/princurve, https://rcannood.github.io/princurve/
 BugReports: https://github.com/rcannood/princurve/issues
 Collate: 
     'RcppExports.R'
